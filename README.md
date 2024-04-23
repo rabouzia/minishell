@@ -2,16 +2,19 @@
 
 ### Our goal 🎯 
 ---
-The final challenge in the C language  
-The students learned the importance of team projects and increased their understanding of shell programming and how the operating system works
-### Commit Rules
----
-- Force push and push to main branch are prohibited
-- Create a sub-branch instead of the main branch
-- Each commit have to be pushed with a brief comment of what you've written code
-- Use labeling and questions for peer review
+- The final challenge in the C language  
+- The students learned the importance of team projects  
+- understanding of shell programming and how the operating system works  
 
-### Process
+### Commit Rules 📜
+---
+- **Force push and push to main branch are prohibited**
+- Create and push a sub-branch instead of the main branch
+- Sub-branch should have a title and a comment
+- Each commit have to be pushed with a brief comment of what you've written code
+- Use **labeling and questions** for peer review
+
+### Process 🧶
 ---
 1. Input Handling
 - Use the readline or read system call to accept user input.
@@ -41,7 +44,7 @@ The students learned the importance of team projects and increased their underst
 
 6. Signal Handling
 - Handles the SIGINT signal (Ctrl+C) to interrupt the current instruction.
-- Handles the SIGQUIT signal (Ctrl+) to generate a core dump.
+- Handles the SIGQUIT signal (Ctrl+\\) to generate a core dump.
 
 7. Pipeline Handling
 - Organize instruction sequences into pipelines for processing.
@@ -61,5 +64,9 @@ The students learned the importance of team projects and increased their underst
 - Implement error handling and debugging features.
 
 
-### Flow Diagram
+### Flow Diagram 🔍
 ![minishell_diagram](https://github.com/Action2theFuture/minishell/assets/74296888/63bc7daf-be36-4275-94a1-4ab6040f1c1f)
+
+### Version
+- norminette 3.3.51
+
