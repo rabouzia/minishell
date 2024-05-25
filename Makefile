@@ -6,7 +6,7 @@
 #    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/05/13 18:37:29 by junsan           ###   ########.fr        #
+#    Updated: 2024/05/25 22:51:59 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ LIBFT 	= libft/libft.a
 IFLAGS 	= -I ./includes/ -I ./libft/includes/
 
 CFLAGS 	= -Wall -Wextra -Werror -g
-
-SRC 	= minishell.c init_minishell.c
+LINK_OPT = -lreadline
+SRC 	= minishell.c init_minishell.c process_input.c token.c
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
@@ -30,7 +30,7 @@ OBJS = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 vpath %.c ./src/
 
 $(NAME) : $(LIBFT) $(OBJS)
-	$(CC) $(CFALGS) -o $@ $(OBJS) $(LIBFT)
+	$(CC) $(CFALGS) -o $@ $(OBJS) $(LIBFT) $(LINK_OPT)
 
 $(OBJ_DIR)%.o: %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@

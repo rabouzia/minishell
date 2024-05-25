@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   process_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 22:40:57 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/25 21:14:52 by junsan           ###   ########.fr       */
+/*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
+/*   Updated: 2024/05/25 22:56:05 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *src)
+void	process_input(void)
 {
-	size_t	i;
-	size_t	len;
-	char	*str;
+	char	*input;
 
-	if (!src)
-		return (NULL);
-	i = 0;
-	len = ft_strlen(src);
-	str = (char *)malloc(sizeof(*str) * (len + 1));
-	if (!str)
-		return (NULL);
-	while (src[i])
+	input = readline("");
+	if (input)
 	{
-		str[i] = src[i];
-		i++;
+		tokenize(input);
+		free(input);
 	}
-	str[i] = '\0';
-	return (str);
 }

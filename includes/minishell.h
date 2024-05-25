@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/25 13:35:49 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/25 22:56:07 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,41 @@
 # include <sys/ioctl.h> // ioctl
 # include <curses.h>   // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 
-#ifndef ASCII_ART_PATH
-# define ASCII_ART_PATH "assets/ascii_art_doh"
-#endif
+# ifndef ASCII_ART_PATH
+#  define ASCII_ART_PATH "assets/ascii_art_doh"
+# endif
 
-#ifndef MAX_PATH_LENGTH
-# define MAX_PATH_LENGTH 1024
-#endif
+# ifndef MAX_PATH_LENGTH
+#  define MAX_PATH_LENGTH 4096
+# endif
 
-void init_minishell(void);
+# ifndef HISTSIZE
+#  define HISTSIZE 500
+# endif
 
+# ifndef DELIMS
+#  define DELIMS "|&<>"
+# endif
+
+typedef struct s_token
+{
+	char			*data;
+	struct s_token	*next;
+}	t_token;
+
+typedef struct s_cmd
+{
+	char			*data;
+	struct s_cmd	*left;
+	struct s_cmd	*right;
+}	t_cmd;
+// init_minishell.c
+void	init_minishell(void);
+void	display_prompt(void);
+
+// process_input.c
+void	process_input(void);
+
+// token.c
+t_token	*tokenize(const char *input);
 #endif // MINISHELL_H

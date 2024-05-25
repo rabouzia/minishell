@@ -28,7 +28,7 @@ typedef struct s_list
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char	*ft_strdup(char *src);
+char	*ft_strdup(const char *src);
 
 void	*ft_memset(void *ptr, int value, size_t num);
 void	ft_bzero(void *ptr, size_t num);
