@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:11 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/26 22:11:05 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,26 @@
 
 void	process_input(void)
 {
-	t_token	*tokens;
-	char	*input;
+	t_token_list	*token_list;
+	t_token			*tokens;
+	t_cmd			*root;
+	char			*input;
 
 	tokens = NULL;
+	root = NULL;
+	token_list = (t_token_list *)malloc(sizeof(t_token_list));
+	if (!token_list)
+		return ;
 	input = readline("");
 	if (input)
 	{
-		tokens = tokenize(input);
-		(void)tokens;
+		tokenize(input, &tokens);
+		token_list->head = tokens;
+		token_list->tail = tokens_last(tokens);
+		//print_token(tokens);
+		root = parsing_tree(&tokens, &token_list);
+		(void)root;
+		print_tree(root, 5);
 		free(input);
 	}
 }

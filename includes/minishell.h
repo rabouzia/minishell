@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/26 10:44:14 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/26 16:11:22 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,35 @@
 #  define DELIMS "|&<>"
 # endif
 
+typedef enum type
+{
+	CMD,
+	REDIRECTION,
+	PIPE,
+	LOGICAL
+}	t_type;
+
 typedef struct s_token
 {
 	char			*data;
+	t_type			type;
 	struct s_token	*next;
 }	t_token;
 
 typedef struct s_cmd
 {
 	char			*data;
+	t_type			type;
 	struct s_cmd	*left;
 	struct s_cmd	*right;
 }	t_cmd;
+
+typedef struct s_token_list
+{
+	t_token	*head;
+	t_token	*tail;
+}	t_token_list;
+
 // init_minishell.c
 void	init_minishell(void);
 void	display_prompt(void);
@@ -70,10 +87,28 @@ void	display_prompt(void);
 void	process_input(void);
 
 // tokenize.c
-t_token	*tokenize(const char *input);
+void	tokenize(const char *input, t_token **tokens);
 
 // tokenize_utils.c
-bool	ft_isspace(char c);
+t_token	*tokens_last(t_token *tokens);
 void	add_token(t_token **head, const char *start, size_t len);
+void	free_token(t_token **head);
+size_t	tokens_size(t_token *head);
+
+// string_utils.c
+bool	ft_isspace(char c);
+
+//  prints.c
 void	print_token(t_token *head);
+void	print_tree(t_cmd *root, int depth);
+
+// parsing.c
+t_cmd	*parsing_tree(t_token **tokens, t_token_list **token_list);
+
+// parsing_utils.c
+void	free_tree(t_cmd *node);
+bool	islogical_operator(const char *token);
+bool	ispipe_operator(const char *token);
+bool	isredirection_operator(const char *tonen);
+t_cmd	*new_tree(const char *data, t_type type);
 #endif // MINISHELL_H

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:39:22 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/26 10:42:24 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/27 01:20:14 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,47 +42,38 @@ static void	handle_operators_and_spaces(\
 	const char	*delims;
 
 	delims = DELIMS;
-	while (*delims)
+	if (ft_isspace(**input) || ft_strchr(delims, **input))
 	{
-		if (ft_isspace(**input) || ft_strchr(delims, **input))
+		if (*input > *start)
+			add_token(list, *start, *input - *start);
+		if (ft_strchr(delims, **input))
 		{
-			if (*input > *start)
-				add_token(list, *start, *input - *start);
-			if (ft_strchr(delims, **input))
+			if (*((*input) + 1) == **input)
 			{
-				if (*((*input) + 1) == **input \
-					|| (**input == *delims && *((*input) + 1) == *delims))
-				{
-					add_token(list, *input, 2);
-					(*input)++;
-				}
-				else
-					add_token(list, *input, 1);
+				add_token(list, *input, 2);
+				(*input)++;
 			}
-			*start = *input + 1;
+			else
+				add_token(list, *input, 1);
 		}
-		delims++;
+		*start = *input + 1;
 	}
 }
 
-t_token	*tokenize(const char *input)
+void	tokenize(const char *input, t_token **tokens)
 {
-	t_token		*list;
 	const char	*start;
 	char		in_quote;
 
 	start = input;
-	list = NULL;
 	in_quote = 0;
 	while (*input)
 	{
-		handle_quotes(&input, &in_quote, &start, &list);
+		handle_quotes(&input, &in_quote, &start, tokens);
 		if (!in_quote)
-			handle_operators_and_spaces(&input, &start, &list);
+			handle_operators_and_spaces(&input, &start, tokens);
 		input++;
 	}
 	if (input > start && !in_quote)
-		add_token(&list, start, input - start);
-	print_token(list);
-	return (list);
+		add_token(tokens, start, input - start);
 }

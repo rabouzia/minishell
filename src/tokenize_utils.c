@@ -6,16 +6,21 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:41:06 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/26 10:42:13 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/26 22:02:54 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_isspace(char c)
+static t_type	get_node_type(const char *data)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\r' \
-	|| c == '\f' || c == '\v');
+	if (islogical_operator(data))
+		return (LOGICAL);
+	if (ispipe_operator(data))
+		return (PIPE);
+	if (isredirection_operator(data))
+		return (REDIRECTION);
+	return (CMD);
 }
 
 void	add_token(t_token **head, const char *start, size_t len)
@@ -31,6 +36,7 @@ void	add_token(t_token **head, const char *start, size_t len)
 		return ;
 	new_node->data = ft_strdup(data);
 	new_node->next = NULL;
+	new_node->type = get_node_type(new_node->data);
 	if (*head == NULL)
 		*head = new_node;
 	else
@@ -42,11 +48,42 @@ void	add_token(t_token **head, const char *start, size_t len)
 	}
 }
 
-void	print_token(t_token *head)
+t_token	*tokens_last(t_token *tokens)
 {
+	if (!tokens)
+		return (NULL);
+	while (tokens->next)
+		tokens = tokens->next;
+	return (tokens);
+}
+
+size_t	tokens_size(t_token *head)
+{
+	size_t	len;
+
+	if (!head)
+		return (0);
+	len = 0;
 	while (head)
 	{
-		printf("data : %s\n", head->data);
 		head = head->next;
+		len++;
 	}
+	return (len);
+}
+
+void	free_token(t_token **head)
+{
+	t_token	*node;
+
+	if (!head)
+		return ;
+	while (*head)
+	{
+		node = (*head)->next;
+		free((*head)->data);
+		free(*head);
+		*head = node;
+	}
+	*head = NULL;
 }
