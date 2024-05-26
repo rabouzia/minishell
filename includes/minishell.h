@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/25 22:56:07 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/26 10:44:14 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ void	display_prompt(void);
 // process_input.c
 void	process_input(void);
 
-// token.c
+// tokenize.c
 t_token	*tokenize(const char *input);
+
+// tokenize_utils.c
+bool	ft_isspace(char c);
+void	add_token(t_token **head, const char *start, size_t len);
+void	print_token(t_token *head);
 #endif // MINISHELL_H
