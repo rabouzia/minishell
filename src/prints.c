@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:49:26 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/26 16:15:37 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/27 14:47:15 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static void	print_tree_util(t_cmd *node, int space, int depth)
 		return ;
 	space += depth;
 	i = depth;
-	print_tree_util(node->right, space, depth);
+	if (node->right)
+		print_tree_util(node->right, space, depth);
 	printf("\n");
 	while (i < space)
 	{
@@ -42,7 +43,8 @@ static void	print_tree_util(t_cmd *node, int space, int depth)
 		i++;
 	}
 	printf("data : %s, type : %i\n", node->data, node->type);
-	print_tree_util(node->left, space, depth);
+	if (node->left)
+		print_tree_util(node->left, space, depth);
 }
 
 void	print_tree(t_cmd *root, int depth)

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/26 16:11:22 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/27 15:26:29 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,16 @@
 # endif
 
 # ifndef DELIMS
-#  define DELIMS "|&<>"
+#  define DELIMS "|&<>()"
 # endif
 
 typedef enum type
 {
-	CMD,
-	REDIRECTION,
-	PIPE,
-	LOGICAL
+	PAREN = 40,
+	CMD = 100,
+	REDIRECTION = 30,
+	PIPE = 20,
+	LOGICAL = 10,
 }	t_type;
 
 typedef struct s_token
@@ -103,12 +104,14 @@ void	print_token(t_token *head);
 void	print_tree(t_cmd *root, int depth);
 
 // parsing.c
-t_cmd	*parsing_tree(t_token **tokens, t_token_list **token_list);
+t_cmd	*parsing_tree(t_token_list **tokens);
 
+// parse_pratte.c
+//t_cmd	*parse_expression(t_token **tokens, int min_bidning_power);
 // parsing_utils.c
 void	free_tree(t_cmd *node);
 bool	islogical_operator(const char *token);
 bool	ispipe_operator(const char *token);
 bool	isredirection_operator(const char *tonen);
-t_cmd	*new_tree(const char *data, t_type type);
+t_cmd	*new_tree(t_token *token);
 #endif // MINISHELL_H

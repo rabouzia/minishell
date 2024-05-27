@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:39:22 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/27 01:20:14 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/27 15:27:43 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ void	tokenize(const char *input, t_token **tokens)
 	const char	*start;
 	char		in_quote;
 
+	if (!input)
+	{
+		printf("empty\n");
+		return ;
+	}
 	start = input;
 	in_quote = 0;
 	while (*input)

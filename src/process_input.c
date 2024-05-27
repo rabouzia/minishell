@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/26 22:11:05 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/27 14:30:43 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	process_input(void)
 		token_list->head = tokens;
 		token_list->tail = tokens_last(tokens);
 		//print_token(tokens);
-		root = parsing_tree(&tokens, &token_list);
-		(void)root;
+		root = parsing_tree(&token_list);
+		//(void)root;
 		print_tree(root, 5);
 		free(input);
 	}
