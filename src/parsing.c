@@ -6,161 +6,209 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/27 14:44:13 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/28 19:51:48 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-static void	attach_to_tree_left(t_cmd **root, t_cmd *new_node)
-{
-	t_cmd	*tmp;
+static bool	parse_logical(t_token **token, t_cmd **node);
 
-	if (!*root)
-		*root = new_node;
-	else
-	{
-		tmp = *root;
-		while (tmp->left && tmp->left->type == LOGICAL)
-			tmp = tmp->left;
-		tmp->left = new_node;
-	}
-}
-*/
-
-static void	handle_cmd_node(t_token *token, t_cmd **cur)
+static bool	parse_cmd(t_token **token, t_cmd **node)
 {
 	t_cmd	*cmd_node;
 
-	if (!token)
-		return ;
-	cmd_node = new_tree(token);
-	if (!*cur)
-		*cur = cmd_node;
-	else
+	printf("cmd >> \n");
+	if (*token && (*token)->type == CMD)
 	{
-		if ((*cur)->left == NULL)
-			(*cur)->left = cmd_node;
-		else if ((*cur)->right == NULL)
-			(*cur)->right = cmd_node;
-	}
-}
-
-static void	handle_logical_operator(t_token **token, t_cmd **cur, t_cmd **root, bool *up_down_flag)
-{
-	t_cmd	*logical_node;
-	t_cmd	*tmp;
-	t_cmd	*old_child;
-
-	if (!token || !*token)
-		return ;
-	logical_node = new_tree(*token);
-	if (*cur)
-		logical_node->left = *cur;
-	if (!*root)
-		*root = logical_node;
-	else
-	{
-		tmp = *root;
-		while (tmp->right)
+		cmd_node = new_node(NULL, CMD);
+		if (!cmd_node)
+			return (NULL);
+		cmd_node->left = new_node(*token, (*token)->type);
+		printf("token cmd : %s\n", (*token)->data);
+		*token = (*token)->next;
+		if (*token)
 		{
-			if (tmp->right->type != LOGICAL)
-			{
-				old_child = tmp->right;
-				tmp->right = logical_node;
-				logical_node->left = old_child;
-				break ;
-			}
-			tmp = tmp->right;
+			cmd_node->right = new_node((*token), (*token)->type);
+			printf("token cmd : %s\n", (*token)->data);
+			*token = (*token)->next;
 		}
+		if (!(*token))
+		{
+			printf("token finish\n");
+			return (true);
+		}
+		*node = cmd_node;
+		//printf("check \n");
+		//print_tree(*node, 10);
+		//print_tree(*node, 5);
+		// what to do : cmd(left) + flag(right)
 	}
-	*up_down_flag = false;
-	*cur = logical_node;
+	return (true);
 }
 
-static void	handle_pipe_operator(t_token **token, t_cmd **cur, t_cmd **root, bool *up_down_flag)
+static bool	parse_subshell(t_token **token, t_cmd **node)
+{
+	printf("subshell >> \n");
+	if (*token && (*token)->type == SUBSHELL)
+	{
+		parse_logical(token, node);
+		*token = (*token)->next;
+		if (*token == NULL || (*token)->type != SUBSHELL)
+		{
+			printf("Mismatched subshell\n");
+			exit(EXIT_FAILURE);
+		}
+		*token = (*token)->next;
+	}
+	return (true);
+}
+
+static bool	parse_io_redirection(t_token **token, t_cmd **node)
+{
+	t_cmd	*io_redirection_node;
+	t_cmd	*left;
+	t_cmd	*right;
+
+	right = NULL;
+	printf("io_redirection >> \n");
+	//parse_cmd(token, node);
+	while (*token && (*token)->type == REDIRECTION)
+	{
+		printf("123dshdkjas");
+		io_redirection_node = new_node(NULL, IO);
+		if (!io_redirection_node)
+			return (false);
+		left = new_node(*token, (*token)->type);
+		*token = (*token)->next;
+		right = new_node(*token, (*token)->type);
+		*token = (*token)->next;
+		io_redirection_node->left = left;
+		io_redirection_node->right = right;
+		*node = io_redirection_node;
+		parse_cmd(token, node);
+		print_tree(io_redirection_node, 10);
+	}
+	return (true);
+}
+
+static bool	parse_redirection(t_token **token, t_cmd **node)
+{
+	t_cmd	*redirection_node;
+	t_cmd	*left;
+
+	left = NULL;
+	printf("redirection >> \n");
+	parse_subshell(token, node);
+	redirection_node = new_node(NULL, REDIRECTION);
+	if (!redirection_node)
+		return (false);
+	if ((*node)->left == NULL)
+		(*node)->left = redirection_node;
+	else
+		(*node)->right = redirection_node;
+	parse_io_redirection(token, &left);
+	redirection_node->left = left;
+	*node = redirection_node;
+	return (true);
+}
+
+static bool	parse_pharse(t_token **token, t_cmd **node)
+{
+	t_cmd	*pharse_node;
+	t_cmd	*right;
+
+	right = NULL;
+	printf("pharse >> \n");
+	pharse_node = new_node(NULL, PHARSE);
+	if (!pharse_node)
+		return (false);
+	*node = attach_to_tree(*node, pharse_node, LEFT);
+	parse_cmd(token, &right);
+	while (*token && (*token)->type == REDIRECTION)
+	{
+		parse_redirection(token, node);
+		pharse_node->left = *node;
+		pharse_node->right = right;
+		*node = pharse_node;
+		print_tree(*node, 5);
+	}
+	return (true);
+}
+
+static bool	parse_pipe(t_token **token, t_cmd **node)
 {
 	t_cmd	*pipe_node;
+	t_cmd	*left;
 
-	if (!token || !*token)
-		return ;
-	pipe_node = new_tree(*token);
-	if (*cur && (*cur)->type == REDIRECTION)
-		pipe_node->left = *cur;
-	if (!*root)
-		*root = pipe_node;
-	else if (*root)
+	left = NULL;
+	printf("pipe >> \n");
+	parse_pharse(token, node);
+	while (*token && (*token)->type == PIPE)
 	{
-		(*root)->right = pipe_node;
-		*up_down_flag = false;
+		printf("token pipe : %s\n", (*token)->data);
+		pipe_node = new_node(*token, (*token)->type);
+		if (!pipe_node)
+			return (false);
+		*token = (*token)->next;
+		parse_pharse(token, &left);
+		pipe_node->left = left;
+		pipe_node->right = *node;
+		*node = pipe_node;
 	}
-	*cur = pipe_node;
+	return (true);
 }
 
-static void	handle_redirection_operator(t_token **token, t_cmd **cur, t_cmd **root, bool *up_down_flag)
+static bool	parse_logical(t_token **token, t_cmd **node)
 {
-	t_cmd	*redir_node;
-	t_cmd	*tmp;
+	t_cmd	*logical_node;
+	t_cmd	*left;
 
-	if (!token || !*token)
-		return ;
-	//if (ft_strncmp((*token)->data, ">", 1) == 0)
-	//	printf("token data : %s\n", (*token)->data);
-	redir_node = new_tree(*token);
-	if (*cur && (*cur)->type != REDIRECTION)
+	left = NULL;
+	printf("logical >> \n");
+	parse_pipe(token, node);
+	while (*token && (*token)->type == LOGICAL)
 	{
-		if ((*cur)->left == NULL)
-			(*cur)->left = redir_node;
-		else if ((*cur)->right == NULL && *up_down_flag)
-			(*cur)->right = redir_node;
+		logical_node = new_node(*token, (*token)->type);
+		if (!logical_node)
+			return (false);
+		*token = (*token)->next;
+		parse_pipe(token, &left);
+		logical_node->left = left;
+		logical_node->right = *node;
+		*node = logical_node;
 	}
-	else if (*cur && (*cur)->type == REDIRECTION)
-	{
-		if (*up_down_flag == true)
-		{
-			tmp = *cur;
-			redir_node->left = tmp;
-		}
-		else
-		{
-			tmp = *root;
-			while (tmp->right)
-				tmp = tmp->right;
-			tmp->right = redir_node;
-			redir_node->left = *cur;
-		}
-	}
-	*cur = redir_node;
+	return (true);
 }
 
-t_cmd	*parsing_tree(t_token_list **tokens)
+static bool	parsor(t_token **token, t_cmd **root, int start)
 {
-	t_cmd	*root;
-	t_cmd	*cur;
-	t_token	*token;
-	bool	up_down_flag;
-
-	if (!tokens || !*tokens)
+	if (!token || !*token)
 		return (NULL);
-	root = NULL;
-	cur = NULL;
-	up_down_flag = true;
+	if (start == LOGICAL)
+		return (parse_logical(token, root));
+	else if (start == PIPE)
+		return (parse_pipe(token, root));
+	return (parse_pharse(token, root));
+	// 임시로 해놓은것 수정 필요
+}
+
+bool	parsing_tree(t_token_list **tokens, t_cmd **root)
+{
+	t_token		*tmp;
+	t_token		*token;
+	int			priority;
+
+	if (!tokens)
+		return (NULL);
 	token = (*tokens)->head;
-	while (token)
+	tmp = (*tokens)->head;
+	priority = INT_MAX;
+	while (tmp->next)
 	{
-		printf("token >> data : %s\n", token->data);
-		if (token->type == REDIRECTION)
-			handle_redirection_operator(&token, &cur, &root, &up_down_flag);
-		else if (token->type == LOGICAL)
-			handle_logical_operator(&token, &cur, &root, &up_down_flag);
-		else if (token->type == PIPE)
-			handle_pipe_operator(&token, &cur, &root, &up_down_flag);
-		else if (token->type == CMD)
-			handle_cmd_node(token, &cur);
-		token = token->next;
+		if ((int)tmp->type < priority)
+			priority = (int)tmp->type;
+		tmp = tmp->next;
 	}
-	if (root)
-		return (root);
-	return (cur);
+	return (parsor(&token, root, priority));
 }

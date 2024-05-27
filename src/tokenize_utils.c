@@ -6,84 +6,65 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:41:06 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/27 14:28:45 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/28 18:45:06 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_type	get_node_type(const char *data)
+t_token_list	*get_token_list(t_token *token)
 {
-	if (islogical_operator(data))
-		return (LOGICAL);
-	if (ispipe_operator(data))
-		return (PIPE);
-	if (isredirection_operator(data))
-		return (REDIRECTION);
-	return (CMD);
+	t_token_list	*token_list;
+
+	if (!token)
+		return (NULL);
+	token_list = (t_token_list *)malloc(sizeof(t_token_list));
+	token_list->head = token;
+	token_list->tail = tokens_last(token);
+	return (token_list);
+}
+
+static t_token	*new_token(const char *start, size_t len)
+{
+	t_token	*new_node;
+	char	*data;
+
+	data = (char *)malloc(sizeof(char) * (len + 1));
+	if (!data)
+		return (NULL);
+	data = ft_memcpy(data, start, len);
+	new_node = (t_token *)malloc(sizeof(t_token));
+	if (!new_node)
+		return (NULL);
+	new_node->data = ft_strdup(data);
+	new_node->next = NULL;
+	new_node->type = get_type(new_node->data);
+	return (new_node);
 }
 
 void	add_token(t_token **head, const char *start, size_t len)
 {
 	t_token	*cur;
 	t_token	*new_node;
-	char	*data;
+	int		i;
 
-	data = (char *)malloc(sizeof(char) * (len + 1));
-	data = ft_memcpy(data, start, len);
-	new_node = (t_token *)malloc(sizeof(t_token));
-	if (!new_node)
-		return ;
-	new_node->data = ft_strdup(data);
-	new_node->next = NULL;
-	new_node->type = get_node_type(new_node->data);
+	new_node = new_token(start, len);
 	if (*head == NULL)
+	{
+		new_node->num = 1;
 		*head = new_node;
+	}
 	else
 	{
+		i = 1;
 		cur = *head;
 		while (cur->next)
+		{
+			i++;
 			cur = cur->next;
+			cur->num = i;
+		}
 		cur->next = new_node;
+		new_node->num = i + 1;
 	}
-}
-
-t_token	*tokens_last(t_token *tokens)
-{
-	if (!tokens)
-		return (NULL);
-	while (tokens->next)
-		tokens = tokens->next;
-	return (tokens);
-}
-
-size_t	tokens_size(t_token *head)
-{
-	size_t	len;
-
-	if (!head)
-		return (0);
-	len = 0;
-	while (head)
-	{
-		head = head->next;
-		len++;
-	}
-	return (len);
-}
-
-void	free_token(t_token **head)
-{
-	t_token	*node;
-
-	if (!head)
-		return ;
-	while (*head)
-	{
-		node = (*head)->next;
-		free((*head)->data);
-		free(*head);
-		*head = node;
-	}
-	*head = NULL;
 }

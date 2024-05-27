@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_input.c                                    :+:      :+:    :+:   */
+/*   get_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 19:36:40 by junsan           ###   ########.fr       */
+/*   Created: 2024/05/27 15:49:23 by junsan            #+#    #+#             */
+/*   Updated: 2024/05/28 19:28:43 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	process_input(void)
+t_type	get_type(const char *data)
 {
-	t_token_list	*token_list;
-	t_token			*tokens;
-	t_cmd			*root;
-	char			*input;
-
-	tokens = NULL;
-	root = NULL;
-	input = readline("minishell $");
-	if (input)
-	{
-		tokenize(input, &tokens);
-		token_list = get_token_list(tokens);
-		print_token(tokens);
-		(void)root;
-		parsing_tree(&token_list, &root);
-		print_tree(root, 10);
-	//	free_tree(root);
-		free(token_list);
-		free_token(tokens);
-		free(input);
-	}
+	if (islogical_operator(data))
+		return (LOGICAL);
+	if (ispipe_operator(data))
+		return (PIPE);
+	if (isredirection_operator(data))
+		return (REDIRECTION);
+	if (issubshell_operator(data))
+		return (SUBSHELL);
+	return (CMD);
 }

@@ -6,50 +6,49 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 12:05:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/27 14:28:15 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/28 19:36:03 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	islogical_operator(const char *token)
-{
-	return (ft_strncmp(token, "&&", 2) == 0 || \
-		ft_strncmp(token, "||", 2) == 0);
-}
-
-bool	ispipe_operator(const char *token)
-{
-	return (ft_strncmp(token, "|", 1) == 0 && ft_strncmp(token, "||", 2) != 0);
-}
-
-bool	isredirection_operator(const char *token)
-{
-	return (ft_strncmp(token, "<", 1) == 0 || \
-			ft_strncmp(token, ">", 1) == 0 || \
-			ft_strncmp(token, ">>", 2) == 0 || \
-			ft_strncmp(token, "<<", 2) == 0);
-}
-
-t_cmd	*new_tree(t_token *token)
+t_cmd	*new_node(t_token *token, t_type type)
 {
 	t_cmd	*new_node;
 
 	new_node = (t_cmd *)malloc(sizeof(t_cmd));
-	new_node->data = ft_strdup(token->data);
-	new_node->type = token->type;
+	if (!new_node)
+		return (NULL);
+	if (token)
+		new_node->data = ft_strdup(token->data);
+	new_node->type = type;
 	new_node->left = NULL;
 	new_node->right = NULL;
 	return (new_node);
 }
 
-void	free_tree(t_cmd *node)
+t_cmd	*attach_to_tree(t_cmd *root, t_cmd *node, int side)
 {
-	if (node)
+	if (!root)
+		root = node;
+	else
 	{
-		free_tree(node->left);
-		free_tree(node->right);
-		free(node->data);
-		free(node);
+		if (side == LEFT)
+			root->left = attach_to_tree(root->left, node, side);
+		else
+			root->right = attach_to_tree(root->right, node, side);
 	}
+	return (root);
+}
+
+void	free_tree(t_cmd *root)
+{
+	if (root == NULL)
+		return ;
+	free_tree(root->left);
+	free_tree(root->right);
+	if (root->data)
+		free(root->data);
+	free(root);
+	root = NULL;
 }

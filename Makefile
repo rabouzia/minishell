@@ -6,7 +6,7 @@
 #    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/05/27 14:28:50 by junsan           ###   ########.fr        #
+#    Updated: 2024/05/28 19:47:45 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,11 @@ CC		= cc
 LIBFT 	= libft/libft.a
 IFLAGS 	= -I ./includes/ -I ./libft/includes/
 
-CFLAGS 	= -Wall -Wextra -Werror -g
+CFLAGS 	= -Wall -Wextra -Werror -g3
 LINK_OPT = -lreadline
-SRC 	= minishell.c init_minishell.c process_input.c tokenize.c tokenize_utils.c \
-		  parsing.c parsing_utils.c prints.c string_utils.c
+SRC 	= minishell.c init_minishell.c process_input.c tokenize.c parsing.c		\
+		tokenize_utils.c tokenize_utils_2.c  parsing_utils.c prints.c 			\
+		string_utils.c get_type.c type_functions.c								\
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
