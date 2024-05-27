@@ -6,22 +6,11 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:41:06 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/27 14:28:45 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/27 15:53:29 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static t_type	get_node_type(const char *data)
-{
-	if (islogical_operator(data))
-		return (LOGICAL);
-	if (ispipe_operator(data))
-		return (PIPE);
-	if (isredirection_operator(data))
-		return (REDIRECTION);
-	return (CMD);
-}
 
 void	add_token(t_token **head, const char *start, size_t len)
 {

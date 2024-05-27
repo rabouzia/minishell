@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/27 15:26:29 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/27 15:53:10 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@
 
 typedef enum type
 {
-	PAREN = 40,
+	SUBSHELL = 40,
 	CMD = 100,
 	REDIRECTION = 30,
 	PIPE = 20,
@@ -110,8 +110,12 @@ t_cmd	*parsing_tree(t_token_list **tokens);
 //t_cmd	*parse_expression(t_token **tokens, int min_bidning_power);
 // parsing_utils.c
 void	free_tree(t_cmd *node);
+t_cmd	*new_tree(t_token *token);
+
+// get_type.c
 bool	islogical_operator(const char *token);
 bool	ispipe_operator(const char *token);
-bool	isredirection_operator(const char *tonen);
-t_cmd	*new_tree(t_token *token);
+bool	issubshell_operator(const char *token);
+bool	isredirection_operator(const char *token);
+t_type	get_node_type(const char *data);
 #endif // MINISHELL_H
