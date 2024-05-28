@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 19:51:48 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/28 20:45:11 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,15 @@ static bool	parse_cmd(t_token **token, t_cmd **node)
 		cmd_node->left = new_node(*token, (*token)->type);
 		printf("token cmd : %s\n", (*token)->data);
 		*token = (*token)->next;
-		if (*token)
+		if (*token && (*token)->type == CMD)
 		{
 			cmd_node->right = new_node((*token), (*token)->type);
 			printf("token cmd : %s\n", (*token)->data);
 			*token = (*token)->next;
 		}
-		if (!(*token))
-		{
-			printf("token finish\n");
-			return (true);
-		}
 		*node = cmd_node;
-		//printf("check \n");
 		//print_tree(*node, 10);
-		//print_tree(*node, 5);
+		//printf("check \n");
 		// what to do : cmd(left) + flag(right)
 	}
 	return (true);
@@ -72,22 +66,23 @@ static bool	parse_io_redirection(t_token **token, t_cmd **node)
 
 	right = NULL;
 	printf("io_redirection >> \n");
-	//parse_cmd(token, node);
 	while (*token && (*token)->type == REDIRECTION)
 	{
-		printf("123dshdkjas");
 		io_redirection_node = new_node(NULL, IO);
 		if (!io_redirection_node)
 			return (false);
 		left = new_node(*token, (*token)->type);
 		*token = (*token)->next;
-		right = new_node(*token, (*token)->type);
-		*token = (*token)->next;
+		if (*token && (*token)->type == CMD)
+		{
+			right = new_node(*token, (*token)->type);
+			*token = (*token)->next;
+		}
 		io_redirection_node->left = left;
 		io_redirection_node->right = right;
 		*node = io_redirection_node;
-		parse_cmd(token, node);
-		print_tree(io_redirection_node, 10);
+		//parse_cmd(token, node);
+		//print_tree(io_redirection_node, 10);
 	}
 	return (true);
 }
@@ -123,15 +118,24 @@ static bool	parse_pharse(t_token **token, t_cmd **node)
 	pharse_node = new_node(NULL, PHARSE);
 	if (!pharse_node)
 		return (false);
-	*node = attach_to_tree(*node, pharse_node, LEFT);
+	*node = pharse_node;
 	parse_cmd(token, &right);
-	while (*token && (*token)->type == REDIRECTION)
+	if (*token && (*token)->type == REDIRECTION)
 	{
-		parse_redirection(token, node);
-		pharse_node->left = *node;
+		while (*token && (*token)->type == REDIRECTION)
+		{
+			parse_redirection(token, node);
+			pharse_node->left = *node;
+			pharse_node->right = right;
+			*node = pharse_node;
+		//	print_tree(*node, 5);
+		}
+	}
+	else
+	{
+		pharse_node->left = new_node(NULL, REDIRECTION);
 		pharse_node->right = right;
 		*node = pharse_node;
-		print_tree(*node, 5);
 	}
 	return (true);
 }
