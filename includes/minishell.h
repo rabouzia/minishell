@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 19:41:39 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/28 21:14:57 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,13 @@ bool			isioredirection_operator(const char *token);
 
 // parsing.c
 bool			parsing_tree(t_token_list **tokens, t_cmd **root);
+void			free_tree(t_cmd *node);
+t_cmd			*new_tree(t_token *token);
+
+// get_type.c
+bool			islogical_operator(const char *token);
+bool			ispipe_operator(const char *token);
+bool			issubshell_operator(const char *token);
+bool			isredirection_operator(const char *token);
+t_type			get_node_type(const char *data);
 #endif // MINISHELL_H
