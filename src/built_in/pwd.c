@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_type.c                                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 15:49:23 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 21:12:19 by junsan           ###   ########.fr       */
+/*   Created: 2024/05/29 11:59:35 by junsan            #+#    #+#             */
+/*   Updated: 2024/05/29 12:02:59 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_type	get_type(const char *data)
+bool	mv_pwd(t_cmd_list *env)
 {
-	if (islogical_operator(data))
-		return (LOGICAL);
-	if (ispipe_operator(data))
-		return (PIPE);
-	if (isredirection_operator(data))
-		return (REDIRECTION);
-	if (issubshell_operator(data))
-		return (SUBSHELL);
-	return (CMD);
+	if (get_cur_dir())
+		return (SUCCESS);
+	return (FAIL);
 }

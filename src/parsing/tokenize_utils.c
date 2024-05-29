@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:41:06 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 21:15:36 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/29 21:01:21 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	add_token(t_token **head, const char *start, size_t len)
 	t_token	*new_node;
 	int		i;
 
+	if (start == NULL || is_all_whitespace(start))
+		return ;
 	new_node = new_token(start, len);
 	if (*head == NULL)
 	{
@@ -68,3 +70,17 @@ void	add_token(t_token **head, const char *start, size_t len)
 		new_node->num = i + 1;
 	}
 }
+/*
+static size_t	token_size(t_token *token)
+{
+	size_t	len;
+
+	len = 0;
+	while (token)
+	{
+		token = token->next;
+		len++;
+	}
+	return (len);
+}
+*/

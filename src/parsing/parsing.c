@@ -6,76 +6,92 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 21:08:49 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/29 20:28:29 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	parse_logical(t_token **token, t_cmd **node);
+static bool	parse_logical(t_token **token, t_ast **node);
 
-static bool	parse_cmd(t_token **token, t_cmd **node)
+static bool	parse_cmd(t_token **token, t_ast **node)
 {
-	t_cmd	*cmd_node;
+	t_ast	*cmd_node;
+	char	*arg_tokens;
 
 	printf("cmd >> \n");
 	if (*token && (*token)->type == CMD)
 	{
+		arg_tokens = NULL;
 		cmd_node = new_node(NULL, CMD);
 		if (!cmd_node)
 			return (NULL);
-		cmd_node->left = new_node(*token, (*token)->type);
+		cmd_node->left = new_node((*token)->data, (*token)->type);
 		printf("token cmd : %s\n", (*token)->data);
 		*token = (*token)->next;
 		if (*token && (*token)->type == CMD)
 		{
-			cmd_node->right = new_node((*token), (*token)->type);
+			arg_tokens = arg_parsing(token);
+			cmd_node->right = new_node(arg_tokens, CMD);
+			free(arg_tokens);
 			printf("token cmd : %s\n", (*token)->data);
-			*token = (*token)->next;
 		}
 		*node = cmd_node;
 		//print_tree(*node, 10);
-		//printf("check \n");
 		// what to do : cmd(left) + flag(right)
+		// or echo "something"
 	}
 	return (true);
 }
 
-static bool	parse_subshell(t_token **token, t_cmd **node)
+static bool	parse_subshell(t_token **token, t_ast **node)
 {
+	t_token	*tokens_in_subshell;
+	t_ast	*subshell_node;
+	char	*data_in_subshell;
+
 	printf("subshell >> \n");
+	tokens_in_subshell = NULL;
 	if (*token && (*token)->type == SUBSHELL)
 	{
-		parse_logical(token, node);
+		subshell_node = new_node("(", SUBSHELL);
+		if (!subshell_node)
+			return (false);
+		data_in_subshell = trim_first_last((*token)->data);
+		tokenize(data_in_subshell, &tokens_in_subshell);
+		parse_logical(&tokens_in_subshell, node);
+		free_token(tokens_in_subshell);
+		free(data_in_subshell);
+		subshell_node->left = *node;
+		*node = attach_to_tree(*node, new_node(")", SUBSHELL), LEFT);
 		*token = (*token)->next;
-		if (*token == NULL || (*token)->type != SUBSHELL)
-		{
-			printf("Mismatched subshell\n");
-			exit(EXIT_FAILURE);
-		}
-		*token = (*token)->next;
+		*node = subshell_node;
+		//printf("node : ");
+		//print_tree(*node, 5);
+		//printf("---------------------------------\n");
 	}
 	return (true);
 }
 
-static bool	parse_io_redirection(t_token **token, t_cmd **node)
+static bool	parse_io_redirection(t_token **token, t_ast **node)
 {
-	t_cmd	*io_redirection_node;
-	t_cmd	*left;
-	t_cmd	*right;
+	t_ast	*io_redirection_node;
+	t_ast	*left;
+	t_ast	*right;
 
 	right = NULL;
 	printf("io_redirection >> \n");
-	while (*token && (*token)->type == REDIRECTION)
+	if (*token && (*token)->type == REDIRECTION)
 	{
+		printf("token data : %s\n", (*token)->data);
 		io_redirection_node = new_node(NULL, IO);
 		if (!io_redirection_node)
 			return (false);
-		left = new_node(*token, (*token)->type);
+		left = new_node((*token)->data, (*token)->type);
 		*token = (*token)->next;
 		if (*token && (*token)->type == CMD)
 		{
-			right = new_node(*token, (*token)->type);
+			right = new_node((*token)->data, (*token)->type);
 			*token = (*token)->next;
 		}
 		io_redirection_node->left = left;
@@ -87,39 +103,38 @@ static bool	parse_io_redirection(t_token **token, t_cmd **node)
 	return (true);
 }
 
-static bool	parse_redirection(t_token **token, t_cmd **node)
+static bool	parse_redirection(t_token **token, t_ast **node)
 {
-	t_cmd	*redirection_node;
-	t_cmd	*left;
+	t_ast	*redirection_node;
+	t_ast	*left;
 
-	left = NULL;
 	printf("redirection >> \n");
-	parse_subshell(token, node);
+	printf("token data : %s\n", (*token)->data);
 	redirection_node = new_node(NULL, REDIRECTION);
 	if (!redirection_node)
 		return (false);
-	if ((*node)->left == NULL)
-		(*node)->left = redirection_node;
-	else
-		(*node)->right = redirection_node;
-	parse_io_redirection(token, &left);
-	redirection_node->left = left;
-	*node = redirection_node;
+	while (*token && (*token)->type == REDIRECTION)
+	{
+		left = NULL;
+		parse_io_redirection(token, &left);
+		*node = attach_to_tree(*node, left, LEFT);
+	}
 	return (true);
 }
 
-static bool	parse_pharse(t_token **token, t_cmd **node)
+static bool	parse_pharse(t_token **token, t_ast **node)
 {
-	t_cmd	*pharse_node;
-	t_cmd	*right;
+	t_ast	*pharse_node;
+	t_ast	*left;
+	t_ast	*right;
 
-	right = NULL;
 	printf("pharse >> \n");
+	left = NULL;
+	right = NULL;
 	pharse_node = new_node(NULL, PHARSE);
 	if (!pharse_node)
 		return (false);
-	*node = pharse_node;
-	parse_cmd(token, &right);
+	parse_subshell(token, node);
 	if (*token && (*token)->type == REDIRECTION)
 	{
 		while (*token && (*token)->type == REDIRECTION)
@@ -133,17 +148,22 @@ static bool	parse_pharse(t_token **token, t_cmd **node)
 	}
 	else
 	{
-		pharse_node->left = new_node(NULL, REDIRECTION);
-		pharse_node->right = right;
+		parse_cmd(token, node);
+		if (*token && (*token)->type == REDIRECTION)
+		{
+			parse_redirection(token, &left);
+			pharse_node->left = left;
+		}
+		pharse_node->right = *node;
 		*node = pharse_node;
 	}
 	return (true);
 }
 
-static bool	parse_pipe(t_token **token, t_cmd **node)
+static bool	parse_pipe(t_token **token, t_ast **node)
 {
-	t_cmd	*pipe_node;
-	t_cmd	*left;
+	t_ast	*pipe_node;
+	t_ast	*left;
 
 	left = NULL;
 	printf("pipe >> \n");
@@ -151,7 +171,7 @@ static bool	parse_pipe(t_token **token, t_cmd **node)
 	while (*token && (*token)->type == PIPE)
 	{
 		printf("token pipe : %s\n", (*token)->data);
-		pipe_node = new_node(*token, (*token)->type);
+		pipe_node = new_node((*token)->data, (*token)->type);
 		if (!pipe_node)
 			return (false);
 		*token = (*token)->next;
@@ -163,17 +183,17 @@ static bool	parse_pipe(t_token **token, t_cmd **node)
 	return (true);
 }
 
-static bool	parse_logical(t_token **token, t_cmd **node)
+static bool	parse_logical(t_token **token, t_ast **node)
 {
-	t_cmd	*logical_node;
-	t_cmd	*left;
+	t_ast	*logical_node;
+	t_ast	*left;
 
 	left = NULL;
 	printf("logical >> \n");
 	parse_pipe(token, node);
 	while (*token && (*token)->type == LOGICAL)
 	{
-		logical_node = new_node(*token, (*token)->type);
+		logical_node = new_node((*token)->data, (*token)->type);
 		if (!logical_node)
 			return (false);
 		*token = (*token)->next;
@@ -185,7 +205,7 @@ static bool	parse_logical(t_token **token, t_cmd **node)
 	return (true);
 }
 
-static bool	parsor(t_token **token, t_cmd **root, int start)
+static bool	parsor(t_token **token, t_ast **root, int start)
 {
 	if (!token || !*token)
 		return (NULL);
@@ -197,7 +217,7 @@ static bool	parsor(t_token **token, t_cmd **root, int start)
 	// 임시로 해놓은것 수정 필요
 }
 
-bool	parsing_tree(t_token_list **tokens, t_cmd **root)
+bool	parsing_tree(t_token_list **tokens, t_ast **root)
 {
 	t_token		*tmp;
 	t_token		*token;

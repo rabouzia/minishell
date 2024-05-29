@@ -6,16 +6,16 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 11:31:36 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/27 14:27:50 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/29 11:00:28 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_cmd	*parse_primary(t_token **tokens)
+static t_ast	*parse_primary(t_token **tokens)
 {
 	t_token	*token;
-	t_cmd	*node;
+	t_ast	*node;
 
 	token = *tokens;
 	*tokens = (*tokens)->next;
@@ -23,11 +23,11 @@ static t_cmd	*parse_primary(t_token **tokens)
 	return (node);
 }
 
-t_cmd	*parse_expression(t_token **tokens, int min_binding_power)
+t_ast	*parse_expression(t_token **tokens, int min_binding_power)
 {
-	t_cmd	*left;
-	t_cmd	*right;
-	t_cmd	*new_node;
+	t_ast	*left;
+	t_ast	*right;
+	t_ast	*new_node;
 	t_token	*token;
 
 	if (!tokens || !*tokens)

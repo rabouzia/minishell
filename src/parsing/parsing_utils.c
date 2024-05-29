@@ -6,28 +6,28 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 12:05:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 21:14:18 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/29 18:50:38 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*new_node(t_token *token, t_type type)
+t_ast	*new_node(const char *data, t_type type)
 {
-	t_cmd	*new_node;
+	t_ast	*new_node;
 
-	new_node = (t_cmd *)malloc(sizeof(t_cmd));
+	new_node = (t_ast *)malloc(sizeof(t_ast));
 	if (!new_node)
 		return (NULL);
-	if (token)
-		new_node->data = ft_strdup(token->data);
+	if (data)
+		new_node->data = ft_strdup(data);
 	new_node->type = type;
 	new_node->left = NULL;
 	new_node->right = NULL;
 	return (new_node);
 }
 
-t_cmd	*attach_to_tree(t_cmd *root, t_cmd *node, int side)
+t_ast	*attach_to_tree(t_ast *root, t_ast *node, int side)
 {
 	if (!root)
 		root = node;
@@ -41,7 +41,7 @@ t_cmd	*attach_to_tree(t_cmd *root, t_cmd *node, int side)
 	return (root);
 }
 
-void	free_tree(t_cmd *root)
+void	free_tree(t_ast *root)
 {
 	if (root == NULL)
 		return ;

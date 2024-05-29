@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:29:28 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 15:38:10 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:02:31 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ bool	issubshell_operator(const char *token)
 	size_t	len;
 
 	len = ft_strlen(token);
-	return (token[0] == '(' && token[len - 1] == ')');
+	return (token[0] == '(' || token[len - 1] == ')');
 }

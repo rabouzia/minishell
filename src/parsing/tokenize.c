@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:39:22 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 08:52:27 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/29 17:55:25 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	handle_quotes(\
 	{
 		if (**input == *in_quote)
 		{
-			add_token(list, *start + 1, *input - *start - 1);
+			add_token(list, *start, *input - *start + 1);
 			*in_quote = 0;
 			*start = *input + 1;
 		}
@@ -31,6 +31,30 @@ static void	handle_quotes(\
 			if (*input > *start)
 				add_token(list, *start, *input - *start);
 			*in_quote = **input;
+			*start = *input;
+		}
+	}
+}
+
+static void	handle_subshell(\
+	const char **input, char *in_subshell, const char **start, t_token **list)
+{
+	if (*in_subshell)
+	{
+		if (**input == ')' && *in_subshell == '(')
+		{
+			add_token(list, *start, *input - *start + 1);
+			*in_subshell = 0;
+			*start = *input + 2;
+		}
+	}
+	else
+	{
+		if (**input == '(')
+		{
+			if (*input > *start)
+				add_token(list, *start, *input - *start);
+			*in_subshell = **input;
 			*start = *input;
 		}
 	}
@@ -64,6 +88,7 @@ void	tokenize(const char *input, t_token **tokens)
 {
 	const char	*start;
 	char		in_quote;
+	char		in_subshell;
 
 	if (!input)
 	{
@@ -72,10 +97,13 @@ void	tokenize(const char *input, t_token **tokens)
 	}
 	start = input;
 	in_quote = 0;
+	in_subshell = 0;
 	while (*input)
 	{
 		handle_quotes(&input, &in_quote, &start, tokens);
 		if (!in_quote)
+			handle_subshell(&input, &in_subshell, &start, tokens);
+		if (!in_quote && !in_subshell)
 			handle_operators_and_spaces(&input, &start, tokens);
 		input++;
 	}

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:24:08 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 10:24:17 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:40:44 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	show_ascii(void)
 	int		fd;
 
 	fd = open(ASCII_ART_PATH, O_RDONLY);
-	while ("minishell")
+	while ("kashell")
 	{
 		line = get_next_line(fd);
 		if (!line)
@@ -39,17 +39,4 @@ void	init_minishell(void)
 		printf("The current terminal for this process is: %s\n", tty);
 	else
 		printf("No terminal associated with this process.\n");
-}
-
-void	display_prompt(void)
-{
-	char	cwd[MAX_PATH_LENGTH];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("[%s]$ ", cwd);
-	else
-	{
-		perror("getcwd");
-		exit(EXIT_FAILURE);
-	}
 }

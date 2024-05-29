@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 19:14:21 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 16:41:04 by junsan           ###   ########.fr       */
+/*   Created: 2024/05/29 11:48:50 by junsan            #+#    #+#             */
+/*   Updated: 2024/05/29 11:59:30 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* 
-Thinking !! : 
-1 case. gettenv variable by env argument in main fuction 
-	and putting them in struct
-2 case. or just env variable by function, getenv()
-----------------------------------------------------------
-*/
 #include "minishell.h"
 
-int	main(int ac, char **av)
+// InCompleted
+bool	my_env(t_cmd_list *env)
 {
-	(void)ac;
-	(void)av;
-	init_minishell();
-	set_signal_handler();
-	while ("Kashell")
+	while (env != NULL)
 	{
-		process_input();
+		if (ft_strchr(env->cmd, '='))
+			printf("%s\n", env->cmd)
+		env = env->next;
 	}
-	return (0);
+	return (SUCCESS);
 }

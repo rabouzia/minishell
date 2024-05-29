@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:49:26 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/28 19:41:56 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:40:30 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_token(t_token *head)
 	}
 }
 
-static void	print_all(t_cmd *node)
+static void	print_all(t_ast *node)
 {
 	const char	*type_str;
 	int			type;
@@ -53,7 +53,7 @@ static void	print_all(t_cmd *node)
 		printf("%s\n", type_str);
 }
 
-static void	print_tree_util(t_cmd *node, int space, int depth)
+static void	print_tree_util(t_ast *node, int space, int depth)
 {
 	int		i;
 
@@ -74,7 +74,7 @@ static void	print_tree_util(t_cmd *node, int space, int depth)
 		print_tree_util(node->left, space, depth);
 }
 
-void	print_tree(t_cmd *root, int depth)
+void	print_tree(t_ast *root, int depth)
 {
 	if (!root)
 		return ;

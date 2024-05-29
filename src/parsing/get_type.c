@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   get_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 19:14:21 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 16:41:04 by junsan           ###   ########.fr       */
+/*   Created: 2024/05/27 15:49:23 by junsan            #+#    #+#             */
+/*   Updated: 2024/05/29 15:47:32 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* 
-Thinking !! : 
-1 case. gettenv variable by env argument in main fuction 
-	and putting them in struct
-2 case. or just env variable by function, getenv()
-----------------------------------------------------------
-*/
 #include "minishell.h"
 
-int	main(int ac, char **av)
+t_type	get_type(const char *data)
 {
-	(void)ac;
-	(void)av;
-	init_minishell();
-	set_signal_handler();
-	while ("Kashell")
-	{
-		process_input();
-	}
-	return (0);
+	if (islogical_operator(data))
+		return (LOGICAL);
+	if (ispipe_operator(data))
+		return (PIPE);
+	if (isredirection_operator(data))
+		return (REDIRECTION);
+	if (issubshell_operator(data))
+		return (SUBSHELL);
+	return (CMD);
 }

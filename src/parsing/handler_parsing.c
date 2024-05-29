@@ -6,15 +6,15 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 16:25:17 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/27 16:25:39 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/29 11:00:16 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_cmd_node(t_token *token, t_cmd **cur)
+void	handle_cmd_node(t_token *token, t_ast **cur)
 {
-	t_cmd	*cmd_node;
+	t_ast	*cmd_node;
 
 	if (!token)
 		return ;
@@ -30,11 +30,11 @@ void	handle_cmd_node(t_token *token, t_cmd **cur)
 	}
 }
 
-void	handle_logical_operator(t_token **token, t_cmd **cur, t_cmd **root, bool *up_down_flag)
+void	handle_logical_operator(t_token **token, t_ast **cur, t_cmd **root, bool *up_down_flag)
 {
-	t_cmd	*logical_node;
-	t_cmd	*tmp;
-	t_cmd	*old_child;
+	t_ast	*logical_node;
+	t_ast	*tmp;
+	t_ast	*old_child;
 
 	if (!token || !*token)
 		return ;
@@ -62,9 +62,9 @@ void	handle_logical_operator(t_token **token, t_cmd **cur, t_cmd **root, bool *u
 	*cur = logical_node;
 }
 
-void	handle_pipe_operator(t_token **token, t_cmd **cur, t_cmd **root, bool *up_down_flag)
+void	handle_pipe_operator(t_token **token, t_ast **cur, t_cmd **root, bool *up_down_flag)
 {
-	t_cmd	*pipe_node;
+	t_ast	*pipe_node;
 
 	if (!token || !*token)
 		return ;
@@ -81,10 +81,10 @@ void	handle_pipe_operator(t_token **token, t_cmd **cur, t_cmd **root, bool *up_d
 	*cur = pipe_node;
 }
 
-void	handle_redirection_operator(t_token **token, t_cmd **cur, t_cmd **root, bool *up_down_flag)
+void	handle_redirection_operator(t_token **token, t_ast **cur, t_cmd **root, bool *up_down_flag)
 {
-	t_cmd	*redir_node;
-	t_cmd	*tmp;
+	t_ast	*redir_node;
+	t_ast	*tmp;
 
 	if (!token || !*token)
 		return ;
