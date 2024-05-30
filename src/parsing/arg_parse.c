@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:50:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 21:01:04 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/30 08:41:39 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,30 @@ bool	is_flag(const char *arg)
 
 static size_t	get_total_arg_list_size(t_token **token)
 {
+	t_token	*cur;
+	t_token	*prev;
 	size_t	total_len;
 
+	cur = *token;
+	prev = NULL;
 	total_len = 0;
-	while (*token)
+	while (cur)
 	{
-		if ((*token)->type != CMD)
+		if (cur->type != CMD)
 			break ;
-		total_len += ft_strlen((*token)->data);
-		if ((*token)->next)
+		if (prev)
+			total_len += ft_strlen(prev->data);
+		if (cur->next)
 			total_len++;
-		*token = (*token)->next;
+		else
+		{
+			*token = cur;
+			return (total_len);
+		}
+		prev = cur;
+		cur = cur->next;
 	}
+	*token = cur;
 	return (total_len);
 }
 

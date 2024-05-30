@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:39:22 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 17:55:25 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/30 08:38:59 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	handle_subshell(\
 		{
 			add_token(list, *start, *input - *start + 1);
 			*in_subshell = 0;
-			*start = *input + 2;
+			*start = *input + 1;
 		}
 	}
 	else
@@ -107,6 +107,6 @@ void	tokenize(const char *input, t_token **tokens)
 			handle_operators_and_spaces(&input, &start, tokens);
 		input++;
 	}
-	if (input > start && !in_quote)
+	if (input > start)
 		add_token(tokens, start, input - start);
 }
