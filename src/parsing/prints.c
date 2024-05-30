@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:49:26 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/27 14:47:15 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:40:30 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,36 @@ void	print_token(t_token *head)
 	}
 }
 
-static void	print_tree_util(t_cmd *node, int space, int depth)
+static void	print_all(t_ast *node)
 {
-	int	i;
+	const char	*type_str;
+	int			type;
+
+	type = (int)node->type;
+	type_str = "";
+	if (type == 1)
+		type_str = "LOGICAL";
+	else if (type == 3)
+		type_str = "PIPE";
+	else if (type == 5)
+		type_str = "REDIRECTION";
+	else if (type == 6)
+		type_str = "IO";
+	else if (type == 20)
+		type_str = "CMD";
+	else if (type == 100)
+		type_str = "SUBSHELL";
+	else if (type == 0)
+		type_str = "PHARAS";
+	if (node->data)
+		printf("data : %s, type : %s\n", node->data, type_str);
+	else
+		printf("%s\n", type_str);
+}
+
+static void	print_tree_util(t_ast *node, int space, int depth)
+{
+	int		i;
 
 	if (node == NULL)
 		return ;
@@ -39,15 +66,15 @@ static void	print_tree_util(t_cmd *node, int space, int depth)
 	printf("\n");
 	while (i < space)
 	{
-		printf(" ");
+		printf("-");
 		i++;
 	}
-	printf("data : %s, type : %i\n", node->data, node->type);
+	print_all(node);
 	if (node->left)
 		print_tree_util(node->left, space, depth);
 }
 
-void	print_tree(t_cmd *root, int depth)
+void	print_tree(t_ast *root, int depth)
 {
 	if (!root)
 		return ;

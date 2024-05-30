@@ -6,41 +6,64 @@
 #    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/05/27 15:52:54 by junsan           ###   ########.fr        #
+#    Updated: 2024/05/29 21:01:51 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 	= minishell
 BONUS 	= minishell_bonus
+OS		= $(shell uname)
 
 CC		= cc
 LIBFT 	= libft/libft.a
-IFLAGS 	= -I ./includes/ -I ./libft/includes/
+IFLAGS 	:= -I ./includes/ -I ./libft/includes/
 
-CFLAGS 	= -Wall -Wextra -Werror -g
-LINK_OPT = -lreadline
-SRC 	= minishell.c init_minishell.c process_input.c tokenize.c tokenize_utils.c \
-		  parsing.c parsing_utils.c prints.c string_utils.c get_type.c 				\
+CFLAGS 	= -Wall -Wextra -Werror -g3
 
-SRC_DIR = ./src/
-OBJ_DIR = ./obj/
+SRC_DIR = src
+PARSING_DIR = $(SRC_DIR)/parsing
+BUILT_IN_DIR = $(SRC_DIR)/built_in
+UTILS_DIR = $(SRC_DIR)/utils
+INIT_DIR = $(SRC_DIR)/init
+SIGNAL_DIR = $(SRC_DIR)/signal
+OBJ_DIR = obj
 
-SRCS = $(addprefix $(SRC_DIR), $(SRC))
-OBJS = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
+SRC 	= minishell.c
+INIT	= init_minishell.c
+PARSING	= process_input.c tokenize.c parsing.c parsing_utils.c						\
+		tokenize_utils.c tokenize_utils_2.c prints.c get_type.c type_functions.c	\
+		arg_parse.c
+UTILS	= string_utils.c
+SIGNAL	= handler_signal.c
+#BUILT_IN = built_in.c file_dir_operations.c	\
+
+SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
+SRCS += $(addprefix $(PARSING_DIR)/, $(PARSING))
+SRCS += $(addprefix $(INIT_DIR)/, $(INIT))
+SRCS += $(addprefix $(UTILS_DIR)/, $(UTILS))
+SRCS += $(addprefix $(SIGNAL_DIR)/, $(SIGNAL))
+#SRCS += $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN))
+
+OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
+
+ifeq ($(OS), Linux)
+	LD_FLAGS = -lreadline
+else ifeq ($(OS), Darwin)
+	LD_FLAGS = -L$(shell brew --prefix readline)/lib -lreadline
+	IFLAGS += -I $(shell brew --prefix readline)/include
+endif
 
 vpath %.c ./src/
 
 $(NAME) : $(LIBFT) $(OBJS)
-	$(CC) $(CFALGS) -o $@ $(OBJS) $(LIBFT) $(LINK_OPT)
+	$(CC) $(CFALGS) -o $@ $(OBJS) $(LIBFT) $(LD_FLAGS)
 
-$(OBJ_DIR)%.o: %.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 $(LIBFT): 
 	@make -C libft/
-
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
 
 all: $(NAME)
 

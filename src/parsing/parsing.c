@@ -1,0 +1,238 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
+/*   Updated: 2024/05/29 20:28:29 by junsan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static bool	parse_logical(t_token **token, t_ast **node);
+
+static bool	parse_cmd(t_token **token, t_ast **node)
+{
+	t_ast	*cmd_node;
+	char	*arg_tokens;
+
+	printf("cmd >> \n");
+	if (*token && (*token)->type == CMD)
+	{
+		arg_tokens = NULL;
+		cmd_node = new_node(NULL, CMD);
+		if (!cmd_node)
+			return (NULL);
+		cmd_node->left = new_node((*token)->data, (*token)->type);
+		printf("token cmd : %s\n", (*token)->data);
+		*token = (*token)->next;
+		if (*token && (*token)->type == CMD)
+		{
+			arg_tokens = arg_parsing(token);
+			cmd_node->right = new_node(arg_tokens, CMD);
+			free(arg_tokens);
+			printf("token cmd : %s\n", (*token)->data);
+		}
+		*node = cmd_node;
+		//print_tree(*node, 10);
+		// what to do : cmd(left) + flag(right)
+		// or echo "something"
+	}
+	return (true);
+}
+
+static bool	parse_subshell(t_token **token, t_ast **node)
+{
+	t_token	*tokens_in_subshell;
+	t_ast	*subshell_node;
+	char	*data_in_subshell;
+
+	printf("subshell >> \n");
+	tokens_in_subshell = NULL;
+	if (*token && (*token)->type == SUBSHELL)
+	{
+		subshell_node = new_node("(", SUBSHELL);
+		if (!subshell_node)
+			return (false);
+		data_in_subshell = trim_first_last((*token)->data);
+		tokenize(data_in_subshell, &tokens_in_subshell);
+		parse_logical(&tokens_in_subshell, node);
+		free_token(tokens_in_subshell);
+		free(data_in_subshell);
+		subshell_node->left = *node;
+		*node = attach_to_tree(*node, new_node(")", SUBSHELL), LEFT);
+		*token = (*token)->next;
+		*node = subshell_node;
+		//printf("node : ");
+		//print_tree(*node, 5);
+		//printf("---------------------------------\n");
+	}
+	return (true);
+}
+
+static bool	parse_io_redirection(t_token **token, t_ast **node)
+{
+	t_ast	*io_redirection_node;
+	t_ast	*left;
+	t_ast	*right;
+
+	right = NULL;
+	printf("io_redirection >> \n");
+	if (*token && (*token)->type == REDIRECTION)
+	{
+		printf("token data : %s\n", (*token)->data);
+		io_redirection_node = new_node(NULL, IO);
+		if (!io_redirection_node)
+			return (false);
+		left = new_node((*token)->data, (*token)->type);
+		*token = (*token)->next;
+		if (*token && (*token)->type == CMD)
+		{
+			right = new_node((*token)->data, (*token)->type);
+			*token = (*token)->next;
+		}
+		io_redirection_node->left = left;
+		io_redirection_node->right = right;
+		*node = io_redirection_node;
+		//parse_cmd(token, node);
+		//print_tree(io_redirection_node, 10);
+	}
+	return (true);
+}
+
+static bool	parse_redirection(t_token **token, t_ast **node)
+{
+	t_ast	*redirection_node;
+	t_ast	*left;
+
+	printf("redirection >> \n");
+	printf("token data : %s\n", (*token)->data);
+	redirection_node = new_node(NULL, REDIRECTION);
+	if (!redirection_node)
+		return (false);
+	while (*token && (*token)->type == REDIRECTION)
+	{
+		left = NULL;
+		parse_io_redirection(token, &left);
+		*node = attach_to_tree(*node, left, LEFT);
+	}
+	return (true);
+}
+
+static bool	parse_pharse(t_token **token, t_ast **node)
+{
+	t_ast	*pharse_node;
+	t_ast	*left;
+	t_ast	*right;
+
+	printf("pharse >> \n");
+	left = NULL;
+	right = NULL;
+	pharse_node = new_node(NULL, PHARSE);
+	if (!pharse_node)
+		return (false);
+	parse_subshell(token, node);
+	if (*token && (*token)->type == REDIRECTION)
+	{
+		while (*token && (*token)->type == REDIRECTION)
+		{
+			parse_redirection(token, node);
+			pharse_node->left = *node;
+			pharse_node->right = right;
+			*node = pharse_node;
+		//	print_tree(*node, 5);
+		}
+	}
+	else
+	{
+		parse_cmd(token, node);
+		if (*token && (*token)->type == REDIRECTION)
+		{
+			parse_redirection(token, &left);
+			pharse_node->left = left;
+		}
+		pharse_node->right = *node;
+		*node = pharse_node;
+	}
+	return (true);
+}
+
+static bool	parse_pipe(t_token **token, t_ast **node)
+{
+	t_ast	*pipe_node;
+	t_ast	*left;
+
+	left = NULL;
+	printf("pipe >> \n");
+	parse_pharse(token, node);
+	while (*token && (*token)->type == PIPE)
+	{
+		printf("token pipe : %s\n", (*token)->data);
+		pipe_node = new_node((*token)->data, (*token)->type);
+		if (!pipe_node)
+			return (false);
+		*token = (*token)->next;
+		parse_pharse(token, &left);
+		pipe_node->left = left;
+		pipe_node->right = *node;
+		*node = pipe_node;
+	}
+	return (true);
+}
+
+static bool	parse_logical(t_token **token, t_ast **node)
+{
+	t_ast	*logical_node;
+	t_ast	*left;
+
+	left = NULL;
+	printf("logical >> \n");
+	parse_pipe(token, node);
+	while (*token && (*token)->type == LOGICAL)
+	{
+		logical_node = new_node((*token)->data, (*token)->type);
+		if (!logical_node)
+			return (false);
+		*token = (*token)->next;
+		parse_pipe(token, &left);
+		logical_node->left = left;
+		logical_node->right = *node;
+		*node = logical_node;
+	}
+	return (true);
+}
+
+static bool	parsor(t_token **token, t_ast **root, int start)
+{
+	if (!token || !*token)
+		return (NULL);
+	if (start == LOGICAL)
+		return (parse_logical(token, root));
+	else if (start == PIPE)
+		return (parse_pipe(token, root));
+	return (parse_pharse(token, root));
+	// 임시로 해놓은것 수정 필요
+}
+
+bool	parsing_tree(t_token_list **tokens, t_ast **root)
+{
+	t_token		*tmp;
+	t_token		*token;
+	int			priority;
+
+	if (!tokens)
+		return (NULL);
+	token = (*tokens)->head;
+	tmp = (*tokens)->head;
+	priority = INT_MAX;
+	while (tmp->next)
+	{
+		if ((int)tmp->type < priority)
+			priority = (int)tmp->type;
+		tmp = tmp->next;
+	}
+	return (parsor(&token, root, priority));
+}
