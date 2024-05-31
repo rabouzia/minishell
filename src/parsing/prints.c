@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:49:26 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 14:36:07 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/31 16:19:24 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ static void	print_tree_util(t_ast *node, int space, int depth)
 		return ;
 	space += depth;
 	i = depth;
-	if (node->right)
-		print_tree_util(node->right, space, depth);
+	if (node->left)
+		print_tree_util(node->left, space, depth);
 	printf("\n");
 	while (i < space)
 	{
@@ -70,8 +70,8 @@ static void	print_tree_util(t_ast *node, int space, int depth)
 		i++;
 	}
 	print_all(node);
-	if (node->left)
-		print_tree_util(node->left, space, depth);
+	if (node->right)
+		print_tree_util(node->right, space, depth);
 }
 
 void	print_tree(t_ast *root, int depth)

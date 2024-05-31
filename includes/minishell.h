@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 14:13:27 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/31 18:45:05 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,4 +181,10 @@ int				handler_builtin(const char *cmd);
 // arg_parse.c
 bool			is_flag(const char *arg);
 char			*arg_parsing(t_token **token);
+
+// redir_handler.c
+bool	is_input_redirection(const char *data);
+bool	is_output_redirection(const char *data);
+bool	is_append_redirection(const char *data);
+bool	is_heredoc_redirection(const char *data);
 #endif // MINISHELL_H

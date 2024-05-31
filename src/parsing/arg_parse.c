@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:50:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 14:33:13 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/31 18:39:19 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char	*arg_parsing(t_token **token)
 	char	*ptr;
 
 	cur = *token;
-	printf("token data : %s\n", cur->data);
 	total_len = get_total_arg_list_size(&cur);
 	data = (char *)malloc(sizeof(char) * (total_len + 1));
 	if (!data)

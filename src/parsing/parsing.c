@@ -6,13 +6,14 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 14:37:38 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/31 19:11:29 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static bool	parse_logical(t_token **token, t_ast **node);
+static bool	parse_phrase(t_token **token, t_ast **node);
 
 static bool	parse_cmd(t_token **token, t_ast **node)
 {
@@ -34,7 +35,6 @@ static bool	parse_cmd(t_token **token, t_ast **node)
 			arg_tokens = arg_parsing(token);
 			cmd_node->right = new_node(arg_tokens, CMD);
 			free(arg_tokens);
-			printf("token cmd : %s\n", (*token)->data);
 		}
 		*node = cmd_node;
 		//print_tree(*node, 10);
@@ -89,7 +89,7 @@ static bool	parse_io_redirection(t_token **token, t_ast **node)
 			return (false);
 		left = new_node((*token)->data, (*token)->type);
 		*token = (*token)->next;
-		if (*token && (*token)->type == CMD)
+		if (*token && (*token)->type == CMD) // <- file name
 		{
 			right = new_node((*token)->data, (*token)->type);
 			*token = (*token)->next;
@@ -110,53 +110,51 @@ static bool	parse_redirection(t_token **token, t_ast **node)
 
 	printf("redirection >> \n");
 	printf("token data : %s\n", (*token)->data);
+	left = NULL;
 	redirection_node = new_node(NULL, REDIRECTION);
 	if (!redirection_node)
 		return (false);
-	while (*token && (*token)->type == REDIRECTION)
+	if (*token && (*token)->type == REDIRECTION)
 	{
-		left = NULL;
 		parse_io_redirection(token, &left);
-		*node = attach_to_tree(*node, left, LEFT);
+		redirection_node->left = left;
+		*node = redirection_node;
 	}
 	return (true);
 }
 
 static bool	parse_phrase(t_token **token, t_ast **node)
 {
-	t_ast	*pharse_node;
+	t_ast	*phrase_node;
 	t_ast	*left;
 	t_ast	*right;
 
 	printf("pharse >> \n");
 	left = NULL;
 	right = NULL;
-	pharse_node = new_node(NULL, PHRASE);
-	if (!pharse_node)
+	phrase_node = new_node(NULL, PHRASE);
+	if (!phrase_node)
 		return (false);
 	parse_subshell(token, node);
 	if (*token && (*token)->type == REDIRECTION)
 	{
-		while (*token && (*token)->type == REDIRECTION)
-		{
-			parse_redirection(token, node);
-			pharse_node->left = *node;
-			pharse_node->right = right;
-			*node = pharse_node;
-		//	print_tree(*node, 5);
-		}
-	}
-	else
-	{
-		parse_cmd(token, node);
-		if (*token && (*token)->type == REDIRECTION)
+		while (*token && (*token)->type == REDIRECTION && \
+		(is_input_redirection(((*token)->data))|| \
+		is_heredoc_redirection((*token)->data)))
 		{
 			parse_redirection(token, &left);
-			pharse_node->left = left;
-		}
-		pharse_node->right = *node;
-		*node = pharse_node;
+			phrase_node->left = left;
+			if (*token && (*token)->type == CMD)
+			{
+				parse_cmd(token, &right);
+				phrase_node->right = right;
+				parse_io_redirection(token, &(left->right));
+			}
+			*node = phrase_node;
+		} // case : [<in1 cmd1 in2>]
 	}
+	else if (*token && (*token)->type == CMD) // <-file_nam
+	} // cose : [cmd1 < in2] or [cmd1 > in2]
 	return (true);
 }
 
@@ -214,7 +212,6 @@ static bool	parsor(t_token **token, t_ast **root, int start)
 	else if (start == PIPE)
 		return (parse_pipe(token, root));
 	return (parse_phrase(token, root));
-	// 임시로 해놓은것 수정 필요
 }
 
 bool	parsing_tree(t_token_list **tokens, t_ast **root)
