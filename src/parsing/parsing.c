@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 19:11:29 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/31 20:20:27 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,16 @@ static bool	parse_phrase(t_token **token, t_ast **node)
 			*node = phrase_node;
 		} // case : [<in1 cmd1 in2>]
 	}
-	else if (*token && (*token)->type == CMD) // <-file_nam
+	else if (*token && (*token)->type == CMD) // <-file_name
+	{
+		parse_cmd(token, node);
+		if (*token && (*token)->type == REDIRECTION)
+		{
+			parse_redirection(token, &left);
+			phrase_node->left = left;
+		}
+		phrase_node->right = *node;
+		*node = phrase_node;
 	} // cose : [cmd1 < in2] or [cmd1 > in2]
 	return (true);
 }

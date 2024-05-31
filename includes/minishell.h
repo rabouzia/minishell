@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 18:45:05 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/31 20:18:20 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef enum type
 {
 	SUBSHELL = 100,
 	CMD = 20,
+	FILE_NAME = 18,
 	IO = 6,
 	REDIRECTION = 5,
 	PIPE = 3,
@@ -97,6 +98,12 @@ typedef struct s_cmd_list
 	struct s_cmd_list	*prev;
 	struct s_cmd_list	*next;
 }	t_cmd_list;
+
+typedef struct s_file_list
+{
+	char	**names;
+	size_t	count;
+}	t_file_list;
 
 // tokenize_utils.c
 t_token_list	*get_token_list(t_token *token);
@@ -183,8 +190,12 @@ bool			is_flag(const char *arg);
 char			*arg_parsing(t_token **token);
 
 // redir_handler.c
-bool	is_input_redirection(const char *data);
-bool	is_output_redirection(const char *data);
-bool	is_append_redirection(const char *data);
-bool	is_heredoc_redirection(const char *data);
+bool			is_input_redirection(const char *data);
+bool			is_output_redirection(const char *data);
+bool			is_append_redirection(const char *data);
+bool			is_heredoc_redirection(const char *data);
+
+// get_file_list.c
+void			free_file_list(t_file_list *file_list);
+t_file_list		*get_file_list(const char *path);
 #endif // MINISHELL_H
