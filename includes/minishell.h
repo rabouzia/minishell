@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 20:56:03 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/31 14:13:27 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef enum type
 	REDIRECTION = 5,
 	PIPE = 3,
 	LOGICAL = 1,
-	PHARSE = 0,
+	PHRASE = 0,
 }	t_type;
 
 typedef enum built_in

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/30 08:40:02 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/31 14:37:38 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static bool	parse_cmd(t_token **token, t_ast **node)
 			return (NULL);
 		cmd_node->left = new_node((*token)->data, (*token)->type);
 		*token = (*token)->next;
-		printf("token cmd : %s\n", (*token)->data);
 		if (*token && (*token)->type == CMD)
 		{
+			printf("token cmd : %s\n", (*token)->data);
 			arg_tokens = arg_parsing(token);
 			cmd_node->right = new_node(arg_tokens, CMD);
 			free(arg_tokens);
@@ -122,7 +122,7 @@ static bool	parse_redirection(t_token **token, t_ast **node)
 	return (true);
 }
 
-static bool	parse_pharse(t_token **token, t_ast **node)
+static bool	parse_phrase(t_token **token, t_ast **node)
 {
 	t_ast	*pharse_node;
 	t_ast	*left;
@@ -131,7 +131,7 @@ static bool	parse_pharse(t_token **token, t_ast **node)
 	printf("pharse >> \n");
 	left = NULL;
 	right = NULL;
-	pharse_node = new_node(NULL, PHARSE);
+	pharse_node = new_node(NULL, PHRASE);
 	if (!pharse_node)
 		return (false);
 	parse_subshell(token, node);
@@ -167,7 +167,7 @@ static bool	parse_pipe(t_token **token, t_ast **node)
 
 	left = NULL;
 	printf("pipe >> \n");
-	parse_pharse(token, node);
+	parse_phrase(token, node);
 	while (*token && (*token)->type == PIPE)
 	{
 		printf("token pipe : %s\n", (*token)->data);
@@ -175,7 +175,7 @@ static bool	parse_pipe(t_token **token, t_ast **node)
 		if (!pipe_node)
 			return (false);
 		*token = (*token)->next;
-		parse_pharse(token, &left);
+		parse_phrase(token, &left);
 		pipe_node->left = left;
 		pipe_node->right = *node;
 		*node = pipe_node;
@@ -213,7 +213,7 @@ static bool	parsor(t_token **token, t_ast **root, int start)
 		return (parse_logical(token, root));
 	else if (start == PIPE)
 		return (parse_pipe(token, root));
-	return (parse_pharse(token, root));
+	return (parse_phrase(token, root));
 	// 임시로 해놓은것 수정 필요
 }
 
