@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:49:23 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 18:17:36 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 10:47:43 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 t_type	get_type(const char *data)
 {
-	if (islogical_operator(data))
+	if (is_logical_operator(data))
 		return (LOGICAL);
-	if (ispipe_operator(data))
+	if (is_pipe_operator(data))
 		return (PIPE);
-	if (isredirection_operator(data))
+	if (is_redirection_operator(data))
 		return (REDIRECTION);
-	if (issubshell_operator(data))
+	if (is_subshell_operator(data))
 		return (SUBSHELL);
+	if (is_file_name(data))
+		return (FILE_NAME);
 	return (CMD);
 }

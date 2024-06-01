@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:17:41 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 20:30:59 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 11:15:20 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,85 +25,25 @@ void	free_file_list(t_file_list *file_list)
 	free(file_list);
 }
 
-static int	get_file_list_size(const char *path)
+const char	*get_path(const char *full_path)
 {
-	struct dirent	*entry;
-	DIR				*dir;
-	int				file_count;
+	const char	*file_name;
+	char		*path;
+	size_t		path_len;
 
-	file_count = 0;
-	dir = opendir(path);
-	if (dir == NULL)
-	{
-		perror("opendir");
-		return (-1);
-	}
-	entry = readdir(dir);
-	while (entry)
-	{
-		if (ft_strncmp(entry->d_name, ".", 1) != 0 && \
-			ft_strncmp(entry->d_name, "..", 2) != 0)
-			file_count++;
-		entry = readdir(dir);
-	}
-	closedir(dir);
-	return (file_count);
-}
-
-static void	get_empty_list(t_file_list **empty_list)
-{
-	(*empty_list)->names = NULL;
-	(*empty_list)->count = 0;
-}
-
-static t_file_list	*get_entry_list(t_file_list *file_list, DIR	*dir)
-{
-	struct dirent	*entry;
-	int				index;
-
-	index = -1;
-	entry = readdir(dir);
-	while (entry)
-	{
-		if (ft_strncmp(entry->d_name, ".", 1) != 0 && \
-			ft_strncmp(entry->d_name, "..", 2) != 0)
-		{
-			file_list->names[++index] = ft_strdup(entry->d_name);
-			if (file_list->names[index] == NULL)
-			{
-				perror("strdup");
-				file_list->count = index - 1;
-				free_file_list(file_list);
-				closedir(dir);
-				return (NULL);
-			}
-		}
-		entry = readdir(dir);
-	}
-	closedir(dir);
-	return (file_list);
-}
-
-static DIR	*get_dir(const char *path, int file_count, t_file_list **file_list)
-{
-	DIR	*dir;
-
-	dir = opendir(path);
-	if (dir == NULL)
-	{
-		perror("opendir");
-		return (NULL);
-	}
-	(*file_list)->names = (char **)malloc(sizeof(char *) * (size_t)file_count);
-	if ((*file_list)->names == NULL)
+	file_name = ft_strchr(full_path, '/');
+	if (file_name == NULL)
+		return (ft_strdup("."));
+	path_len = file_name - full_path + 1;
+	path = (char *)malloc(sizeof(char) * (path_len + 1));
+	if (path == NULL)
 	{
 		perror("malloc");
-		free(file_list);
-		closedir(dir);
 		return (NULL);
 	}
-	(*file_list)->count = (size_t)file_count;
-	return (dir);
+	ft_strlcpy(path, full_path, path_len + 1);
+	path[path_len] = '\0';
+	return ((const char *)path);
 }
 
 t_file_list	*get_file_list(const char *path)
@@ -120,7 +60,11 @@ t_file_list	*get_file_list(const char *path)
 	}
 	file_count = get_file_list_size(path);
 	if (file_count == 0)
-		return (get_empty_list(&file_list), file_list);
+	{
+		file_list->names = NULL;
+		file_list->count = 0;
+		return (file_list);
+	}
 	else if (file_count < 0)
 		return (NULL);
 	dir = get_dir(path, file_count, &file_list);

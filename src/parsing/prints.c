@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:49:26 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/01 09:23:41 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 11:04:42 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	print_all(t_ast *node)
 		type_str = "SUBSHELL";
 	else if (type == 0)
 		type_str = "PHRASE";
+	else if (type == 18)
+		type_str = "FILE_NAME";
 	if (node->data)
 		printf("data : %s, type : %s\n", node->data, type_str);
 	else

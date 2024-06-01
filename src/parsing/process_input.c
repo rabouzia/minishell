@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 20:38:45 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 10:45:35 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,12 @@ void	process_input(void)
 	t_token			*tokens;
 	t_ast			*root;
 	char			*input;
-	t_file_list		*file_list;
 
 	tokens = NULL;
 	root = NULL;
-	file_list = NULL;
-	input = readline("kashell$");
+	input = readline("kashell$ ");
 	if (input)
 	{
-		file_list = get_file_list(".");
-		print_file_list(file_list);
 		tokenize(input, &tokens);
 		token_list = get_token_list(tokens);
 		print_token(tokens);

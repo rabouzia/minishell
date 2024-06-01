@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 20:20:27 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 11:04:08 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static bool	parse_io_redirection(t_token **token, t_ast **node)
 			return (false);
 		left = new_node((*token)->data, (*token)->type);
 		*token = (*token)->next;
-		if (*token && (*token)->type == CMD) // <- file name
+		if (*token && (*token)->type == FILE_NAME)
 		{
 			right = new_node((*token)->data, (*token)->type);
 			*token = (*token)->next;
@@ -153,7 +153,7 @@ static bool	parse_phrase(t_token **token, t_ast **node)
 			*node = phrase_node;
 		} // case : [<in1 cmd1 in2>]
 	}
-	else if (*token && (*token)->type == CMD) // <-file_name
+	else if (*token && (*token)->type == CMD)
 	{
 		parse_cmd(token, node);
 		if (*token && (*token)->type == REDIRECTION)
