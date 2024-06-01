@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 20:18:20 by junsan           ###   ########.fr       */
+/*   Updated: 2024/05/31 20:36:03 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ char			*trim_first_last(char *str);
 //  prints.c
 void			print_token(t_token *head);
 void			print_tree(t_ast *root, int depth);
+void			print_file_list(t_file_list *file_list);
 
 // parse_pratte.c
 //t_ast	*parse_expression(t_token **tokens, int min_bidning_power);

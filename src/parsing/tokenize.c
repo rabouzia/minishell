@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:39:22 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 18:17:29 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 09:35:57 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ static void	handle_operators_and_spaces(\
 				(*input)++;
 			}
 			else
-				add_token(list, *input, 1);
+			{
+				if (**input != '&')
+					add_token(list, *input, 1);
+			}
 		}
 		*start = *input + 1;
 	}

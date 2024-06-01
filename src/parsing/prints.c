@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:49:26 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 16:19:24 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 09:23:41 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,13 @@ void	print_tree(t_ast *root, int depth)
 	if (!root)
 		return ;
 	print_tree_util(root, 0, depth);
+}
+
+void	print_file_list(t_file_list *file_list)
+{
+	int	i;
+
+	i = -1;
+	while (++i < (int)file_list->count)
+		printf("file_list %d.name :  %s\n", i, file_list->names[i]);
 }
