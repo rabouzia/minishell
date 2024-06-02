@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 20:56:03 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 11:17:30 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ typedef enum type
 {
 	SUBSHELL = 100,
 	CMD = 20,
+	FILE_NAME = 18,
 	IO = 6,
 	REDIRECTION = 5,
 	PIPE = 3,
 	LOGICAL = 1,
-	PHARSE = 0,
+	PHRASE = 0,
 }	t_type;
 
 typedef enum built_in
@@ -98,6 +99,12 @@ typedef struct s_cmd_list
 	struct s_cmd_list	*next;
 }	t_cmd_list;
 
+typedef struct s_file_list
+{
+	char	**names;
+	size_t	count;
+}	t_file_list;
+
 // tokenize_utils.c
 t_token_list	*get_token_list(t_token *token);
 
@@ -124,6 +131,7 @@ char			*trim_first_last(char *str);
 //  prints.c
 void			print_token(t_token *head);
 void			print_tree(t_ast *root, int depth);
+void			print_file_list(t_file_list *file_list);
 
 // parse_pratte.c
 //t_ast	*parse_expression(t_token **tokens, int min_bidning_power);
@@ -155,12 +163,15 @@ bool			isioredirection_operator(const char *token);
 bool			parsing_tree(t_token_list **tokens, t_ast **root);
 t_ast			*new_tree(t_token *token);
 
+// type_functions.c
+bool			is_logical_operator(const char *token);
+bool			is_pipe_operator(const char *token);
+bool			is_subshell_operator(const char *token);
+bool			is_redirection_operator(const char *token);
+bool			is_file_name(const char *token);
+
 // get_type.c
-bool			islogical_operator(const char *token);
-bool			ispipe_operator(const char *token);
-bool			issubshell_operator(const char *token);
-bool			isredirection_operator(const char *token);
-t_type			get_node_type(const char *data);
+t_type			ge_type(const char *data);
 
 // file_dir_operations.c
 int				change_dir(const char *path);
@@ -181,4 +192,21 @@ int				handler_builtin(const char *cmd);
 // arg_parse.c
 bool			is_flag(const char *arg);
 char			*arg_parsing(t_token **token);
+
+// redir_handler.c
+bool			is_input_redirection(const char *data);
+bool			is_output_redirection(const char *data);
+bool			is_append_redirection(const char *data);
+bool			is_heredoc_redirection(const char *data);
+
+// get_file_list.c
+void			free_file_list(t_file_list *file_list);
+const char		*get_path(const char *full_path);
+t_file_list		*get_file_list(const char *path);
+
+// get_file_list_utils.c
+int				get_file_list_size(const char *path);
+DIR				*get_dir(const char *path, \
+				int file_count, t_file_list **file_list);
+t_file_list		*get_entry_list(t_file_list *file_list, DIR	*dir);
 #endif // MINISHELL_H

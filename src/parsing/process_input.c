@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 19:17:42 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 10:45:35 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	process_input(void)
 
 	tokens = NULL;
 	root = NULL;
-	input = readline("kashell$");
+	input = readline("kashell$ ");
 	if (input)
 	{
 		tokenize(input, &tokens);

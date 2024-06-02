@@ -6,7 +6,7 @@
 #    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/05/29 21:01:51 by junsan           ###   ########.fr        #
+#    Updated: 2024/06/01 11:25:20 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,10 @@ OBJ_DIR = obj
 
 SRC 	= minishell.c
 INIT	= init_minishell.c
-PARSING	= process_input.c tokenize.c parsing.c parsing_utils.c						\
-		tokenize_utils.c tokenize_utils_2.c prints.c get_type.c type_functions.c	\
-		arg_parse.c
+PARSING	= process_input.c tokenize.c parsing.c prints.c get_type.c type_functions.c	\
+		arg_parse.c redir_handler.c get_file_list.c 								\
+		/utils/parsing_utils.c /utils/tokenize_utils.c /utils/tokenize_utils_2.c 	\
+		/utils/get_file_list_utils.c
 UTILS	= string_utils.c
 SIGNAL	= handler_signal.c
 #BUILT_IN = built_in.c file_dir_operations.c	\
