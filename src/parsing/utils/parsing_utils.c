@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 12:05:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 14:35:43 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/03 16:22:37 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_ast	*new_node(const char *data, t_type type)
 	new_node = (t_ast *)malloc(sizeof(t_ast));
 	if (!new_node)
 		return (NULL);
+	new_node->data = NULL;
 	if (data)
 		new_node->data = ft_strdup(data);
 	new_node->type = type;

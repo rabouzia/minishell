@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:49:23 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/01 10:47:43 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 11:40:26 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,5 @@ t_type	get_type(const char *data)
 		return (REDIRECTION);
 	if (is_subshell_operator(data))
 		return (SUBSHELL);
-	if (is_file_name(data))
-		return (FILE_NAME);
 	return (CMD);
 }

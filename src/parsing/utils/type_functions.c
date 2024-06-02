@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:29:28 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/01 11:22:53 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 11:40:09 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ bool	is_file_name(const char *token)
 		}
 	}
 	print_file_list(file_list);
-	printf("token data : %s, flag : %d\n", token, flag);
 	free_file_list(file_list);
 	free((char *)path);
 	return (flag);
