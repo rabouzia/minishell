@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:59:35 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 12:02:59 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/02 02:40:48 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	mv_pwd(t_cmd_list *env)
+bool	my_pwd(t_cmd_list *env)
 {
 	if (get_cur_dir())
 		return (SUCCESS);
