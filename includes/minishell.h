@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/01 11:17:30 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/10 19:22:30 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@
 # define SUCCESS true
 # define FAIL false
 
+typedef enum type_dir
+{
+	IN_REDIR,
+	IN_HEREDOC,
+	OUT_REDIR,
+	OUT_APPEND,
+}	t_type_dir;
+
+typedef enum type_logical
+{
+	AND,
+	OR,
+}	t_type_logical;
+
 typedef enum type
 {
 	SUBSHELL = 100,
@@ -68,6 +82,17 @@ typedef enum built_in
 	EXIT,
 	NONE,
 }	t_built_in;
+
+typedef struct s_info
+{
+	bool	pipe_exists; // pipe exist or not
+	bool	pipe_used; // used pipe before
+	bool	status; // can proceed by logical
+	int		input_fd;
+	int		output_fd;
+	int		tmp_fd;
+	char	*remainder;
+}	t_info;
 
 typedef struct s_token
 {
@@ -204,9 +229,13 @@ void			free_file_list(t_file_list *file_list);
 const char		*get_path(const char *full_path);
 t_file_list		*get_file_list(const char *path);
 
+// execute.c
+void			execute(t_ast *root);
+
 // get_file_list_utils.c
 int				get_file_list_size(const char *path);
 DIR				*get_dir(const char *path, \
 				int file_count, t_file_list **file_list);
 t_file_list		*get_entry_list(t_file_list *file_list, DIR	*dir);
+
 #endif // MINISHELL_H

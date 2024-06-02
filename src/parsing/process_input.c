@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/01 10:45:35 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/10 18:42:40 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	process_input(void)
 		(void)root;
 		parsing_tree(&token_list, &root);
 		print_tree(root, 10);
+		execute(root);
 		free_tree(root);
 		free(token_list);
 		free_token(tokens);
