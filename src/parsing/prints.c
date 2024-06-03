@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:49:26 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 16:40:30 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/01 11:04:42 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ static void	print_all(t_ast *node)
 	else if (type == 100)
 		type_str = "SUBSHELL";
 	else if (type == 0)
-		type_str = "PHARAS";
+		type_str = "PHRASE";
+	else if (type == 18)
+		type_str = "FILE_NAME";
 	if (node->data)
 		printf("data : %s, type : %s\n", node->data, type_str);
 	else
@@ -61,8 +63,8 @@ static void	print_tree_util(t_ast *node, int space, int depth)
 		return ;
 	space += depth;
 	i = depth;
-	if (node->right)
-		print_tree_util(node->right, space, depth);
+	if (node->left)
+		print_tree_util(node->left, space, depth);
 	printf("\n");
 	while (i < space)
 	{
@@ -70,8 +72,8 @@ static void	print_tree_util(t_ast *node, int space, int depth)
 		i++;
 	}
 	print_all(node);
-	if (node->left)
-		print_tree_util(node->left, space, depth);
+	if (node->right)
+		print_tree_util(node->right, space, depth);
 }
 
 void	print_tree(t_ast *root, int depth)
@@ -79,4 +81,13 @@ void	print_tree(t_ast *root, int depth)
 	if (!root)
 		return ;
 	print_tree_util(root, 0, depth);
+}
+
+void	print_file_list(t_file_list *file_list)
+{
+	int	i;
+
+	i = -1;
+	while (++i < (int)file_list->count)
+		printf("file_list %d.name :  %s\n", i, file_list->names[i]);
 }
