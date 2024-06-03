@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:14:21 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 16:41:04 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/02 02:33:35 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* 
-Thinking !! : 
-1 case. gettenv variable by env argument in main fuction 
+/*
+Thinking !! :
+1 case. gettenv variable by env argument in main fuction
 	and putting them in struct
 2 case. or just env variable by function, getenv()
 ----------------------------------------------------------
@@ -21,13 +21,22 @@ Thinking !! :
 
 int	main(int ac, char **av)
 {
+	char	*input;
+
 	(void)ac;
 	(void)av;
 	init_minishell();
 	set_signal_handler();
-	while ("Kashell")
+	while (1)
 	{
-		process_input();
+		input = readline("kashell$> ");
+		if (!input)
+			break ;
+		if (!*input)
+			continue ;
+		else
+			add_history(input);
+		process_input(input);
 	}
 	return (0);
 }

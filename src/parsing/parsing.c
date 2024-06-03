@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
 /*   Updated: 2024/06/03 16:21:21 by junsan           ###   ########.fr       */
@@ -230,7 +230,7 @@ bool	parsing_tree(t_token_list **tokens, t_ast **root)
 	t_token		*token;
 	int			priority;
 
-	if (!tokens)
+	if (!tokens || !*tokens)
 		return (NULL);
 	token = (*tokens)->head;
 	tmp = (*tokens)->head;
