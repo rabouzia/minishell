@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/02 02:34:56 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/04 23:41:34 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ typedef struct s_ast
 typedef struct s_cmd_list
 {
 	char				*cmd;
+	char				**export;
+	char				**env;
 	struct s_cmd_list	*prev;
 	struct s_cmd_list	*next;
 }						t_cmd_list;

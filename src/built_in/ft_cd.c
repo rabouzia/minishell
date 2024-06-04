@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 11:48:50 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/02 02:41:25 by rabouzia         ###   ########.fr       */
+/*   Created: 2024/06/02 02:39:36 by rabouzia          #+#    #+#             */
+/*   Updated: 2024/06/04 23:45:08 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// InCompleted
-bool	my_env(t_cmd_list *env)
+// to be completed
+
+int	ft_cd(t_cmd_list *list)
 {
-	while (env != NULL)
+	if (!list->cmd || !*list->cmd)
+		return (0);
+	while (list->cmd)
 	{
-		if (ft_strchr(env->cmd, '='))
-			printf("%s\n", env->cmd);
-		env = env->next;
+		if (!list->cmd)
+			return (printf("cd : missing arguments\n"), 2);
+		if (list->cmd > 2)
+			return (printf("cd too much arguments \n"), 2);
+		list->cmd = list->cmd->next;
 	}
-	return (SUCCESS);
+	change_dir(list->cmd);
 }
