@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/02 02:33:51 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:21:21 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static bool	parse_io_redirection(t_token **token, t_ast **node)
 			return (false);
 		left = new_node((*token)->data, (*token)->type);
 		*token = (*token)->next;
-		if (*token && (*token)->type == FILE_NAME)
+		if (*token && (*token)->type == CMD)
 		{
 			right = new_node((*token)->data, (*token)->type);
 			*token = (*token)->next;
@@ -221,6 +221,7 @@ static bool	parsor(t_token **token, t_ast **root, int start)
 	else if (start == PIPE)
 		return (parse_pipe(token, root));
 	return (parse_phrase(token, root));
+	// 임시로 해놓은것 수정 필요
 }
 
 bool	parsing_tree(t_token_list **tokens, t_ast **root)
