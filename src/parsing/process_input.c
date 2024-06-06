@@ -13,16 +13,17 @@
 
 #include "minishell.h"
 
-void	process_input(char *input)
+void	process_input(char *input, main_arg *arg)
 {
 	t_token_list	*token_list;
 	t_token			*tokens;
 	t_ast			*root;
 
-	tokens = NULL;
+	tokens = NULL; 	
 	root = NULL;
 	if (input)
 	{
+		print_env(arg);
 		tokenize(input, &tokens);
 		token_list = get_token_list(tokens);
 		print_token(tokens);

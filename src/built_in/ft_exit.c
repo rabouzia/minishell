@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 22:41:34 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/06 17:11:21 by rabouzia         ###   ########.fr       */
+/*   Created: 2024/06/06 12:05:58 by rabouzia          #+#    #+#             */
+/*   Updated: 2024/06/06 12:07:22 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t len)
+char	*ft_exit(t_cmd_list *list)
 {
-	size_t	i;
-
-	i = 0;
-	if (!dst)
-		return 0;
-	while (*src && i + 1 < len)
-	{
-		*dst++ = *src++;
-		i++;
-	}
-	if (i < len)
-		*dst = 0;
-	while (*src++)
-		i++;
-	return (i);
+	// if first arg is exit: exit
+	// else do nothing
+	return (NULL);
 }

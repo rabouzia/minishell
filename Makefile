@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
+#    By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/06/01 11:25:20 by junsan           ###   ########.fr        #
+#    Updated: 2024/06/06 14:38:51 by rabouzia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,16 +34,17 @@ PARSING	= process_input.c tokenize.c parsing.c prints.c get_type.c type_function
 		arg_parse.c redir_handler.c get_file_list.c 								\
 		/utils/parsing_utils.c /utils/tokenize_utils.c /utils/tokenize_utils_2.c 	\
 		/utils/get_file_list_utils.c
+
 UTILS	= string_utils.c
 SIGNAL	= handler_signal.c
-#BUILT_IN = built_in.c file_dir_operations.c	\
+BUILT_IN = ft_env.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 SRCS += $(addprefix $(PARSING_DIR)/, $(PARSING))
 SRCS += $(addprefix $(INIT_DIR)/, $(INIT))
 SRCS += $(addprefix $(UTILS_DIR)/, $(UTILS))
 SRCS += $(addprefix $(SIGNAL_DIR)/, $(SIGNAL))
-#SRCS += $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN))
+SRCS += $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN))
 
 OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
 
