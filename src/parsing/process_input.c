@@ -23,7 +23,8 @@ void	process_input(char *input, main_arg *arg)
 	root = NULL;
 	if (input)
 	{
-		print_env(arg);
+		if(ft_strncmp(input, "env", 3) == 0)
+			print_env(arg);
 		tokenize(input, &tokens);
 		token_list = get_token_list(tokens);
 		print_token(tokens);
