@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:14:21 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/06 18:10:38 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/08 12:05:40 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int	main(int ac, char **av, char **env)
 	{
 		input = readline("kashell$> ");
 		if (!input)
+		{
+			ft_putstr_fd("exit\n", 2);
 			break ;
+		}
 		if (!*input)
 			continue ;
 		else
