@@ -154,17 +154,11 @@ size_t					tokens_size(t_token *head);
 char			*remove_nested_subshell(t_token **token);
 
 // string_utils.c
-<<<<<<< HEAD
 bool			ft_isspace(char c);
 bool			is_all_whitespace(const char *str);
 char			*trim_first_last(char *str);
 char			*trim_whitespace(const char *str);
 
-=======
-bool					ft_isspace(char c);
-bool					is_all_whitespace(const char *str);
-char					*trim_first_last(char *str);
->>>>>>> d415d21b7d656ad4124a14201aaa1e2e12a53e39
 //  prints.c
 
 void			print_token(t_token *head);

@@ -275,6 +275,7 @@ static bool	parsor(t_token **token, t_ast **root, int start)
 	else if (start == PIPE)
 		return (parse_pipe(token, root));
 	return (parse_phrase(token, root));
+	// 임시로 해놓은것 수정 필요
 }
 
 bool	parsing_tree(t_token_list **tokens, t_ast **root)

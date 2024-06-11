@@ -35,7 +35,7 @@ PARSING	= process_input.c tokenize.c parsing.c prints.c get_type.c arg_parse.c 	
 		get_file_list.c 														\
 		/utils/parsing_utils.c /utils/tokenize_utils.c /utils/tokenize_utils_2.c\
 		/utils/get_file_list_utils.c /utils/redir_handler.c 					\
-		/utils/type_functions.c /utils/subshell_utils.c
+		/utils/type_functions.c /utils/subshell_utils.
 UTILS	= string_utils.c
 SIGNAL	= handler_signal.c
 EXECUTE = execute.c
