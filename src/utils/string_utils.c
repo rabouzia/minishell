@@ -6,11 +6,23 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:47:35 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 17:59:53 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/11 19:47:57 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*trim_whitespace(const char *str)
+{
+	const char	*end;
+
+	while (ft_isspace((unsigned char)*str))
+		str++;
+	end = str + ft_strlen(str) - 1;
+	while (end > str && ft_isspace((unsigned char)*end))
+		end--;
+	return (ft_substr(str, 0, end - str + 1));
+}
 
 char	*trim_first_last(char *str)
 {

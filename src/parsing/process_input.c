@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/10 18:42:40 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/11 20:16:02 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	process_input(void)
 		tokenize(input, &tokens);
 		token_list = get_token_list(tokens);
 		print_token(tokens);
-		(void)root;
+		//(void)root;
 		parsing_tree(&token_list, &root);
 		print_tree(root, 10);
 		execute(root);

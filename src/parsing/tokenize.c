@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:39:22 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/01 10:07:24 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/11 19:43:55 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,29 @@ static void	handle_quotes(\
 	}
 }
 
-static void	handle_subshell(\
-	const char **input, char *in_subshell, const char **start, t_token **list)
+static void	handle_open_subshell(\
+	const char **input, int *depth, const char **start, t_token **list)
 {
-	if (*in_subshell)
+	if (*depth == 0)
 	{
-		if (**input == ')' && *in_subshell == '(')
-		{
-			add_token(list, *start, *input - *start + 1);
-			*in_subshell = 0;
-			*start = *input + 1;
-		}
+		(*input)++;
+		*start = *input;
+		add_token(list, "(", 1);
 	}
-	else
+	(*depth)++;
+}
+
+static void	handle_close_subshell(\
+	const char **input, int *depth, const char **start, t_token **list)
+{
+	(*depth)--;
+	if (*depth == 0)
 	{
-		if (**input == '(')
-		{
-			if (*input > *start)
-				add_token(list, *start, *input - *start);
-			*in_subshell = **input;
-			*start = *input;
-		}
+		while (ft_isspace(**start))
+			(*start)++;
+		add_token(list, *start, *input - *start);
+		add_token(list, ")", 1);
+		*start = *input + 1;
 	}
 }
 
@@ -91,22 +93,22 @@ void	tokenize(const char *input, t_token **tokens)
 {
 	const char	*start;
 	char		in_quote;
-	char		in_subshell;
+	int			depth;
 
-	if (!input)
-	{
-		printf("empty\n");
-		return ;
-	}
 	start = input;
 	in_quote = 0;
-	in_subshell = 0;
+	depth = 0;
 	while (*input)
 	{
 		handle_quotes(&input, &in_quote, &start, tokens);
 		if (!in_quote)
-			handle_subshell(&input, &in_subshell, &start, tokens);
-		if (!in_quote && !in_subshell)
+		{
+			if (*input == '(')
+				handle_open_subshell(&input, &depth, &start, tokens);
+			else if (depth > 0 && *input == ')')
+				handle_close_subshell(&input, &depth, &start, tokens);
+		}
+		if (!in_quote && depth == 0)
 			handle_operators_and_spaces(&input, &start, tokens);
 		input++;
 	}

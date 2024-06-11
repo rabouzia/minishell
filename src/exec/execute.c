@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:34:10 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/10 20:20:02 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/11 12:04:58 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,24 @@ static void	categorize_tree(t_ast *node, t_info *info)
 	(void)info;
 	if (node->data)
 		printf("node data : %s\n", node->data);
-	/*
-	if (node->type == LOGICAL)
-	{
-		if (node->right && info->status == SUCCESS)
-			printf()
-	}
 	if (node->type == PIPE)
+	{
+		info->status = SUCCESS;
+		if (node->right)
+		{
+			info->pipe_exists = true;
+			info->pipe_used = true;
+		}
+	}
+	/*
+	else if (node->type == PHRASE)
+	{
+	}
+	else if (node->type == SUBSHELL)
 	{
 
 	}*/
 }
-
 static void	traverse_tree(t_ast *node, t_info *info)
 {
 	if (node == NULL)
@@ -47,7 +53,7 @@ static void	traverse_tree(t_ast *node, t_info *info)
 	if (node->type == LOGICAL)
 	{
 		traverse_tree(node->left, info);
-		if ((ft_strncmp(node->data, "&&", 2) && info->status == SUCCESS) || \
+		while ((ft_strncmp(node->data, "&&", 2) && info->status == SUCCESS) || \
 			(ft_strncmp(node->data, "||", 2) && info->status == FAIL))
 			traverse_tree(node->right, info);
 	}

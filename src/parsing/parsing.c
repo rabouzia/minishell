@@ -6,13 +6,14 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/10 18:34:43 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/11 19:44:23 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static bool	parse_logical(t_token **token, t_ast **node);
+static bool	parse_pipe(t_token **token, t_ast **node);
 static bool	parse_phrase(t_token **token, t_ast **node);
 
 static bool	parse_cmd(t_token **token, t_ast **node)
@@ -57,21 +58,74 @@ static bool	parse_subshell(t_token **token, t_ast **node)
 		subshell_node = new_node("(", SUBSHELL);
 		if (!subshell_node)
 			return (false);
-		data_in_subshell = trim_first_last((*token)->data);
+		*token = (*token)->next;
+		data_in_subshell = ft_strdup((*token)->data);
 		tokenize(data_in_subshell, &tokens_in_subshell);
 		parse_logical(&tokens_in_subshell, node);
-		free_token(tokens_in_subshell);
 		free(data_in_subshell);
+		free_token(tokens_in_subshell);
 		subshell_node->left = *node;
-		*node = attach_to_tree(*node, new_node(")", SUBSHELL), LEFT);
+		*token = (*token)->next;
+		*node = attach_to_tree(*node, new_node((*token)->data, SUBSHELL), LEFT);
 		*token = (*token)->next;
 		*node = subshell_node;
-		//printf("node : ");
-		//print_tree(*node, 5);
-		//printf("---------------------------------\n");
 	}
 	return (true);
 }
+
+/*
+static bool	parse_subshell(t_token **token, t_ast **node)
+{
+	t_token	*stack;
+	t_token	*top;
+	t_token	*tokens_in_subshell;
+	t_ast	*subshell_node;
+	char	*data_in_subshell;
+
+	printf("subshell >> \n");
+	tokens_in_subshell = NULL;
+	stack = NULL;
+	top = NULL;
+	if (*token && (*token)->type == SUBSHELL)
+	{
+		while (*token)
+		{
+			if (ft_strncmp((*token)->data, "(", 1) == 0)
+			{
+				subshell_node = new_node("(", SUBSHELL);
+				if (!subshell_node)
+					return (false);
+				stack = push(stack, (*token)->data);
+			}
+			else if (ft_strncmp((*token)->data, ")", 1) == 0)
+			{
+				top = pop(&stack);
+				if (top == NULL)
+					return (false);
+				if (top->next == NULL)
+				{
+					data_in_subshell = trim_first_last((*token)->data);
+					tokenize(data_in_subshell, &tokens_in_subshell);
+					printf("data_in_subshell : %s\n", data_in_subshell);
+					parse_logical(&tokens_in_subshell, node);
+					free_token(tokens_in_subshell);
+					free(data_in_subshell);
+				}
+			}
+			else
+				stack = push(stack, (*token)->data);
+			if (stack)
+				cur = stack;
+			*token = (*token)->next;
+		}
+		if (stack)
+			return (false);
+		subshell_node->left = *node;
+		*node = attach_to_tree(*node, new_node(")", SUBSHELL), LEFT);
+		*node = subshell_node;
+	}
+	return (true);
+}*/
 
 static bool	parse_io_redirection(t_token **token, t_ast **node)
 {

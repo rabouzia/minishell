@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/10 19:22:30 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/11 19:45:16 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,10 +149,15 @@ t_token			*tokens_last(t_token *tokens);
 void			free_token(t_token *head);
 size_t			tokens_size(t_token *head);
 
+// subshell_utils.c
+char			*remove_nested_subshell(t_token **token);
+
 // string_utils.c
 bool			ft_isspace(char c);
 bool			is_all_whitespace(const char *str);
 char			*trim_first_last(char *str);
+char			*trim_whitespace(const char *str);
+
 //  prints.c
 void			print_token(t_token *head);
 void			print_tree(t_ast *root, int depth);
