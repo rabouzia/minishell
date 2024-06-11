@@ -6,22 +6,20 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/11 20:16:02 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/11 20:25:19 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	process_input(void)
+void	process_input(char *input)
 {
 	t_token_list	*token_list;
 	t_token			*tokens;
 	t_ast			*root;
-	char			*input;
 
 	tokens = NULL;
 	root = NULL;
-	input = readline("kashell$ ");
 	if (input)
 	{
 		tokenize(input, &tokens);
