@@ -85,16 +85,13 @@ void	process_input(char *input, main_arg *arg)
 	{
 		if (ft_strncmp(input, "env", 3) == 0)
 			print_env(arg);
-		if (ft_strncmp(input, "ls", 3) == 0)
-			execve(ls);
-
 		tokenize(input, &tokens);
 		token_list = get_token_list(tokens);
 		print_token(tokens);
 		(void)root;
 		parsing_tree(&token_list, &root);
 		print_tree(root, 10);
-		execute_ast(root);
+		// execute_ast(root);
 		free_tree(root);
 		free(token_list);
 		free_token(tokens);

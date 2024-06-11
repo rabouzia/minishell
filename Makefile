@@ -6,7 +6,7 @@
 #    By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/06/06 14:38:51 by rabouzia         ###   ########.fr        #
+#    Updated: 2024/06/11 23:39:46 by rabouzia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ OS		= $(shell uname)
 
 CC		= cc
 LIBFT 	= libft/libft.a
+PIPEX 	= pipex/pipex.a
 IFLAGS 	:= -I ./includes/ -I ./libft/includes/
 
 CFLAGS 	= -Wall -Wextra -Werror -g3
@@ -66,6 +67,8 @@ $(OBJ_DIR)/%.o: %.c
 
 $(LIBFT): 
 	@make -C libft/
+	# @make -C pipex/
+	
 
 all: $(NAME)
 
