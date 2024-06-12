@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:14:21 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/08 12:05:40 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:09:14 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Thinking !! :
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
-	main_arg	*arg;
+	t_main_arg	*arg;
 	arg = NULL;
 
 	init_minishell();

@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/11 23:40:01 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:08:27 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ typedef struct s_main_arg
 	char				**av;
 	int					ac;
 
-}						main_arg;
+}						t_main_arg;
 
 // tokenize_utils.c
 t_token_list			*get_token_list(t_token *token);
@@ -134,7 +134,7 @@ void					add_token(t_token **head, const char *start,
 void					init_minishell(void);
 
 // process_input.c
-void					process_input(char *input, main_arg *arg);
+void					process_input(char *input, t_main_arg *arg);
 
 // tokenize.c
 void					tokenize(const char *input, t_token **tokens);
@@ -153,7 +153,7 @@ char					*trim_first_last(char *str);
 void					print_token(t_token *head);
 void					print_tree(t_ast *root, int depth);
 void					print_file_list(t_file_list *file_list);
-void					print_env(main_arg *arg);
+void					print_env(t_main_arg *arg);
 
 // parse_pratte.c
 // t_ast	*parse_expression(t_token **tokens, int min_bidning_power);
@@ -207,9 +207,10 @@ void					set_signal_handler(void);
 
 //-------------  built_in.c  -----------------------
 
-main_arg	*fill_main_arg(int ac, char **av, char **env);
+t_main_arg	*fill_main_arg(int ac, char **av, char **env);
+t_env	*builtin_new_node(char *name, char *content);
 
-void					fill_ft_env(main_arg *arg, char **str_env);
+void					fill_ft_env(t_main_arg *arg, char **str_env);
 
 /*
 void					init_builtin(int (*func[])(char **, t_cmd_list *));

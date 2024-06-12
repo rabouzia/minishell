@@ -13,67 +13,8 @@
 
 #include "minishell.h"
 
-void	execute_command(char **command)
-{
-	if (execvp(command[0], command) == -1)
-	{
-		perror("execvp");
-	}
-	exit(EXIT_FAILURE);
-}
 
-void	execute_ast(t_ast *node)
-{
-	char	*cmd[] = {node->data, NULL};
-	int		pipefd[2];
-
-	if (node == NULL)
-		return ;
-	if (node->left == NULL && node->right == NULL)
-	{
-		// It's a simple command, no pipe
-		if (fork() == 0)
-		{
-			execute_command(cmd);
-		}
-		else
-		{
-			wait(NULL);
-		}
-	}
-	else if (node->right != NULL)
-	{
-		pipe(pipefd);
-		if (fork() == 0)
-		{
-			// Child process: execute left command and write to pipe
-			dup2(pipefd[1], STDOUT_FILENO);
-			close(pipefd[0]);
-			close(pipefd[1]);
-			execute_command(cmd);
-		}
-		else
-		{
-			// Parent process: execute right command and read from pipe
-			if (fork() == 0)
-			{
-				dup2(pipefd[0], STDIN_FILENO);
-				close(pipefd[0]);
-				close(pipefd[1]);
-				execute_ast(node->right);
-			}
-			else
-			{
-				close(pipefd[0]);
-				close(pipefd[1]);
-				wait(NULL);
-				wait(NULL);
-			}
-		}
-	}
-}
-
-void	process_input(char *input, main_arg *arg)
+void	process_input(char *input, t_main_arg *arg)
 {
 	t_token_list	*token_list;
 	t_token			*tokens;
@@ -91,7 +32,6 @@ void	process_input(char *input, main_arg *arg)
 		(void)root;
 		parsing_tree(&token_list, &root);
 		print_tree(root, 10);
-		// execute_ast(root);
 		free_tree(root);
 		free(token_list);
 		free_token(tokens);

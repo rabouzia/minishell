@@ -6,13 +6,13 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:48:24 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/11 11:32:01 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:59:29 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_unset(const char *var, main_arg *arg)
+void	ft_unset(const char *var, t_main_arg *arg)
 {
 	t_env *env;
 	t_env *last;
