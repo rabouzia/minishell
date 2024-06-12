@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/11 20:25:19 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:42:50 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	process_input(char *input)
 	root = NULL;
 	if (input)
 	{
+		remove_outer_parentheses(&input);
 		tokenize(input, &tokens);
 		token_list = get_token_list(tokens);
 		print_token(tokens);

@@ -6,25 +6,12 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:49:26 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 16:02:22 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:22:18 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_control_character(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] < 32 || str[i] == 127)
-			return (0);
-		i++;
-	}
-	return (1);
-}
 void	print_token(t_token *head)
 {
 	if (!head)
@@ -34,7 +21,6 @@ void	print_token(t_token *head)
 	}
 	while (head)
 	{
-		printf("check : %d\n", is_control_character(head->data));
 		printf("data : %s\n", head->data);
 		head = head->next;
 	}
@@ -47,21 +33,21 @@ static void	print_all(t_ast *node)
 
 	type = (int)node->type;
 	type_str = "";
-	if (type == 1)
+	if (type == LOGICAL)
 		type_str = "LOGICAL";
-	else if (type == 3)
+	else if (type == PIPE)
 		type_str = "PIPE";
-	else if (type == 5)
+	else if (type == REDIRECTION)
 		type_str = "REDIRECTION";
-	else if (type == 6)
+	else if (type == IO)
 		type_str = "IO";
-	else if (type == 20)
+	else if (type == CMD)
 		type_str = "CMD";
-	else if (type == 100)
+	else if (type == SUBSHELL)
 		type_str = "SUBSHELL";
-	else if (type == 0)
+	else if (type == PHRASE)
 		type_str = "PHRASE";
-	else if (type == 18)
+	else if (type == FILE_NAME)
 		type_str = "FILE_NAME";
 	if (node->data)
 		printf("data : %s, type : %s\n", node->data, type_str);

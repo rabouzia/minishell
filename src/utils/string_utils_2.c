@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:29:43 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 15:31:32 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:49:08 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,16 @@ char	*trim_first_last(char *str)
 		return (NULL);
 	ft_strlcpy(new_str, str + 1, len - 1);
 	return (new_str);
+}
+
+void	remove_outer_parentheses(char **str)
+{
+	int		len;
+
+	len = ft_strlen(*str);
+	if (len >= 2 && (*str)[0] == '(' && (*str)[len - 1] == ')')
+	{
+		ft_memmove(*str, *str + 1, len - 2);
+		(*str)[len -  2] = '\0';
+	}
 }
