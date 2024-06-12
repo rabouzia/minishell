@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:34:10 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 16:12:32 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:35:31 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ static void	init_info(t_info *info)
 	info->output_fd = -1;
 	info->tmp_fd = -1;
 }
+
+/*
+static void	process_phrase_nodes(t_ast *phrase_node, t_info *info)
+{
+
+}*/
 
 static void	categorize_tree(t_ast *node, t_info *info)
 {

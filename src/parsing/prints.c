@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 11:49:26 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 16:22:18 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:34:54 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static void	print_all(t_ast *node)
 		type_str = "PHRASE";
 	else if (type == FILE_NAME)
 		type_str = "FILE_NAME";
+	else if (type == ARGS)
+		type_str = "ARGS";
 	if (node->data)
 		printf("data : %s, type : %s\n", node->data, type_str);
 	else

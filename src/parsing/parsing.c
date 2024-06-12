@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 16:02:24 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:35:11 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static bool	parse_cmd(t_token **token, t_ast **node)
 		{
 			printf("token cmd : %s\n", (*token)->data);
 			arg_tokens = arg_parsing(token);
-			cmd_node->right = new_node(arg_tokens, CMD);
+			cmd_node->right = new_node(arg_tokens, ARGS);
 			free(arg_tokens);
 		}
 		*node = cmd_node;
@@ -72,60 +72,6 @@ static bool	parse_subshell(t_token **token, t_ast **node)
 	}
 	return (true);
 }
-
-/*
-static bool	parse_subshell(t_token **token, t_ast **node)
-{
-	t_token	*stack;
-	t_token	*top;
-	t_token	*tokens_in_subshell;
-	t_ast	*subshell_node;
-	char	*data_in_subshell;
-
-	printf("subshell >> \n");
-	tokens_in_subshell = NULL;
-	stack = NULL;
-	top = NULL;
-	if (*token && (*token)->type == SUBSHELL)
-	{
-		while (*token)
-		{
-			if (ft_strncmp((*token)->data, "(", 1) == 0)
-			{
-				subshell_node = new_node("(", SUBSHELL);
-				if (!subshell_node)
-					return (false);
-				stack = push(stack, (*token)->data);
-			}
-			else if (ft_strncmp((*token)->data, ")", 1) == 0)
-			{
-				top = pop(&stack);
-				if (top == NULL)
-					return (false);
-				if (top->next == NULL)
-				{
-					data_in_subshell = trim_first_last((*token)->data);
-					tokenize(data_in_subshell, &tokens_in_subshell);
-					printf("data_in_subshell : %s\n", data_in_subshell);
-					parse_logical(&tokens_in_subshell, node);
-					free_token(tokens_in_subshell);
-					free(data_in_subshell);
-				}
-			}
-			else
-				stack = push(stack, (*token)->data);
-			if (stack)
-				cur = stack;
-			*token = (*token)->next;
-		}
-		if (stack)
-			return (false);
-		subshell_node->left = *node;
-		*node = attach_to_tree(*node, new_node(")", SUBSHELL), LEFT);
-		*node = subshell_node;
-	}
-	return (true);
-}*/
 
 static bool	parse_io_redirection(t_token **token, t_ast **node)
 {
@@ -275,7 +221,6 @@ static bool	parsor(t_token **token, t_ast **root, int start)
 	else if (start == PIPE)
 		return (parse_pipe(token, root));
 	return (parse_phrase(token, root));
-	// 임시로 해놓은것 수정 필요
 }
 
 bool	parsing_tree(t_token_list **tokens, t_ast **root)

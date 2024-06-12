@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 16:43:10 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:34:59 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef enum type_logical
 typedef enum type
 {
 	SUBSHELL = 100,
+	ARGS = 22,
 	CMD = 20,
 	FILE_NAME = 18,
 	IO = 6,
