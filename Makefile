@@ -6,7 +6,7 @@
 #    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/06/11 20:37:14 by junsan           ###   ########.fr        #
+#    Updated: 2024/06/12 15:31:20 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ PARSING	= process_input.c tokenize.c parsing.c prints.c get_type.c arg_parse.c 	
 		/utils/parsing_utils.c /utils/tokenize_utils.c /utils/tokenize_utils_2.c\
 		/utils/get_file_list_utils.c /utils/redir_handler.c 					\
 		/utils/type_functions.c /utils/subshell_utils.c
-UTILS	= string_utils.c
+UTILS	= string_utils.c string_utils_2.c
 SIGNAL	= handler_signal.c
 EXECUTE = execute.c
 #BUILT_IN = built_in.c file_dir_operations.c	\

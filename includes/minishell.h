@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/11 20:24:37 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:02:33 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,9 @@ char			*remove_nested_subshell(t_token **token);
 // string_utils.c
 bool			ft_isspace(char c);
 bool			is_all_whitespace(const char *str);
+void    		remove_control_characters(char *str);
+
+// string_utils_2.c
 char			*trim_first_last(char *str);
 char			*trim_whitespace(const char *str);
 

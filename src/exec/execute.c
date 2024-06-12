@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:34:10 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/11 12:04:58 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:02:31 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ static void	categorize_tree(t_ast *node, t_info *info)
 		}
 	}
 	/*
-	else if (node->type == PHRASE)
+	else if (node->type == PHRASE && info->status == SUCESS)
 	{
+
 	}
 	else if (node->type == SUBSHELL)
 	{

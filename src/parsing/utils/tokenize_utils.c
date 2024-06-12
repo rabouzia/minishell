@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:41:06 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/11 19:44:44 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:02:17 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static t_token	*new_token(const char *start, size_t len)
 	new_node = (t_token *)malloc(sizeof(t_token));
 	if (!new_node)
 		return (NULL);
+	remove_control_characters(data);
 	new_node->data = ft_strdup(data);
 	new_node->next = NULL;
 	new_node->type = get_type(new_node->data);

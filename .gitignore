@@ -53,6 +53,11 @@ dkms.conf
 
 # vim
 *.swp
+.*.swp
+
+# Emacs
+*.un~
+.*.un~
 
 # minishell
 minishell
