@@ -6,24 +6,11 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:47:35 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 17:59:53 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:29:13 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*trim_first_last(char *str)
-{
-	size_t	len;
-	char	*new_str;
-
-	len = ft_strlen(str);
-	new_str = (char *)malloc(sizeof(char) * (len - 1));
-	if (new_str == NULL)
-		return (NULL);
-	ft_strlcpy(new_str, str + 1, len - 1);
-	return (new_str);
-}
 
 bool	ft_isspace(char c)
 {
@@ -42,4 +29,25 @@ bool	is_all_whitespace(const char *str)
 		str++;
 	}
 	return (true);
+}
+
+static int	is_control_character(char c)
+{
+	return (c < 32 || c == 127);
+}
+
+void	remove_control_characters(char *str)
+{
+	char *src;
+	char *dst;
+
+	src = str;
+	dst = str;
+	while (*src)
+	{
+		if (!is_control_character(*src))
+			*dst++ = *src;
+		src++;
+	}
+	*dst = '\0';
 }

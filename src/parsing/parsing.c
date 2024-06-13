@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/03 16:21:21 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:35:11 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static bool	parse_logical(t_token **token, t_ast **node);
+static bool	parse_pipe(t_token **token, t_ast **node);
 static bool	parse_phrase(t_token **token, t_ast **node);
 
 static bool	parse_cmd(t_token **token, t_ast **node)
@@ -33,7 +34,7 @@ static bool	parse_cmd(t_token **token, t_ast **node)
 		{
 			printf("token cmd : %s\n", (*token)->data);
 			arg_tokens = arg_parsing(token);
-			cmd_node->right = new_node(arg_tokens, CMD);
+			cmd_node->right = new_node(arg_tokens, ARGS);
 			free(arg_tokens);
 		}
 		*node = cmd_node;
@@ -57,18 +58,17 @@ static bool	parse_subshell(t_token **token, t_ast **node)
 		subshell_node = new_node("(", SUBSHELL);
 		if (!subshell_node)
 			return (false);
-		data_in_subshell = trim_first_last((*token)->data);
+		*token = (*token)->next;
+		data_in_subshell = ft_strdup((*token)->data);
 		tokenize(data_in_subshell, &tokens_in_subshell);
 		parse_logical(&tokens_in_subshell, node);
-		free_token(tokens_in_subshell);
 		free(data_in_subshell);
+		free_token(tokens_in_subshell);
 		subshell_node->left = *node;
-		*node = attach_to_tree(*node, new_node(")", SUBSHELL), LEFT);
+		*token = (*token)->next;
+		*node = attach_to_tree(*node, new_node((*token)->data, SUBSHELL), LEFT);
 		*token = (*token)->next;
 		*node = subshell_node;
-		//printf("node : ");
-		//print_tree(*node, 5);
-		//printf("---------------------------------\n");
 	}
 	return (true);
 }
@@ -221,7 +221,6 @@ static bool	parsor(t_token **token, t_ast **root, int start)
 	else if (start == PIPE)
 		return (parse_pipe(token, root));
 	return (parse_phrase(token, root));
-	// 임시로 해놓은것 수정 필요
 }
 
 bool	parsing_tree(t_token_list **tokens, t_ast **root)

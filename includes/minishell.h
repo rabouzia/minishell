@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/03 16:25:42 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:34:59 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,24 @@
 # define SUCCESS true
 # define FAIL false
 
+typedef enum type_dir
+{
+	IN_REDIR,
+	IN_HEREDOC,
+	OUT_REDIR,
+	OUT_APPEND,
+}	t_type_dir;
+
+typedef enum type_logical
+{
+	AND,
+	OR,
+}	t_type_logical;
+
 typedef enum type
 {
 	SUBSHELL = 100,
+	ARGS = 22,
 	CMD = 20,
 	FILE_NAME = 18,
 	IO = 6,
@@ -68,6 +83,17 @@ typedef enum built_in
 	EXIT,
 	NONE,
 }						t_built_in;
+
+typedef struct s_info
+{
+	bool	pipe_exists; // pipe exist or not
+	bool	pipe_used; // used pipe before
+	bool	status; // can proceed by logical
+	int		input_fd;
+	int		output_fd;
+	int		tmp_fd;
+	char	*remainder;
+}	t_info;
 
 typedef struct s_token
 {
@@ -125,10 +151,19 @@ t_token					*tokens_last(t_token *tokens);
 void					free_token(t_token *head);
 size_t					tokens_size(t_token *head);
 
+// subshell_utils.c
+char			*remove_nested_subshell(t_token **token);
+
 // string_utils.c
-bool					ft_isspace(char c);
-bool					is_all_whitespace(const char *str);
-char					*trim_first_last(char *str);
+bool			ft_isspace(char c);
+bool			is_all_whitespace(const char *str);
+void    		remove_control_characters(char *str);
+
+// string_utils_2.c
+char			*trim_first_last(char *str);
+char			*trim_whitespace(const char *str);
+void			remove_outer_parentheses(char **str);
+
 //  prints.c
 
 void			print_token(t_token *head);
@@ -206,9 +241,13 @@ void			free_file_list(t_file_list *file_list);
 const char		*get_path(const char *full_path);
 t_file_list		*get_file_list(const char *path);
 
+// execute.c
+void			execute(t_ast *root);
+
 // get_file_list_utils.c
 int				get_file_list_size(const char *path);
 DIR				*get_dir(const char *path, \
 				int file_count, t_file_list **file_list);
 t_file_list		*get_entry_list(t_file_list *file_list, DIR	*dir);
+
 #endif // MINISHELL_H
