@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 17:34:59 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/13 11:24:58 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,6 @@
 # define SUCCESS true
 # define FAIL false
 
-typedef enum type_dir
-{
-	IN_REDIR,
-	IN_HEREDOC,
-	OUT_REDIR,
-	OUT_APPEND,
-}	t_type_dir;
-
 typedef enum type_logical
 {
 	AND,
@@ -70,6 +62,12 @@ typedef enum type
 	PIPE = 3,
 	LOGICAL = 1,
 	PHRASE = 0,
+	IN_REDIR = 7,
+	IN_HEREDOC = 8,
+	IN_HERESTR = 9,
+	OUT_REDIR = 10,
+	OUT_APPEND = 11,
+	NOT_REDIR = 12,
 }	t_type;
 
 typedef enum built_in
@@ -132,24 +130,23 @@ typedef struct s_file_list
 }	t_file_list;
 
 // tokenize_utils.c
-t_token_list			*get_token_list(t_token *token);
+t_token_list	*get_token_list(t_token *token);
 
-void					add_token(t_token **head, const char *start,
-							size_t len);
+void			add_token(t_token **head, const char *start, size_t len);
 
 // init_minishell.c
-void					init_minishell(void);
+void			init_minishell(void);
 
 // process_input.c
-void					process_input(char *input);
+void			process_input(char *input);
 
 // tokenize.c
-void					tokenize(const char *input, t_token **tokens);
+void			tokenize(const char *input, t_token **tokens);
 
 // tokenize_utlls_2.c
-t_token					*tokens_last(t_token *tokens);
-void					free_token(t_token *head);
-size_t					tokens_size(t_token *head);
+t_token			*tokens_last(t_token *tokens);
+void			free_token(t_token *head);
+size_t			tokens_size(t_token *head);
 
 // subshell_utils.c
 char			*remove_nested_subshell(t_token **token);
@@ -157,7 +154,8 @@ char			*remove_nested_subshell(t_token **token);
 // string_utils.c
 bool			ft_isspace(char c);
 bool			is_all_whitespace(const char *str);
-void    		remove_control_characters(char *str);
+void			remove_control_characters(char *str);
+int				count_repeated_chars(const char *str, int c);
 
 // string_utils_2.c
 char			*trim_first_last(char *str);
@@ -165,17 +163,18 @@ char			*trim_whitespace(const char *str);
 void			remove_outer_parentheses(char **str);
 
 //  prints.c
-
 void			print_token(t_token *head);
-void			print_tree(t_ast *root, int depth);
 void			print_file_list(t_file_list *file_list);
+
+//	prints_2.c
+void			print_tree(t_ast *root, int depth);
 
 // parse_pratte.c
 // t_ast	*parse_expression(t_token **tokens, int min_bidning_power);
 // parsing_utils.c
-void					free_tree(t_ast *node);
-t_ast					*new_node(const char *data, t_type type);
-t_ast					*attach_to_tree(t_ast *root, t_ast *node, int side);
+void			free_tree(t_ast *node);
+t_ast			*new_node(const char *data, t_type type);
+t_ast			*attach_to_tree(t_ast *root, t_ast *node, int side);
 /*
 // handler_parsing.c
 void					handle_cmd_node(t_token *token, t_ast **cur);
@@ -187,18 +186,19 @@ void	handle_redirection_operator(\
 		t_token **token, t_ast **cur, t_cmd **root, bool *up_down_flag);
 */
 // get_type.c
-t_type					get_type(const char *data);
+t_type			get_type(const char *data);
+t_type			get_type_redir(const char *data);
 
 // type_functions.c
-bool					islogical_operator(const char *token);
-bool					ispipe_operator(const char *token);
-bool					issubshell_operator(const char *token);
-bool					isredirection_operator(const char *token);
-bool					isioredirection_operator(const char *token);
+bool			islogical_operator(const char *token);
+bool			ispipe_operator(const char *token);
+bool			issubshell_operator(const char *token);
+bool			isredirection_operator(const char *token);
+bool			isioredirection_operator(const char *token);
 
 // parsing.c
-bool					parsing_tree(t_token_list **tokens, t_ast **root);
-t_ast					*new_tree(t_token *token);
+bool			parsing_tree(t_token_list **tokens, t_ast **root);
+t_ast			*new_tree(t_token *token);
 
 // type_functions.c
 bool			is_logical_operator(const char *token);
@@ -207,17 +207,14 @@ bool			is_subshell_operator(const char *token);
 bool			is_redirection_operator(const char *token);
 bool			is_file_name(const char *token);
 
-// get_type.c
-t_type			ge_type(const char *data);
-
 // file_dir_operations.c
-int						change_dir(const char *path);
-bool					get_cur_dir(void);
-bool					file_exist(const char *filename);
-void					list_dir(const char *dirname);
+int				change_dir(const char *path);
+bool			get_cur_dir(void);
+bool			file_exist(const char *filename);
+void			list_dir(const char *dirname);
 
 // handler_signal.c
-void					set_signal_handler(void);
+void			set_signal_handler(void);
 
 /*
 // built_in.c
@@ -230,11 +227,12 @@ int						handler_builtin(const char *cmd);
 bool			is_flag(const char *arg);
 char			*arg_parsing(t_token **token);
 
-// redir_handler.c
+// type_redir_functions.c
 bool			is_input_redirection(const char *data);
 bool			is_output_redirection(const char *data);
 bool			is_append_redirection(const char *data);
 bool			is_heredoc_redirection(const char *data);
+bool			is_herestr_redirection(const char *data);
 
 // get_file_list.c
 void			free_file_list(t_file_list *file_list);

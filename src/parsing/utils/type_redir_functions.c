@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_handler.c                                    :+:      :+:    :+:   */
+/*   type_redir_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 18:41:02 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 20:19:17 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/13 11:18:16 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,50 @@
 
 bool	is_input_redirection(const char *data)
 {
+	int	len;
+
+	len = ft_strlen(data);
+	if (len != 1)
+		return (false);
 	return (ft_strncmp(data, "<", 1) == 0);
 }
 
 bool	is_output_redirection(const char *data)
 {
-	return (ft_strncmp(data, ">", 1) == 0 || ft_strncmp(data, ">>", 2) == 0);
+	int	len;
+
+	len = ft_strlen(data);
+	if (len != 1)
+		return (false);
+	return (ft_strncmp(data, ">", 1) == 0);
 }
 
 bool	is_append_redirection(const char *data)
 {
+	int	len;
+
+	len = ft_strlen(data);
+	if (len != 2)
+		return (false);
 	return (ft_strncmp(data, ">>", 2) == 0);
 }
 
 bool	is_heredoc_redirection(const char *data)
 {
+	int	len;
+
+	len = ft_strlen(data);
+	if (len != 2)
+		return (false);
 	return (ft_strncmp(data, "<<", 2) == 0);
+}
+
+bool	is_herestr_redirection(const char *data)
+{
+	int	len;
+
+	len = ft_strlen(data);
+	if (len != 3)
+		return (false);
+	return (ft_strncmp(data, "<<<", 3) == 0);
 }

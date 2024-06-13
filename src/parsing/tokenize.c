@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:39:22 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 17:12:46 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/13 10:21:02 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static void	handle_operators_and_spaces(\
 	const char **input, const char **start, t_token **list)
 {
 	const char	*delims;
+	int			cnt;
 
 	delims = DELIMS;
 	if (ft_isspace(**input) || ft_strchr(delims, **input))
@@ -74,15 +75,24 @@ static void	handle_operators_and_spaces(\
 			add_token(list, *start, *input - *start);
 		if (ft_strchr(delims, **input))
 		{
-			if (*((*input) + 1) == **input)
+			cnt = count_repeated_chars(*input, **input);
+			if (cnt < 3)
 			{
-				add_token(list, *input, 2);
-				(*input)++;
+				if (*((*input) + 1) == **input)
+				{
+					add_token(list, *input, 2);
+					(*input)++;
+				}
+				else
+				{
+					if (**input != '&')
+						add_token(list, *input, 1);
+				}
 			}
 			else
 			{
-				if (**input != '&')
-					add_token(list, *input, 1);
+				add_token(list, *input, cnt);
+				*input += cnt - 1;
 			}
 		}
 		*start = *input + 1;

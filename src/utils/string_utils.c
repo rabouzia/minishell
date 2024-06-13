@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:47:35 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 16:29:13 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/13 11:21:49 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static int	is_control_character(char c)
 
 void	remove_control_characters(char *str)
 {
-	char *src;
-	char *dst;
+	char	*src;
+	char	*dst;
 
 	src = str;
 	dst = str;
@@ -50,4 +50,20 @@ void	remove_control_characters(char *str)
 		src++;
 	}
 	*dst = '\0';
+}
+
+int	count_repeated_chars(const char *str, int c)
+{
+	int	cnt;
+
+	cnt = 0;
+	while (*str)
+	{
+		if (*str == c)
+			cnt++;
+		else
+			break ;
+		str++;
+	}
+	return (cnt);
 }

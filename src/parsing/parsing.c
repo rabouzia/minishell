@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 17:35:11 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/13 11:07:14 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static bool	parse_io_redirection(t_token **token, t_ast **node)
 		io_redirection_node = new_node(NULL, IO);
 		if (!io_redirection_node)
 			return (false);
-		left = new_node((*token)->data, (*token)->type);
+		left = new_node((*token)->data, get_type_redir((*token)->data));
 		*token = (*token)->next;
 		if (*token && (*token)->type == CMD)
 		{
@@ -97,8 +97,6 @@ static bool	parse_io_redirection(t_token **token, t_ast **node)
 		io_redirection_node->left = left;
 		io_redirection_node->right = right;
 		*node = io_redirection_node;
-		//parse_cmd(token, node);
-		//print_tree(io_redirection_node, 10);
 	}
 	return (true);
 }
