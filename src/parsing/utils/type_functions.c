@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:29:28 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 10:56:04 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:07:51 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ bool	is_redirection_operator(const char *token)
 			ft_strncmp(token, ">", 1) == 0 || \
 			ft_strncmp(token, ">>", 2) == 0);
 	}
-	else
-		return (true);
+	else if (cnt == 3)
+		return (ft_strncmp(token, "<<<", 3) == 0);
 	return (false);
 }
 

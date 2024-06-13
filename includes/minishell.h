@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 11:24:58 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:58:16 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,20 @@ void			process_input(char *input);
 // tokenize.c
 void			tokenize(const char *input, t_token **tokens);
 
+// handle_quotes.c
+void			handle_quotes(\
+		const char **input, char *in_quote, const char **start, t_token **list);
+
+// handle_subshell.c
+void			handle_open_subshell(\
+		const char **input, int *depth, const char **start, t_token **list);
+void			handle_close_subshell(\
+		const char **input, int *depth, const char **start, t_token **list);
+
+// handle_operators_and_spaces.c
+void			handle_operators_and_spaces(\
+		const char **input, const char **start, t_token **list);
+
 // tokenize_utlls_2.c
 t_token			*tokens_last(t_token *tokens);
 void			free_token(t_token *head);
@@ -169,22 +183,11 @@ void			print_file_list(t_file_list *file_list);
 //	prints_2.c
 void			print_tree(t_ast *root, int depth);
 
-// parse_pratte.c
-// t_ast	*parse_expression(t_token **tokens, int min_bidning_power);
 // parsing_utils.c
 void			free_tree(t_ast *node);
 t_ast			*new_node(const char *data, t_type type);
 t_ast			*attach_to_tree(t_ast *root, t_ast *node, int side);
-/*
-// handler_parsing.c
-void					handle_cmd_node(t_token *token, t_ast **cur);
-void	handle_logical_operator(\
-		t_token **token, t_ast **cur, t_cmd **root, bool *up_down_flag);
-void	handle_pipe_operator(\
-		t_token **token, t_ast **cur, t_cmd **root, bool *up_down_flag);
-void	handle_redirection_operator(\
-		t_token **token, t_ast **cur, t_cmd **root, bool *up_down_flag);
-*/
+
 // get_type.c
 t_type			get_type(const char *data);
 t_type			get_type_redir(const char *data);
@@ -198,7 +201,22 @@ bool			isioredirection_operator(const char *token);
 
 // parsing.c
 bool			parsing_tree(t_token_list **tokens, t_ast **root);
-t_ast			*new_tree(t_token *token);
+
+// parse_logical.c
+bool			parse_logical(t_token **token, t_ast **node);
+
+// parse_pipe.c
+bool			parse_pipe(t_token **token, t_ast **node);
+
+// parse_phrase.c
+bool			parse_phrase(t_token **token, t_ast **node);
+
+// parse_redirection.c
+bool			parse_redirection(t_token **token, t_ast **node);
+bool			parse_io_redirection(t_token **token, t_ast **node);
+
+// parse_subshell.c
+bool			parse_subshell(t_token **token, t_ast **node);
 
 // type_functions.c
 bool			is_logical_operator(const char *token);
@@ -216,11 +234,6 @@ void			list_dir(const char *dirname);
 // handler_signal.c
 void			set_signal_handler(void);
 
-/*
-// built_in.c
-void					init_builtin(int (*func[])(char **, t_cmd_list *));
-int						handler_builtin(const char *cmd);
-*/
 // handler_signal.c
 
 // arg_parse.c
