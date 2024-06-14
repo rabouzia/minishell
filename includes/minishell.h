@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 19:58:16 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/15 15:41:32 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 # define RIGHT 1
 
 # define SUCCESS true
-# define FAIL false
+# define FAILURE false
 
 typedef enum type_logical
 {
@@ -87,6 +87,7 @@ typedef struct s_info
 	bool	pipe_exists; // pipe exist or not
 	bool	pipe_used; // used pipe before
 	bool	status; // can proceed by logical
+	bool	in_subshell;
 	int		input_fd;
 	int		output_fd;
 	int		tmp_fd;

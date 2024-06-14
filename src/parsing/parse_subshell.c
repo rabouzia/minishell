@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 19:26:43 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 19:26:55 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/15 17:55:31 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ bool	parse_subshell(t_token **token, t_ast **node)
 	char	*data_in_subshell;
 
 	printf("subshell >> \n");
+	//printf("token data in subshell : %s\n", (*token)->data);
 	tokens_in_subshell = NULL;
 	if (*token && (*token)->type == SUBSHELL)
 	{
@@ -32,9 +33,8 @@ bool	parse_subshell(t_token **token, t_ast **node)
 		free(data_in_subshell);
 		free_token(tokens_in_subshell);
 		subshell_node->left = *node;
-		*token = (*token)->next;
-		*node = attach_to_tree(*node, new_node((*token)->data, SUBSHELL), LEFT);
-		*token = (*token)->next;
+		*token = (*token)->next->next;
+		//*node = attach_to_tree(*node, new_node((*token)->data, SUBSHELL), RIGHT);
 		*node = subshell_node;
 	}
 	return (true);

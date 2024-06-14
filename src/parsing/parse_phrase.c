@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 19:24:59 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 19:34:24 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/15 18:12:40 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static bool	parse_cmd(t_token **token, t_ast **node)
 	char	*arg_tokens;
 
 	printf("cmd >> \n");
+	printf("token cmd : %s\n", (*token)->data);
 	if (*token && (*token)->type == CMD)
 	{
 		arg_tokens = NULL;
@@ -28,7 +29,7 @@ static bool	parse_cmd(t_token **token, t_ast **node)
 		*token = (*token)->next;
 		if (*token && (*token)->type == CMD)
 		{
-			printf("token cmd : %s\n", (*token)->data);
+			//printf("token cmd : %s\n", (*token)->data);
 			arg_tokens = arg_parsing(token);
 			cmd_node->right = new_node(arg_tokens, ARGS);
 			free(arg_tokens);
@@ -49,16 +50,19 @@ static void	parse_redirection_part(\
 
 	left = NULL;
 	right = NULL;
-	while (*token && (*token)->type == REDIRECTION && \
-	(is_input_redirection((*token)->data) || \
-	is_heredoc_redirection((*token)->data) || \
-	is_herestr_redirection((*token)->data)))
+	if (*token && (*token)->type == REDIRECTION)
 	{
 		parse_redirection(token, &left);
 		(*phrase_node)->left = left;
 		if (*token && (*token)->type == CMD)
 		{
 			parse_cmd(token, &right);
+			(*phrase_node)->right = right;
+			parse_io_redirection(token, &(left->right));
+		}
+		else if (*token && (*token)->type == SUBSHELL)
+		{
+			parse_subshell(token, &right);
 			(*phrase_node)->right = right;
 			parse_io_redirection(token, &(left->right));
 		}

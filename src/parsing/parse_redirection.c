@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 19:25:32 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 19:35:01 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/15 17:26:40 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	parse_io_redirection(t_token **token, t_ast **node)
 		*token = (*token)->next;
 		if (*token && (*token)->type == CMD)
 		{
-			right = new_node((*token)->data, (*token)->type);
+			right = new_node((*token)->data, ARGS);
 			*token = (*token)->next;
 		}
 		io_redirection_node->left = *node;
@@ -46,15 +46,15 @@ bool	parse_redirection(t_token **token, t_ast **node)
 
 	printf("redirection >> \n");
 	printf("token data : %s\n", (*token)->data);
-	left = NULL;
 	redirection_node = new_node(NULL, REDIRECTION);
 	if (!redirection_node)
 		return (false);
-	if (*token && (*token)->type == REDIRECTION)
+	left = NULL;
+	while (*token && (*token)->type == REDIRECTION)
 	{
 		parse_io_redirection(token, &left);
-		redirection_node->left = left;
-		*node = redirection_node;
+		left = attach_to_tree(redirection_node, left, LEFT);
 	}
+	*node = redirection_node;
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:20:15 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/11 10:37:44 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/15 14:12:56 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,4 @@ int	open_file_with_mode(char *file, int mode)
 	else
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	return (fd);
-}
-
-bool	get_direction(const chat *data, t_info *info)
-{
-	if (ft_strncmp(data, "<", 2) == 0)
-
-	else if (ft_strncmp(data, "<<", 3) == 0)
-	else if (ft_strncmp(data, ">", 2) == 0)
-	else if (ft_strncmp(data, ">>", 3) == 0)
-	else
-		return (FAILURE);
-	return (SUCCESS);
 }
