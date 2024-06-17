@@ -6,12 +6,11 @@
 #    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/06/17 14:13:58 by junsan           ###   ########.fr        #
+#    Updated: 2024/06/17 16:46:41 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 	= minishell
-BONUS 	= minishell_bonus
 OS		= $(shell uname)
 
 CC		= cc
@@ -41,7 +40,7 @@ PARSING	= process_input.c parsing.c arg_parse.c parse_subshell.c					\
 		/utils/prints.c /utils/prints_2.c
 UTILS	= string_utils.c string_utils_2.c
 SIGNAL	= handler_signal.c
-EXECUTE = execute.c redir.c get_file_list.c 										\
+EXECUTE = execute.c redir.c get_file_list.c execute_process.c						\
 		/utils/redir_utils.c /utils/execute_utils.c /utils/get_file_list_utils.c	\
 		/utils/stdio_redirector.c
 #BUILT_IN = built_in.c file_dir_operations.c	\
@@ -78,12 +77,12 @@ $(LIBFT):
 all: $(NAME)
 
 clean:
-	rm -rf $(OBJ_DIR) $(BONUS_OBJ_DIR)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@make -C libft/ fclean
-	rm -f $(NAME) $(BONUS)
+	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

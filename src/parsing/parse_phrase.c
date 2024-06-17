@@ -6,12 +6,14 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 19:24:59 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/15 18:12:40 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/17 16:21:38 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// what to do : cmd(left) + flag(right)
+// or echo "something"
 static bool	parse_cmd(t_token **token, t_ast **node)
 {
 	t_ast	*cmd_node;
@@ -29,19 +31,16 @@ static bool	parse_cmd(t_token **token, t_ast **node)
 		*token = (*token)->next;
 		if (*token && (*token)->type == CMD)
 		{
-			//printf("token cmd : %s\n", (*token)->data);
 			arg_tokens = arg_parsing(token);
 			cmd_node->right = new_node(arg_tokens, ARGS);
 			free(arg_tokens);
 		}
 		*node = cmd_node;
-		//print_tree(*node, 10);
-		// what to do : cmd(left) + flag(right)
-		// or echo "something"
 	}
 	return (true);
 }
 
+// case : [<in1 cmd1 in2>]
 static void	parse_redirection_part(\
 			t_token **token, t_ast **phrase_node, t_ast **node)
 {
@@ -67,9 +66,10 @@ static void	parse_redirection_part(\
 			parse_io_redirection(token, &(left->right));
 		}
 		*node = *phrase_node;
-	} // case : [<in1 cmd1 in2>]
+	}
 }
 
+// cose : [cmd1 < in2] or [cmd1 > in2]
 static void	parse_cmd_part(t_token **token, t_ast **phrase_node, t_ast **node)
 {
 	t_ast	*left;
@@ -83,7 +83,6 @@ static void	parse_cmd_part(t_token **token, t_ast **phrase_node, t_ast **node)
 	}
 	(*phrase_node)->right = *node;
 	*node = *phrase_node;
-	// cose : [cmd1 < in2] or [cmd1 > in2]
 }
 
 bool	parse_phrase(t_token **token, t_ast **node)

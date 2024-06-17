@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:07:48 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/11 19:45:58 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/17 16:49:49 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,26 @@ static int	calculate_len(t_token *cur)
 	return (len);
 }
 
-static void	trim_trailing_space(char *str)
+static void	process_token_list(\
+	t_token **token, char *result, int *depth, int *result_idx)
 {
 	int	len;
 
-	len = ft_strlen(str);
-	if (len > 0 && str[len - 1] == ' ')
-		str[len - 1] = '\0';
+	while (*token)
+	{
+		if (process_parentheses(token, depth))
+			continue ;
+		if (*depth >= 1 && (*token)->data[0] != '(' && (*token)->data[0] != ')')
+		{
+			len = ft_strlen((*token)->data);
+			ft_strlcpy(result + *result_idx, (*token)->data, len + 1);
+			*result_idx += len;
+			result[(*result_idx)++] = ' ';
+		}
+		if (*depth == 0)
+			break ;
+		*token = (*token)->next;
+	}
 }
 
 char	*remove_nested_subshell(t_token **token)
@@ -83,8 +96,8 @@ char	*remove_nested_subshell(t_token **token)
 	t_token	*cur;
 	char	*result;
 	int		depth;
-	int		len;
 	int		result_idx;
+	int		len;
 
 	cur = *token;
 	len = calculate_len(cur);
@@ -93,21 +106,9 @@ char	*remove_nested_subshell(t_token **token)
 		return (NULL);
 	depth = 0;
 	result_idx = 0;
-	while (*token)
-	{
-		if (process_parentheses(token, &depth))
-			continue ;
-		if (depth >= 1 && (*token)->data[0] != '(' && (*token)->data[0] != ')')
-		{
-			len = ft_strlen((*token)->data);
-			ft_strlcpy(result + result_idx, (*token)->data, len);
-			result_idx += len;
-			result[result_idx++] = ' ';
-		}
-		if (depth == 0)
-			break ;
-		*token = (*token)->next;
-	}
-	trim_trailing_space(result);
+	process_token_list(token, result, &depth, &result_idx);
+	len = ft_strlen(result);
+	if (len > 0 && result[len - 1] == ' ')
+		result[len - 1] = '\0';
 	return (result);
 }
