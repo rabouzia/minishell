@@ -1,56 +1,62 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prints.c                                           :+:      :+:    :+:   */
+/*   prints_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/26 11:49:26 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 17:34:54 by junsan           ###   ########.fr       */
+/*   Created: 2024/06/13 11:22:54 by junsan            #+#    #+#             */
+/*   Updated: 2024/06/13 19:29:41 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_token(t_token *head)
+static const char	*get_type_str_redir(int type)
 {
-	if (!head)
-	{
-		printf("empty head\n");
-		return ;
-	}
-	while (head)
-	{
-		printf("data : %s\n", head->data);
-		head = head->next;
-	}
+	if (type == IN_REDIR)
+		return ("IN_REDIR");
+	else if (type == IN_HEREDOC)
+		return ("IN_HEREDOC");
+	else if (type == IN_HERESTR)
+		return ("IN_HERESTR");
+	else if (type == OUT_REDIR)
+		return ("OUT_REDIR");
+	else if (type == OUT_APPEND)
+		return ("OUT_APPEND");
+	else if (type == NOT_REDIR)
+		return ("NOT_REDIR");
+	return ("UNKNOWN");
+}
+
+static const char	*get_type_str(int type)
+{
+	if (type == LOGICAL)
+		return ("LOGICAL");
+	else if (type == PIPE)
+		return ("PIPE");
+	else if (type == REDIRECTION)
+		return ("REDIRECTION");
+	else if (type == IO)
+		return ("IO");
+	else if (type == CMD)
+		return ("CMD");
+	else if (type == SUBSHELL)
+		return ("SUBSHELL");
+	else if (type == PHRASE)
+		return ("PHRASE");
+	else if (type == FILE_NAME)
+		return ("FILE_NAME");
+	else if (type == ARGS)
+		return ("ARGS");
+	return (get_type_str_redir(type));
 }
 
 static void	print_all(t_ast *node)
 {
 	const char	*type_str;
-	int			type;
 
-	type = (int)node->type;
-	type_str = "";
-	if (type == LOGICAL)
-		type_str = "LOGICAL";
-	else if (type == PIPE)
-		type_str = "PIPE";
-	else if (type == REDIRECTION)
-		type_str = "REDIRECTION";
-	else if (type == IO)
-		type_str = "IO";
-	else if (type == CMD)
-		type_str = "CMD";
-	else if (type == SUBSHELL)
-		type_str = "SUBSHELL";
-	else if (type == PHRASE)
-		type_str = "PHRASE";
-	else if (type == FILE_NAME)
-		type_str = "FILE_NAME";
-	else if (type == ARGS)
-		type_str = "ARGS";
+	type_str = get_type_str((int)node->type);
 	if (node->data)
 		printf("data : %s, type : %s\n", node->data, type_str);
 	else
@@ -83,13 +89,4 @@ void	print_tree(t_ast *root, int depth)
 	if (!root)
 		return ;
 	print_tree_util(root, 0, depth);
-}
-
-void	print_file_list(t_file_list *file_list)
-{
-	int	i;
-
-	i = -1;
-	while (++i < (int)file_list->count)
-		printf("file_list %d.name :  %s\n", i, file_list->names[i]);
 }

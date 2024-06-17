@@ -6,38 +6,13 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:29 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/01 11:16:02 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/17 10:20:27 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_file_list_size(const char *path)
-{
-	struct dirent	*entry;
-	DIR				*dir;
-	int				file_count;
-
-	file_count = 0;
-	dir = opendir(path);
-	if (dir == NULL)
-	{
-		perror("opendir");
-		return (-1);
-	}
-	entry = readdir(dir);
-	while (entry)
-	{
-		if (ft_strncmp(entry->d_name, ".", 1) != 0 && \
-			ft_strncmp(entry->d_name, "..", 2) != 0)
-			file_count++;
-		entry = readdir(dir);
-	}
-	closedir(dir);
-	return (file_count);
-}
-
-t_file_list	*get_entry_list(t_file_list *file_list, DIR	*dir)
+t_file_list	*get_entry_list(t_file_list *file_list, DIR *dir)
 {
 	struct dirent	*entry;
 	int				index;
@@ -61,6 +36,7 @@ t_file_list	*get_entry_list(t_file_list *file_list, DIR	*dir)
 		}
 		entry = readdir(dir);
 	}
+	file_list->count = index + 1;
 	closedir(dir);
 	return (file_list);
 }

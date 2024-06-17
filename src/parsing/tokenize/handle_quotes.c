@@ -1,38 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_input.c                                    :+:      :+:    :+:   */
+/*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 15:34:20 by junsan           ###   ########.fr       */
+/*   Created: 2024/06/13 19:44:46 by junsan            #+#    #+#             */
+/*   Updated: 2024/06/13 19:44:58 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	process_input(char *input)
+void	handle_quotes(\
+	const char **input, char *in_quote, const char **start, t_token **list)
 {
-	t_token_list	*token_list;
-	t_token			*tokens;
-	t_ast			*root;
-
-	tokens = NULL;
-	root = NULL;
-	if (input)
+	if (*in_quote)
 	{
-		remove_outer_parentheses(&input);
-		tokenize(input, &tokens);
-		token_list = get_token_list(tokens);
-		print_token(tokens);
-		//(void)root;
-		parsing_tree(&token_list, &root);
-		print_tree(root, 10);
-		execute(root);
-		free_tree(root);
-		free(token_list);
-		free_token(tokens);
-		free(input);
+		if (**input == *in_quote)
+		{
+			add_token(list, *start, *input - *start + 1);
+			*in_quote = 0;
+			*start = *input + 1;
+		}
+	}
+	else
+	{
+		if (**input == '"' || **input == '\'')
+		{
+			if (*input > *start)
+				add_token(list, *start, *input - *start);
+			*in_quote = **input;
+			*start = *input;
+		}
 	}
 }
