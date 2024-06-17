@@ -6,7 +6,7 @@
 #    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/06/13 19:58:28 by junsan           ###   ########.fr        #
+#    Updated: 2024/06/17 14:13:58 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,18 +31,19 @@ OBJ_DIR = obj
 
 SRC 	= minishell.c
 INIT	= init_minishell.c
-PARSING	= process_input.c parsing.c arg_parse.c get_file_list.c						\
+PARSING	= process_input.c parsing.c arg_parse.c parse_subshell.c					\
 		parse_logical.c parse_pipe.c parse_phrase.c parse_redirection.c				\
-		parse_subshell.c 															\
 		/tokenize/tokenize.c /tokenize/handler_operators_and_spaces.c				\
 		/tokenize/handle_quotes.c /tokenize/handle_subshell.c						\
 		/utils/parsing_utils.c /utils/tokenize_utils.c /utils/tokenize_utils_2.c	\
-		/utils/get_file_list_utils.c /utils/type_redir_functions.c 					\
+		/utils/type_redir_functions.c 												\
 		/utils/type_functions.c /utils/subshell_utils.c /utils/get_type.c 			\
 		/utils/prints.c /utils/prints_2.c
 UTILS	= string_utils.c string_utils_2.c
 SIGNAL	= handler_signal.c
-EXECUTE = execute.c
+EXECUTE = execute.c redir.c get_file_list.c 										\
+		/utils/redir_utils.c /utils/execute_utils.c /utils/get_file_list_utils.c	\
+		/utils/stdio_redirector.c
 #BUILT_IN = built_in.c file_dir_operations.c	\
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))

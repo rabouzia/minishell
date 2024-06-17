@@ -6,11 +6,58 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:17:41 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/01 11:15:20 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/17 10:19:26 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_if_dir(const char *path)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) != 0)
+	{
+		perror("stat");
+		fd_log_error("Command not found", NULL, (char *)path);
+		return (-1);
+	}
+	if (S_ISDIR(path_stat.st_mode))
+	{
+		fd_log_error((char *)path, NULL, "is a directory");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+static int	get_file_list_size(const char *path)
+{
+	struct dirent	*entry;
+	DIR				*dir;
+	int				file_count;
+	int				dir_check;
+
+	dir_check = check_if_dir(path);
+	if (dir_check != SUCCESS)
+		return (dir_check);
+	file_count = 0;
+	dir = opendir(path);
+	if (dir == NULL)
+	{
+		perror("opendir");
+		return (-1);
+	}
+	entry = readdir(dir);
+	while (entry)
+	{
+		if (ft_strncmp(entry->d_name, ".", 1) != 0 && \
+			ft_strncmp(entry->d_name, "..", 2) != 0)
+			file_count++;
+		entry = readdir(dir);
+	}
+	closedir(dir);
+	return (file_count);
+}
 
 void	free_file_list(t_file_list *file_list)
 {
@@ -59,14 +106,16 @@ t_file_list	*get_file_list(const char *path)
 		return (NULL);
 	}
 	file_count = get_file_list_size(path);
-	if (file_count == 0)
+	if (file_count == FAILURE)
 	{
-		file_list->names = NULL;
-		file_list->count = 0;
-		return (file_list);
+		free(file_list);
+		return ((t_file_list *)(intptr_t)IS_DIRECTORY);
 	}
 	else if (file_count < 0)
-		return (NULL);
+	{
+		free(file_list);
+		return ((t_file_list *)(intptr_t)CMD_NOT_FOUND);
+	}
 	dir = get_dir(path, file_count, &file_list);
 	return (get_entry_list(file_list, dir));
 }

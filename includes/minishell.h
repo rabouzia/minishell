@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/15 15:41:32 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/17 14:29:00 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,20 @@
 # define HISTSIZE 500
 # define DELIMS "|&<>"
 # define ASCII_ART_PATH "assets/ascii_art_doh"
+# define HEREDOC_TMP "heredoc_tmp"
 
 # define LEFT 0
 # define RIGHT 1
 
 # define SUCCESS true
 # define FAILURE false
+
+# define IS_DIRECTORY 126
+# define CMD_NOT_FOUND 127
+
+# define READ 0
+# define WRITE 1
+# define APPEND 2
 
 typedef enum type_logical
 {
@@ -88,10 +96,11 @@ typedef struct s_info
 	bool	pipe_used; // used pipe before
 	bool	status; // can proceed by logical
 	bool	in_subshell;
-	int		input_fd;
-	int		output_fd;
+	int		stdin_fd;
+	int		stdout_fd;
+	int		origin_stdin_fd;
+	int		origin_stdout_fd;
 	int		tmp_fd;
-	char	*remainder;
 }	t_info;
 
 typedef struct s_token
@@ -248,18 +257,34 @@ bool			is_append_redirection(const char *data);
 bool			is_heredoc_redirection(const char *data);
 bool			is_herestr_redirection(const char *data);
 
+// execute.c
+void			execute(t_ast *root);
+
+// execute_utils.c
+void			init_info(t_info *info);
+void			clear_info(t_info *info);
+
+// redir.c
+int				handle_io_redirection(t_ast *node, t_info *info);
+
+// redir_utils.c
+int				fd_log_error(char *cmd, char *arg, char *error);
+int				here_doc(int infile, char *limiter);
+int				open_file_with_mode(char *file, int mode);
+void			cleanup_tmp_file(void);
+
 // get_file_list.c
 void			free_file_list(t_file_list *file_list);
 const char		*get_path(const char *full_path);
 t_file_list		*get_file_list(const char *path);
 
-// execute.c
-void			execute(t_ast *root);
-
 // get_file_list_utils.c
-int				get_file_list_size(const char *path);
 DIR				*get_dir(const char *path, \
 				int file_count, t_file_list **file_list);
 t_file_list		*get_entry_list(t_file_list *file_list, DIR	*dir);
+
+// stdio_redirector.c
+int				backup_stdio(t_info *info);
+int				restore_stdio(t_info *info);
 
 #endif // MINISHELL_H
