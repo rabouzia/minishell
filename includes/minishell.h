@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/17 16:46:23 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/17 21:28:25 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,15 @@ typedef struct s_info
 {
 	bool	pipe_exists; // pipe exist or not
 	bool	pipe_used; // used pipe before
-	bool	status; // can proceed by logical
 	bool	in_subshell;
 	int		stdin_fd;
 	int		stdout_fd;
 	int		origin_stdin_fd;
 	int		origin_stdout_fd;
+	int		pipe[2];
 	int		tmp_fd;
+	int		exit_status;
+	int		status; // can proceed by logical
 }	t_info;
 
 typedef struct s_token
@@ -148,6 +150,10 @@ void			add_token(t_token **head, const char *start, size_t len);
 
 // init_minishell.c
 void			init_minishell(void);
+
+// handler_signal.c
+void			set_signal_handler(void);
+void			disable_interrupt_signals(void);
 
 // process_input.c
 void			process_input(char *input);
@@ -270,6 +276,9 @@ void			process_phrase_node(t_ast *node, t_info *info);
 // execute_utils.c
 void			init_info(t_info *info);
 void			clear_info(t_info *info);
+
+// cmd.c
+int				dispatch_cmd(t_ast *node, t_info *info);
 
 // redir.c
 int				handle_io_redirection(t_ast *node, t_info *info);

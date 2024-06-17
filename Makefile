@@ -6,7 +6,7 @@
 #    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/06/17 16:46:41 by junsan           ###   ########.fr        #
+#    Updated: 2024/06/17 18:03:36 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ PARSING	= process_input.c parsing.c arg_parse.c parse_subshell.c					\
 		/utils/prints.c /utils/prints_2.c
 UTILS	= string_utils.c string_utils_2.c
 SIGNAL	= handler_signal.c
-EXECUTE = execute.c redir.c get_file_list.c execute_process.c						\
+EXECUTE = execute.c redir.c get_file_list.c execute_process.c cmd.c					\
 		/utils/redir_utils.c /utils/execute_utils.c /utils/get_file_list_utils.c	\
 		/utils/stdio_redirector.c
 #BUILT_IN = built_in.c file_dir_operations.c	\
