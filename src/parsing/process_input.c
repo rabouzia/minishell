@@ -22,6 +22,8 @@ void	process_input(char *input, t_main_arg *arg)
 
 	tokens = NULL;
 	root = NULL;
+	// check if env is not removed
+	
 	if (input)
 	{
 		if (ft_strncmp(input, "env", 3) == 0)
@@ -37,4 +39,7 @@ void	process_input(char *input, t_main_arg *arg)
 		// free_token(tokens);
 		// free(input);
 	}
+	//else
+	//	use the builtin
+
 }

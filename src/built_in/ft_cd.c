@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 02:39:36 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/13 17:09:02 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/06/17 18:55:40 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // to be completed
 
-int	ft_cd(t_cmd_list *list)
+int	ft_cd(t_cmd_list *list, t_env *env)
 {
 	if (!list->cmd || !*list->cmd)
 		return (0);
@@ -28,8 +28,10 @@ int	ft_cd(t_cmd_list *list)
 	}
 	change_dir(list->cmd);
 }
-/*
-	modify env ->pwd each time cd change dir
-	.. go back in dir
-	
-*/
+
+void modify_pwd_in_env(t_env *env, char *str)
+{
+	// if cd dir
+	ft_strjoin(env->pwd,str);
+	// else cd .. remove after the last /;
+}
