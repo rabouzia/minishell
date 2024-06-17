@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 02:22:13 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/06 18:26:55 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/05/12 18:40:58 by junsan           ###   ########.fr       */
+/*   Updated: 2023/11/14 12:07:28 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -29,9 +29,6 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strdup(const char *src);
-char	*ft_strndup(const char *src, size_t n);
-
-
 
 void	*ft_memset(void *ptr, int value, size_t num);
 void	ft_bzero(void *ptr, size_t num);

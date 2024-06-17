@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+         #
+#    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/11 02:27:45 by junsan            #+#    #+#              #
-#    Updated: 2024/06/06 18:23:50 by rabouzia         ###   ########.fr        #
+#    Updated: 2024/05/12 18:57:42 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ SRC		= \
 		ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c\
 		ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c					\
 		gnl/get_next_line.c	gnl/get_next_line_utils.c							\
-		ft_strndup.c															\
 
 SRC_DIR = ./src/
 
