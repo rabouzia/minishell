@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 02:39:36 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/17 18:55:40 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:59:18 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,40 @@
 
 // to be completed
 
-int	ft_cd(t_cmd_list *list, t_env *env)
+int	ft_cd(char **cmd, t_cmd_list *list)
 {
+	int	size;
+
 	if (!list->cmd || !*list->cmd)
 		return (0);
-	while (list->cmd)
-	{
-		if (!list->cmd)
-			return (printf("cd : missing arguments\n"), 2);
-		if (list->cmd > 2)
-			return (printf("cd too much arguments \n"), 2);
-		list->cmd = list->cmd->next;
-	}
+	size = ft_lstsize(list);
+	if (!list->cmd)
+		return (printf("cd : missing arguments\n"), 2);
+	if (size > 2)
+		return (printf("cd too much arguments \n"), 2);
+	list = list->next;
+	if (size == 1 || (list->cmd[1] && strcmp(list->cmd[1], "~") == 0))
+		change_dir(getenv("HOME"));
+	else
+		change_dir(list->cmd[1]);
 	change_dir(list->cmd);
 }
 
-void modify_pwd_in_env(t_env *env, char *str)
+void	modify_pwd_in_env(t_env *env, char *str)
 {
-	// if cd dir
-	ft_strjoin(env->pwd,str);
-	// else cd .. remove after the last /;
+	char	*new_pwd;
+	char	*last_slash;
+
+	if (str && *str != '\0')
+	{
+		new_pwd = ft_strjoin(env->pwd, str);
+		free(env->pwd);
+		env->pwd = new_pwd;
+	}
+	else
+	{
+		last_slash = strrchr(env->pwd, '/');
+		if (last_slash)
+			*last_slash = '\0';
+	}
 }

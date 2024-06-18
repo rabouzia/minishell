@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:48:50 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 16:10:12 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/06/18 14:28:32 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,10 @@ void	fill_ft_env(t_main_arg *arg, char **str_env)
 	arg->env = env;
 }
 
-t_main_arg	*fill_main_arg(int ac, char **av, char **env)
+void	*fill_main_arg(int ac, char **av, char **env)
 {
-	t_main_arg	*arg;
-
 	arg = malloc(sizeof(t_main_arg));
-	arg->ac = ac;
-	arg->av = av;
+
 	fill_ft_env(arg, env);
 	return (arg);
 }
