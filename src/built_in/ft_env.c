@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:48:50 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/18 14:28:32 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:27:03 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	add_builtin_node(t_env **head, char *name, char *content)
 	t_env	*cur;
 
 	new_node = builtin_new_node(name, content);
-	if (!name || !content)
+	if (!name || !content || !new_node)
 		return ;
 	if (*head == NULL)
 		*head = new_node;
@@ -59,11 +59,13 @@ void	add_builtin_node(t_env **head, char *name, char *content)
 /*
 char	**env_split(char const *str)
 {
-	char		**res;
-	size_t		i = 0;
-	size_t		j;
-	size_t		tmp = 0;
+	char	**res;
+	size_t	i;
+	size_t	j;
+	size_t	tmp;
 
+	i = 0;
+	tmp = 0;
 	if (!str)
 		return (NULL);
 	j = 1;
@@ -76,7 +78,7 @@ char	**env_split(char const *str)
 		}
 		res[j][tmp] =  str[i];
 		i++;
-		tmp++;	
+		tmp++;
 	}
 	return (res);
 }
@@ -92,47 +94,47 @@ static void	env_split(const char *str, char **name, char **content)
 	i = 0;
 	j = 1;
 	// tmp = 0;
-	while(str[i] != '=')
+	while (str[i] != '=')
 		i++;
-	*name = ft_strndup(str,i);
+	*name = ft_strndup(str, i);
 	i++;
 	j = i;
-	while(str[i])
-		i++;	
-	*content = ft_strndup(str,i - j);
+	while (str[i])
+		i++;
+	*content = ft_strndup(str, i - j);
 }
-void	fill_ft_env(t_main_arg *arg, char **str_env)
+void	fill_env(int ac, char **av, char **env)
 {
 	char	*name;
 	char	*content;
-	t_env	*env;
+	t_env	*arg;
+	t_env	*tmp;
+	int		i;
 
-	int i = -1;
+	(void)ac;
+	(void)av;
+	arg = ft_calloc(1, sizeof(t_env));
+	if (!arg)
+		return ;
+	i = -1;
 	name = NULL;
 	content = NULL;
-	env = NULL;
-	while (str_env[++i])
+	tmp = arg;
+	while (env[++i])
 	{
-		env_split(str_env[i], &name, &content);
-		add_builtin_node(&env, name, content);
+		env_split(env[i], &name, &content);
+		add_builtin_node(&tmp, name, content);
 		free(name);
 		free(content);
 	}
-	arg->env = env;
+	arg = tmp;
 }
 
-void	*fill_main_arg(int ac, char **av, char **env)
+void	print_env(t_env *arg)
 {
-	arg = malloc(sizeof(t_main_arg));
+	t_env	*env;
 
-	fill_ft_env(arg, env);
-	return (arg);
-}
-void	print_env(t_main_arg *arg)
-{
-	t_env *env;
-	
-	env = arg->env;
+	env = arg;
 	while (env)
 	{
 		printf("%s=%s\n", env->name, env->content);
@@ -218,3 +220,28 @@ void	print_env(t_main_arg *arg)
 		env = env->next;
 	}
 }*/
+
+char	*ft_strndup(const char *src, size_t n)
+{
+	size_t i;
+	size_t len;
+	char *str;
+
+	if (!src || !n)
+		return (NULL);
+	i = 0;
+	len = ft_strlen(src);
+	if (len > n)
+		len = n;
+	str = (char *)malloc(sizeof(*str) * (len + 1));
+	if (!str)
+		return (NULL);
+	while (src[i] && n > 0)
+	{
+		str[i] = src[i];
+		i++;
+		n--;
+	}
+	str[i] = '\0';
+	return (str);
+}

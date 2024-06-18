@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/18 15:32:56 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:14:05 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void					init_minishell(void);
 
 // process_input.c
 void					process_input(char *input);
-
+char	*ft_strndup(const char *src, size_t n);
 // tokenize.c
 void					tokenize(const char *input, t_token **tokens);
 
@@ -200,7 +200,7 @@ void					set_signal_handler(void);
 
 //-------------  built_in.c  -----------------------
 
-void fill_main_arg(int ac, char **av, char **env);
+void	fill_env(int ac, char **av, char **env);
 t_env	*builtin_new_node(char *name, char *content);
 void					fill_ft_env(char **str_env);
 void					init_builtin(int (*func[])(char **, t_cmd_list *));

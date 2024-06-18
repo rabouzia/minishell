@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:14:21 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 16:12:50 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/06/18 15:59:09 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,20 @@ Thinking !! :
 int	main(int ac, char **av, char **env)
 {
 	char		*input;
-	t_main_arg	*arg;
-	arg = NULL;
 
 	init_minishell();
-	set_signal_handler();
-	arg = fill_main_arg(ac, av, env);
+	// set_signal_handler();
+	fill_env(ac, av, env);
 	while (1)
 	{
 		input = readline("kashell$> ");
 		if (!input)
-		{
-			ft_putstr_fd("exit\n", 2);
 			break ;
-		}
 		if (!*input)
 			continue ;
 		else
 			add_history(input);
-		process_input(input, arg);
+		process_input(input);
 	}
 	return (0);
 }
