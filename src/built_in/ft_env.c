@@ -6,19 +6,21 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:48:50 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/18 16:27:03 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:55:55 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // UnCompleted
-bool	my_env(t_cmd_list *env)
+int	ft_env(char **cmd, t_cmd_list *lst)
 {
-	while (env != NULL)
+	(void) cmd;
+	t_env *env;
+	env = lst->env;
+	while (env)
 	{
-		if (ft_strchr(env->cmd, '='))
-			printf("%s\n", env->cmd);
+		printf("%s=%s\n", env->name, env->content);
 		env = env->next;
 	}
 	return (SUCCESS);
@@ -69,6 +71,16 @@ char	**env_split(char const *str)
 	if (!str)
 		return (NULL);
 	j = 1;
+		if (str[i] == '=' && j > 0)
+		{
+			j--;
+			tmp = 0;
+		}
+		res[j][tmp] =  str[i];
+		i++;
+		tmp++;
+	}
+	return (res);
 	while (str[i])
 	{
 		if (str[i] == '=' && j > 0)
@@ -103,7 +115,8 @@ static void	env_split(const char *str, char **name, char **content)
 		i++;
 	*content = ft_strndup(str, i - j);
 }
-void	fill_env(int ac, char **av, char **env)
+
+t_env	*fill_env(int ac, char **av, char **env)
 {
 	char	*name;
 	char	*content;
@@ -115,7 +128,7 @@ void	fill_env(int ac, char **av, char **env)
 	(void)av;
 	arg = ft_calloc(1, sizeof(t_env));
 	if (!arg)
-		return ;
+		return NULL;
 	i = -1;
 	name = NULL;
 	content = NULL;
@@ -128,18 +141,7 @@ void	fill_env(int ac, char **av, char **env)
 		free(content);
 	}
 	arg = tmp;
-}
-
-void	print_env(t_env *arg)
-{
-	t_env	*env;
-
-	env = arg;
-	while (env)
-	{
-		printf("%s=%s\n", env->name, env->content);
-		env = env->next;
-	}
+	return arg;
 }
 /*
 #include "minishell.h"

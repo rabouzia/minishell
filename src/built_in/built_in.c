@@ -6,21 +6,33 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:45:58 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/18 13:58:33 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:58:18 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_builtin(int (*func[])(char **, t_cmd_list *))
+// void	init_tab_builtins(t_cmd_list *cmd)
+// {
+// 	cmd->tab_func[CD] = ft_cd;
+// 	cmd->tab_func[M_ECHO] = ft_echo;
+// 	cmd->tab_func[ENV] = ft_env;
+// 	cmd->tab_func[EXIT] = ft_exit;
+// 	cmd->tab_func[EXPORT] = ft_export;
+// 	cmd->tab_func[PWD] = ft_pwd;
+// 	cmd->tab_func[UNSET] = ft_unset;
+// }
+
+void 	init_builtin(t_cmd_list *var)
 {
-	func[CD] = ft_cd;
-	func[M_ECHO] = ft_echo;
-	func[ENV] = ft_env;
-	func[EXIT] = ft_exit;
-	func[EXPORT] = ft_export;
-	func[PWD] = ft_pwd;
-	func[UNSET] = ft_unset;
+	var->func[CD] = ft_cd;
+	var->func[M_ECHO] = ft_echo;
+	var->func[ENV] = ft_env;
+	var->func[EXIT] = ft_exit;
+	var->func[EXPORT] = ft_export;
+	var->func[PWD] = ft_pwd;
+	var->func[UNSET] = ft_unset;
+	var->func[NONE] = NULL;
 }
 
 int	handler_builtin(const char *cmd)

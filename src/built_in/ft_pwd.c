@@ -6,43 +6,28 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:59:35 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/18 14:14:25 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:19:28 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_pwd(char **cmd, t_cmd_list *list)
+int	ft_pwd(char **cmd, t_cmd_list *list)
 {
 	char	*print;
-	size_t	len;
 
-	len = 512;
+	(void) cmd;
+	(void) list;
+
 	print = NULL;
-	print = getcwd(print, len);
+	print = getcwd(NULL, 0);
 	if (!print)
 	{
 		perror("kashell: pwd: ");
-		return (FAIL);
+		return (1);
 	}
-	else
-	{
-		printf("%s\n", print);
-		free(print);
-		return (SUCCESS);
-	}
-}
-
-void	get_pwd_from_env(t_env *env)
-{
-	while (env)
-	{
-		if (strncmp(env->name, "PWD", 4) == 0)
-		{
-			env->pwd = env->name + 4;
-			return ;
-		}
-		env = env->next;
-	}
-	env->pwd = NULL;
+	if (write(1, print, strlen(print))== -1)
+		return (1);
+	if (write(1, "\n", 1)== -1)
+		return (0);
 }
