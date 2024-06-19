@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/17 22:05:11 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/19 14:48:08 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 static int	exec_child_task(char *cmd, char **args, t_info *info)
 {
-	char	*env;
+	char	**env;
 
-	(void)args;
-	printf("cmd data : %s\n", cmd);
-	env = getenv(cmd);
+	env = (char **)list_to_array(info->env);
 	if (env == NULL)
 		exit(EXIT_FAILURE);
 	if (info->pipe_exists)
@@ -27,6 +25,8 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 		if (dup2(info->pipe[1], STDOUT_FILENO) == -1)
 			return (fd_log_error("Dup pipe error", NULL, NULL));
 	}
+	if (execve(cmd, args, env) == -1)
+		exit(125 + execve_log_error(cmd, errno));
 	// to do : add builtin
 	//if (builtin)
 	return (SUCCESS);
@@ -78,7 +78,6 @@ int	dispatch_cmd(t_ast	*node, t_info *info)
 	char	**args;
 	int		status;
 
-	(void)info;
 	cmd_node = node->left;
 	args_node = node->right;
 	printf("cmd_node data : %s\n", cmd_node->data);

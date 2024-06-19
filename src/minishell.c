@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:14:21 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/02 02:33:35 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:02:40 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@ Thinking !! :
 */
 #include "minishell.h"
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **envp)
 {
+	t_env	*env;
 	char	*input;
 
 	(void)ac;
 	(void)av;
-	init_minishell();
+	env = NULL;
+	init_minishell(envp, &env);
 	set_signal_handler();
 	while (1)
 	{
@@ -36,7 +38,8 @@ int	main(int ac, char **av)
 			continue ;
 		else
 			add_history(input);
-		process_input(input);
+		process_input(input, env);
 	}
+	clear_env(env);
 	return (0);
 }

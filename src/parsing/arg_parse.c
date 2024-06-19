@@ -6,15 +6,20 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:50:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/17 16:31:40 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/19 15:28:26 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_flag(const char *arg)
+static size_t	arg_len(const char *arg)
 {
-	return (arg[0] == '-');
+	size_t	len;
+
+	len = ft_strlen(arg);
+	if (arg[0] == '-' && ft_strlen(arg) > 2)
+		return ((len - 1 * 2) + len - 2);
+	return (len);
 }
 
 static size_t	get_total_arg_list_size(t_token **token)
@@ -31,14 +36,35 @@ static size_t	get_total_arg_list_size(t_token **token)
 		if (cur->type != CMD)
 			break ;
 		if (prev)
-			total_len += ft_strlen(prev->data) + 1;
+			total_len += arg_len(prev->data) + 1;
 		prev = cur;
 		cur = cur->next;
 	}
 	if (prev)
-		total_len += ft_strlen(prev->data);
+		total_len += arg_len(prev->data);
 	*token = cur;
 	return (total_len);
+}
+
+static void	split_flag(char *dest, const char *src)
+{
+	size_t	i;
+
+	i = 1;
+	while (i < ft_strlen(src))
+	{
+		*dest = '-';
+		dest++;
+		*dest = src[i];
+		dest++;
+		if (i < ft_strlen(src) - 1)
+		{
+			*dest = ' ';
+			dest++;
+		}
+		i++;
+	}
+	*dest = '\0';
 }
 
 static void	file_data(char *data, t_token **token)
@@ -48,8 +74,17 @@ static void	file_data(char *data, t_token **token)
 	ptr = data;
 	while (*token && (*token)->type == CMD)
 	{
-		ft_strlcpy(ptr, (*token)->data, ft_strlen((*token)->data) + 1);
-		ptr += ft_strlen((*token)->data);
+		if ((*token)->data[0] == '-' && ft_strlen((*token)->data) > 2)
+		{
+			split_flag(ptr, (*token)->data);
+			ptr += (ft_strlen((*token)->data) - 1) * 2 \
+			+ (ft_strlen((*token)->data) - 2);
+		}
+		else
+		{
+			ft_strlcpy(ptr, (*token)->data, ft_strlen((*token)->data) + 1);
+			ptr += ft_strlen((*token)->data);
+		}
 		if ((*token)->next && (*token)->next->type == CMD)
 		{
 			*ptr = ' ';

@@ -6,30 +6,11 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:20:15 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/17 14:29:24 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/19 13:43:49 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	fd_log_error(char *cmd, char *arg, char *error)
-{
-	ft_putstr_fd("kashell$> ", STDERR_FILENO);
-	if (cmd != NULL)
-	{
-		ft_putstr_fd(cmd, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-	}
-	if (arg != NULL)
-	{
-		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-	}
-	if (error != NULL)
-		ft_putstr_fd(error, STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	return (FAILURE);
-}
 
 void	cleanup_tmp_file(void)
 {

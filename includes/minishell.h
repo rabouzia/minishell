@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/17 21:28:25 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/19 13:58:50 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,13 @@ typedef enum built_in
 	NONE,
 }						t_built_in;
 
+typedef struct s_env
+{
+	char			*name;
+	char			*content;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_info
 {
 	bool	pipe_exists; // pipe exist or not
@@ -105,6 +112,7 @@ typedef struct s_info
 	int		tmp_fd;
 	int		exit_status;
 	int		status; // can proceed by logical
+	t_env	*env;
 }	t_info;
 
 typedef struct s_token
@@ -145,18 +153,23 @@ typedef struct s_file_list
 
 // tokenize_utils.c
 t_token_list	*get_token_list(t_token *token);
-
 void			add_token(t_token **head, const char *start, size_t len);
 
 // init_minishell.c
-void			init_minishell(void);
+void			init_minishell(char **envp, t_env **env);
+
+// env_init.c
+void			add_env(t_env **head, const char *str);
+void			clear_env(t_env *head);
+size_t			env_size(t_env *head);
+t_env			*env_init(char **envp);
 
 // handler_signal.c
 void			set_signal_handler(void);
 void			disable_interrupt_signals(void);
 
 // process_input.c
-void			process_input(char *input);
+void			process_input(char *input, t_env *env);
 
 // tokenize.c
 void			tokenize(const char *input, t_token **tokens);
@@ -252,8 +265,6 @@ void			list_dir(const char *dirname);
 // handler_signal.c
 void			set_signal_handler(void);
 
-// handler_signal.c
-
 // arg_parse.c
 bool			is_flag(const char *arg);
 char			*arg_parsing(t_token **token);
@@ -266,7 +277,7 @@ bool			is_heredoc_redirection(const char *data);
 bool			is_herestr_redirection(const char *data);
 
 // execute.c
-void			execute(t_ast *root);
+void			execute(t_ast *root, t_env *env);
 
 // execute_process.c
 void			process_cmd_node(t_ast *node, t_info *info);
@@ -277,6 +288,9 @@ void			process_phrase_node(t_ast *node, t_info *info);
 void			init_info(t_info *info);
 void			clear_info(t_info *info);
 
+// list_to_array.c
+char			**list_to_array(t_env *env);
+
 // cmd.c
 int				dispatch_cmd(t_ast *node, t_info *info);
 
@@ -284,10 +298,13 @@ int				dispatch_cmd(t_ast *node, t_info *info);
 int				handle_io_redirection(t_ast *node, t_info *info);
 
 // redir_utils.c
-int				fd_log_error(char *cmd, char *arg, char *error);
 int				here_doc(int infile, char *limiter);
 int				open_file_with_mode(char *file, int mode);
 void			cleanup_tmp_file(void);
+
+// logs.c
+int				fd_log_error(char *cmd, char *arg, char *error);
+int				execve_log_error(char *cmd, int error);
 
 // get_file_list.c
 void			free_file_list(t_file_list *file_list);
