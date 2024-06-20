@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 21:38:26 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/19 14:10:00 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:28:20 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // to be completed
 
 
-int	ft_echo(char **cmd, t_cmd_list *list)
+int	ft_echo(char *cmd, char **args, t_env *list)
 {
 	int	i;
 	(void) cmd;

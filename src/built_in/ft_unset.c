@@ -6,13 +6,13 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:48:24 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 14:04:59 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:27:30 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_unset(char **cmd, t_cmd_list *list)
+int	ft_unset(char *cmd, char **args, t_env *list)
 {
 	t_env *env;
 	t_env *last;

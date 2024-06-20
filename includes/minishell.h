@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/18 16:14:05 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:00:32 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ typedef struct s_ast
 typedef struct s_env
 {
 	char				*name;
-	
 	char				*content;
 	struct s_env		*pwd;
+	struct s_env		*old_pwd;
 	struct s_env		*next;
 }						t_env;
 
@@ -200,11 +200,20 @@ void					set_signal_handler(void);
 
 //-------------  built_in.c  -----------------------
 
-void	fill_env(int ac, char **av, char **env);
+t_env	*fill_env(int ac, char **av, char **env);
 t_env	*builtin_new_node(char *name, char *content);
 void					fill_ft_env(char **str_env);
 void					init_builtin(int (*func[])(char **, t_cmd_list *));
 int						handler_builtin(const char *cmd);
+int ft_export(char *cmd, char **args, t_env *list);
+int	ft_pwd(char *cmd, char **args, t_env *list);
+int	ft_unset(char *cmd, char **args, t_env *list);
+int	ft_cd(char *cmd, char **args, t_env *list);
+int	ft_echo(char *cmd, char **args, t_env *list);
+int	ft_env(char *cmd, char **args, t_env *list);
+int	ft_exit(char *cmd, char **args, t_env *list);
+
+
 
 // handler_signal.c
 
