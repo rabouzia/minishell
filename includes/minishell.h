@@ -6,7 +6,11 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/06/20 17:48:26 by junsan           ###   ########.fr       */
+=======
+/*   Updated: 2024/06/20 19:22:22 by junsan           ###   ########.fr       */
+>>>>>>> 00f4be2 (Add : ft_strndup)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +244,7 @@ int				count_repeated_chars(const char *str, int c);
 // string_utils_2.c
 char			*trim_first_last(char *str);
 char			*trim_whitespace(const char *str);
+char			*ft_strndup(const char *str, size_t n);
 void			remove_outer_parentheses(char **str);
 void			remove_quotes_from_args(char **args);
 
