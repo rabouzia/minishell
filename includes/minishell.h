@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 18:28:23 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 17:48:26 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,40 @@ t_env			*env_init(char **envp);
 // handler_signal.c
 void			set_signal_handler(void);
 void			disable_interrupt_signals(void);
+
+// built_in.c
+void 			init_builtin(int (*func[])(const char *, const char **, t_env *));
+int				handler_builtin(const char *cmd);
+
+// ft_cd.c
+void			ist_swap(t_env *a);
+int				ft_cd(const char *cmd, const char **args, t_env *list);
+
+// ft_echo.c
+int				ft_echo(const char *cmd, const char **args, t_env *list);
+
+// ft_env.c
+void			add_builtin_node(t_env **head, char *name, char *content);
+void			printf_env(t_env *list);
+int				ft_env(const char *cmd, const char **args, t_env *list);
+char			*ft_strndup(const char *src, size_t n);
+t_env			*builtin_new_node(char *name, char *content);
+t_env			*fill_env(int ac, char **av, char **env);
+
+// ft_exit.c
+int				ft_exit(const char *cmd, const char **args, t_env *list);
+
+// ft_export.c
+//void			ft_export_add(char *var, char **arg);
+//void			ft_export_show(t_env *env);
+//int				ft_export(char *cmd, char **args, t_env *list);
+//t_env			*sort_list(t_env *env);
+
+// ft_pwd.c
+int				ft_pwd(const char *cmd, const char **args, t_env *list);
+
+// ft_unset.c
+int				ft_unset(const char *cmd, const char **args, t_env *list);
 
 // process_input.c
 void			process_input(char *input, t_env *env);

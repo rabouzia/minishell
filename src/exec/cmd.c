@@ -15,8 +15,8 @@
 static int	exec_child_task(char *cmd, char **args, t_info *info)
 {
 	char	**env;
-	//int		built_in;
-	//int		(arr_built_in[8])(const char *, const char **, t_env *);
+	int		built_in;
+	int		(*arr_built_in[8])(const char *, const char **, t_env *);
 
 	env = (char **)list_to_array(info->env);
 	if (env == NULL)
@@ -27,9 +27,9 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 		if (dup2(info->pipe[1], STDOUT_FILENO) == -1)
 			return (fd_log_error("Dup pipe error", NULL, NULL));
 	}
-	//init_builtin(arr_bulit_in);
-	//built_in = handler_builtin(cmd, args);
-	//printf("%s, %s, %s\n", args[0], args[1], args[2]);
+	init_builtin(arr_built_in);
+	built_in = handler_builtin(cmd);
+	printf("%s, %s, %s\n", args[0], args[1], args[2]);
 	//if (built_in != NONE);
 	//	exit(arr_built_in[built_in](cmd, args, info->env);
 	if (execve(cmd, args, env) == -1)
