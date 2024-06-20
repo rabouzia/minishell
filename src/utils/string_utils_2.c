@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:29:43 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/12 16:49:08 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/17 16:20:00 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ void	remove_outer_parentheses(char **str)
 	if (len >= 2 && (*str)[0] == '(' && (*str)[len - 1] == ')')
 	{
 		ft_memmove(*str, *str + 1, len - 2);
-		(*str)[len -  2] = '\0';
+		(*str)[len - 2] = '\0';
 	}
 }

@@ -7,12 +7,10 @@
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
 #    Updated: 2024/06/18 16:00:29 by rabouzia         ###   ########.fr        #
-
 #                                                                              #
 # **************************************************************************** #
 
 NAME 	= minishell
-BONUS 	= minishell_bonus
 OS		= $(shell uname)
 
 CC		= cc
@@ -31,8 +29,8 @@ EXECUTE_DIR = $(SRC_DIR)/exec
 OBJ_DIR = obj
 
 SRC 	= minishell.c
-INIT	= init_minishell.c
 
+INIT	= init_minishell.c env_init.c
 PARSING	= process_input.c parsing.c arg_parse.c parse_subshell.c					\
 		parse_logical.c parse_pipe.c parse_phrase.c parse_redirection.c				\
 		/tokenize/tokenize.c /tokenize/handler_operators_and_spaces.c				\
@@ -43,10 +41,11 @@ PARSING	= process_input.c parsing.c arg_parse.c parse_subshell.c					\
 		/utils/prints.c /utils/prints_2.c
 UTILS	= string_utils.c string_utils_2.c
 SIGNAL	= handler_signal.c
-EXECUTE = execute.c redir.c get_file_list.c 										\
+EXECUTE = execute.c redir.c get_file_list.c execute_process.c cmd.c					\
 		/utils/redir_utils.c /utils/execute_utils.c /utils/get_file_list_utils.c	\
-		/utils/stdio_redirector.c
-BUILT_IN = built_in.c file_dir_operations.c	ft_env.c\
+
+		/utils/stdio_redirector.c /utils/list_to_array.c /utils/logs.c
+BUILT_IN = built_in.c file_dir_operations.c	\
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 SRCS += $(addprefix $(PARSING_DIR)/, $(PARSING))
@@ -81,12 +80,12 @@ $(LIBFT):
 all: $(NAME)
 
 clean:
-	rm -rf $(OBJ_DIR) $(BONUS_OBJ_DIR)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@make -C libft/ fclean
-	rm -f $(NAME) $(BONUS)
+	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

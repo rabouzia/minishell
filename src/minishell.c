@@ -19,13 +19,16 @@ Thinking !! :
 */
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **envp)
 {
-	char		*input;
+	t_env	*env;
+	char	*input;
 
-	init_minishell();
-	// set_signal_handler();
-	fill_env(ac, av, env);
+	(void)ac;
+	(void)av;
+	env = NULL;
+	init_minishell(envp, &env);
+	set_signal_handler();
 	while (1)
 	{
 		input = readline("kashell$> ");
@@ -35,7 +38,8 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		else
 			add_history(input);
-		process_input(input);
+		process_input(input, env);
 	}
+	clear_env(env);
 	return (0);
 }
