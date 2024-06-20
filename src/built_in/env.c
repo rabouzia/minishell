@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 18:21:22 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/06 18:42:15 by rabouzia         ###   ########.fr       */
+/*   Created: 2024/05/29 11:48:50 by junsan            #+#    #+#             */
+/*   Updated: 2024/06/02 02:41:25 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strndup(const char *src, size_t n)
+// InCompleted
+bool	my_env(t_cmd_list *env)
 {
-	size_t i;
-	size_t len;
-	char *str;
-
-	if (!src || !n)
-		return (NULL);
-	i = 0;
-	len = ft_strlen(src);
-	if (len > n)
-		len = n;
-	str = (char *)malloc(sizeof(*str) * (len + 1));
-	if (!str)
-		return (NULL);
-	while (src[i] && n > 0)
+	while (env != NULL)
 	{
-		str[i] = src[i];
-		i++;
-		n--;
+		if (ft_strchr(env->cmd, '='))
+			printf("%s\n", env->cmd);
+		env = env->next;
 	}
-	str[i] = '\0';
-	return (str);
+	return (SUCCESS);
 }
