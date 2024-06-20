@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:24:08 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/29 16:40:44 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/19 14:15:24 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	show_ascii(void)
 	close(fd);
 }
 
-void	init_minishell(void)
+void	init_minishell(char **envp, t_env **env)
 {
 	char	*tty;
 
@@ -39,4 +39,5 @@ void	init_minishell(void)
 		printf("The current terminal for this process is: %s\n", tty);
 	else
 		printf("No terminal associated with this process.\n");
+	*env = env_init(envp);
 }

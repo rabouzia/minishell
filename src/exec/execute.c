@@ -6,68 +6,13 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:34:10 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/17 14:29:07 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/19 13:41:20 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	traverse_tree(t_ast *node, t_info *info);
-
-/*
-static bool	process_subshell_node(t_ast *node)
-{
-	t_info	info;
-
-	init_info(&info);
-	if (node->data)
-		printf("subhshell data : %s\n", node->data);
-	traverse_tree(node->left, &info);
-	if (info.status == SUCCESS)
-		return (SUCCESS);
-	else
-		return (FAILURE);
-}*/
-
-static void	process_cmd_node(t_ast *node, t_info *info)
-{
-	(void)info;
-	if (node->data)
-		printf("cmd node data : %s\n", node->data);
-}
-
-static void	process_io_redirection_node(t_ast *node, t_info *info)
-{
-	info->status = handle_io_redirection(node->left, info);
-	if (node->right)
-		info ->status = handle_io_redirection(node->right, info);
-}
-
-static void	process_phrase_node(t_ast *node, t_info *info)
-{
-	t_ast	*redirection_node;
-	t_ast	*cmd_node;
-
-	(void)info;
-	redirection_node = node->left;
-	cmd_node = node->right;
-	if (redirection_node)
-	{
-		process_io_redirection_node(redirection_node, info);
-		if (redirection_node->right)
-			process_cmd_node(redirection_node->right, info);
-		// left is redir, right is args
-	}
-	if (cmd_node)
-	{
-		if (cmd_node->left && cmd_node->left->type == CMD)
-		{
-		}
-		if (cmd_node->right && cmd_node->right->type == ARGS)
-		{
-		}
-	}
-}
 
 static void	categorize_tree(t_ast *node, t_info *info)
 {
@@ -93,6 +38,7 @@ static void	categorize_tree(t_ast *node, t_info *info)
 		info->status = subshell_info.status;
 	}
 }
+
 static void	traverse_tree(t_ast *node, t_info *info)
 {
 	if (node == NULL)
@@ -114,11 +60,12 @@ static void	traverse_tree(t_ast *node, t_info *info)
 	}
 }
 
-void	execute(t_ast *root)
+void	execute(t_ast *root, t_env *env)
 {
 	t_info	info;
 
 	init_info(&info);
+	info.env = env;
 	if (backup_stdio(&info) == FAILURE)
 		fd_log_error(NULL, NULL, strerror(errno));
 	traverse_tree(root, &info);
