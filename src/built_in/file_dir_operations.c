@@ -3,18 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   file_dir_operations.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:29:42 by junsan            #+#    #+#             */
-/*   Updated: 2024/05/31 19:16:56 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 14:00:59 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	change_dir(const char *path)
+int	change_dir(const char *path, t_env *lst)
 {
-	return (chdir(path));
+	if (!path || *path == '\0')
+		return (ft_putstr_fd("error cd", 2), 0);
+	else if (chdir(path) == -1)
+		return (ft_putstr_fd("error cd", 2), 0);
+	else
+		lst->pwd = getcwd(NULL, 0);
+	return (0);
 }
 
 bool	get_cur_dir(void)
@@ -44,7 +50,7 @@ void	list_dir(const char *dirname)
 	dir = opendir(dirname);
 	if (dir == NULL)
 	{
-		perror("opendir");
+		perror("opendir");;
 		return ;
 	}
 	entry = readdir(dir);
