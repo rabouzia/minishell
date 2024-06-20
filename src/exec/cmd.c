@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 18:25:49 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 21:32:32 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 	init_builtin(arr_built_in);
 	built_in = handler_builtin(cmd);
 	printf("%s, %s, %s\n", args[0], args[1], args[2]);
-	//if (built_in != NONE);
-	//	exit(arr_built_in[built_in](cmd, args, info->env);
+	if (built_in != NONE)
+		exit(arr_built_in[built_in]((const char *)cmd, (const char **)args, info->env));
 	if (execve(cmd, args, env) == -1)
 		exit(125 + execve_log_error(cmd, errno));
 	// to do : add builtin
@@ -87,7 +87,7 @@ int	dispatch_cmd(t_ast	*node, t_info *info)
 
 	cmd_node = node->left;
 	args_node = node->right;
-	//printf("args_node data : %s\n", args_node->data);
+	printf("args_node data : %s\n", args_node->data);
 	if (args_node)
 	{
 		args = ft_split(args_node->data, ARR_SEP);

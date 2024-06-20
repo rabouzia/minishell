@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 11:37:49 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 19:06:10 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 21:19:43 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 static void	env_split(const char *str, char **name, char **content)
 {
 	size_t	i;
-	size_t	j;
 
 	if (!str)
 		return ;
 	i = 0;
-	j = 1;
-	while(str[i] && str[i] != '=')
+	while (str[i] && str[i] != '=')
 		i++;
 	if (str[i] != '=')
 	{

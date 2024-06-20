@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:29:43 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 19:22:42 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 21:30:44 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,13 @@ char	*trim_first_last(char *str)
 static void	remove_quotes(char *str)
 {
 	size_t	len;
-	char	*src;
-	char	*dst;
 	char	*new_str;
 
 	len = ft_strlen(str);
-	src = str;
-	dst = str;
 	new_str = NULL;
-	while (*src)
-	{
-		if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"') \
+	if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"') \
 					|| (str[0] == '\'' && str[len - 1] == '\'')))
-			new_str = trim_first_last(str); 
-	}
+		new_str = trim_first_last(str);
 	if (new_str != NULL)
 	{
 		free(str);
