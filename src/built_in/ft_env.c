@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:48:50 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 15:00:07 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:20:44 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	printf_env(t_env *list)
 		cur = cur->next;
 	}
 }
-static int	check_in_env(char *arg, t_env *list)
+static int	check_in_env(const char *arg, t_env *list)
 {
 	t_env	*cur;
 
@@ -42,7 +42,7 @@ static int	check_in_env(char *arg, t_env *list)
 }
 
 // UnCompleted
-int	ft_env(char *cmd, char **args, t_env *list)
+int	ft_env(const char *cmd, const char **args, t_env *list)
 {
 	t_env	*cur;
 
@@ -263,28 +263,3 @@ void	print_env(t_main_arg *arg)
 		env = env->next;
 	}
 }*/
-
-char	*ft_strndup(const char *src, size_t n)
-{
-	size_t i;
-	size_t len;
-	char *str;
-
-	if (!src || !n)
-		return (NULL);
-	i = 0;
-	len = ft_strlen(src);
-	if (len > n)
-		len = n;
-	str = (char *)malloc(sizeof(*str) * (len + 1));
-	if (!str)
-		return (NULL);
-	while (src[i] && n > 0)
-	{
-		str[i] = src[i];
-		i++;
-		n--;
-	}
-	str[i] = '\0';
-	return (str);
-}

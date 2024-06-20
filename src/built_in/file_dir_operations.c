@@ -6,11 +6,23 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:29:42 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 21:36:09 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 21:42:12 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	change_dir(const char *path, t_env *lst)
+{
+	(void) lst;
+	if (!path || *path == '\0')
+		return (0);
+	else if (chdir(path) == -1)
+		return (0);
+	else
+		return (1);
+	return (0);
+}
 
 bool	get_cur_dir(void)
 {
@@ -39,7 +51,7 @@ void	list_dir(const char *dirname)
 	dir = opendir(dirname);
 	if (dir == NULL)
 	{
-		perror("opendir");;
+		perror("opendir");
 		return ;
 	}
 	entry = readdir(dir);
