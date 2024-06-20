@@ -6,11 +6,27 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:29:43 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 16:51:50 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 19:22:42 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_strndup(const char *str, size_t n)
+{
+    size_t	len;
+	char 	*new_str;
+
+	len = ft_strlen(str);
+	if (len > n)
+		len = n;
+
+    new_str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!new_str)
+		return (NULL);
+	ft_strlcpy(new_str, str, len + 1);
+	return new_str;
+}
 
 char	*trim_whitespace(const char *str)
 {
