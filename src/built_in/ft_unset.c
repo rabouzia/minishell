@@ -6,29 +6,28 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:48:24 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 14:27:30 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:14:04 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_unset(char *cmd, char **args, t_env *list)
+int	ft_unset(const char *cmd, const char **args, t_env *list)
 {
-	t_env *env;
-	t_env *last;
+	t_env *cur;
+	(void) cmd;
 
-	if (!cmd)
+	if (!args)
 	 	perror("unset");
-	env = list->env;
-	last = list->env;
-	while(env)
+	cur = list;
+	while(cur)
 	{
-		if (env->next->next != NULL)
-			env = env->next;
-		last = last->next;
+		// if (cur->next->next != NULL)
+		// 	cur = env->next;
+		cur = cur->next;
 	}
-	free (last);
-	env->next = NULL;
+	free (cur);
+	// env->next = NULL;
 	return 0;
 }
 

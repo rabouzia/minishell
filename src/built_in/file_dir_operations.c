@@ -6,22 +6,21 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:29:42 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 18:34:55 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:59:04 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	change_dir(const char *path, t_cmd_list *lst)
+int	change_dir(const char *path, t_env *lst)
 {
+	(void) lst;
 	if (!path || *path == '\0')
-		return error msg;
+		return 0;
 	else if (chdir(path) == -1)
-	{
-		return erro ,msg
-	}
+		return 0;
 	else
-		change pwd in env;
+		return 1;
 	return (0);
 }
 
@@ -36,7 +35,7 @@ bool	get_cur_dir(void)
 	}
 	else
 		perror("getcwd");
-	return (FAIL);
+	return (FAILURE);
 }
 
 bool	file_exist(const char *filename)
