@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 22:37:25 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 22:32:05 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static int	exec_child_task(char *cmd, char **args, t_info *info)
 {
 	char	**env;
-	int		built_in;
-	int		(*arr_built_in[8])(const char *, const char **, t_env *);
+	//int		built_in;
+	//int		(*arr_built_in[8])(const char *, const char **, t_env *);
 
 	printf("cmd : %s, args >> %s, %s, %s\n", cmd, args[0], args[1], args[2]);
 	env = (char **)list_to_array(info->env);
@@ -28,11 +28,11 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 		if (dup2(info->pipe[1], STDOUT_FILENO) == -1)
 			return (fd_log_error("Dup pipe error", NULL, NULL));
 	}
-	init_builtin(arr_built_in);
-	built_in = handler_builtin(cmd);
-	if (built_in != NONE)
-		exit(arr_built_in[built_in]((const char *)cmd, (const char **)args, info->env));
-	else if (execve(cmd, args, env) == -1)
+	//init_builtin(arr_built_in);
+	//built_in = handler_builtin(cmd);
+	//if (built_in != NONE)
+	//	exit(arr_built_in[built_in]((const char *)cmd, (const char **)args, info->env));
+	if (execve(cmd, args, env) == -1)
 		exit(125 + execve_log_error(cmd, errno));
 	// to do : add builtin
 	//if (builtin)

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 21:41:42 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 22:26:17 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ typedef struct s_env
 
 typedef struct s_info
 {
-	bool pipe_exists; // pipe exist or not
-	bool pipe_used;   // used pipe before
+	bool				pipe_exists; // pipe exist or not
+	bool				pipe_used;	// used pipe before
 	bool				in_subshell;
 	int					stdin_fd;
 	int					stdout_fd;
@@ -114,7 +114,7 @@ typedef struct s_info
 	int					pipe[2];
 	int					tmp_fd;
 	int					exit_status;
-	int status; // can proceed by logical
+	int					status; // can proceed by logical
 	t_env				*env;
 }						t_info;
 
@@ -167,6 +167,10 @@ void					add_env(t_env **head, const char *str);
 void					clear_env(t_env *head);
 size_t					env_size(t_env *head);
 t_env					*env_init(char **envp);
+
+// args_utils.c
+void					free_args(char **args);
+char					**allocate_null_args(void);
 
 // handler_signal.c
 void					set_signal_handler(void);

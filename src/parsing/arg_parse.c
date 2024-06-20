@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:50:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 15:28:26 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 21:48:44 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	split_flag(char *dest, const char *src)
 		dest++;
 		if (i < ft_strlen(src) - 1)
 		{
-			*dest = ' ';
+			*dest = ARR_SEP;
 			dest++;
 		}
 		i++;
@@ -87,7 +87,7 @@ static void	file_data(char *data, t_token **token)
 		}
 		if ((*token)->next && (*token)->next->type == CMD)
 		{
-			*ptr = ' ';
+			*ptr = ARR_SEP;
 			ptr++;
 		}
 		*token = (*token)->next;
