@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 13:58:50 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 15:00:32 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "get_next_line.h"
 # include "libft.h"
+// # include "pipex.h"
 # include <curses.h> // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <dirent.h> // opendir, readdir, closedir
 # include <errno.h>  // perror
@@ -61,7 +62,7 @@ typedef enum type_logical
 	OR,
 }	t_type_logical;
 
-typedef enum type
+typedef enum e_type
 {
 	SUBSHELL = 100,
 	ARGS = 22,
@@ -72,15 +73,9 @@ typedef enum type
 	PIPE = 3,
 	LOGICAL = 1,
 	PHRASE = 0,
-	IN_REDIR = 7,
-	IN_HEREDOC = 8,
-	IN_HERESTR = 9,
-	OUT_REDIR = 10,
-	OUT_APPEND = 11,
-	NOT_REDIR = 12,
-}	t_type;
+}						t_type;
 
-typedef enum built_in
+typedef enum e_built_in
 {
 	M_ECHO,
 	CD,
@@ -127,7 +122,13 @@ typedef struct s_token_list
 {
 	t_token				*head;
 	t_token				*tail;
-}						t_token_list;
+}						t_token_list;// handler_signal.c
+275
+ 
+void      set_signal_handler(void);
+276
+ 
+
 
 typedef struct s_ast
 {
@@ -138,18 +139,29 @@ typedef struct s_ast
 	struct s_ast		*right;
 }						t_ast;
 
+typedef struct s_env
+{
+	char				*name;
+	char				*content;
+	struct s_env		*pwd;
+	struct s_env		*old_pwd;
+	struct s_env		*next;
+}						t_env;
+
 typedef struct s_cmd_list
 {
 	char				*cmd;
+	char				**export;
+	t_env				*env;
 	struct s_cmd_list	*prev;
 	struct s_cmd_list	*next;
 }						t_cmd_list;
 
 typedef struct s_file_list
 {
-	char	**names;
-	size_t	count;
-}	t_file_list;
+	char				**names;
+	size_t				count;
+}						t_file_list;
 
 // tokenize_utils.c
 t_token_list	*get_token_list(t_token *token);
@@ -170,6 +182,7 @@ void			disable_interrupt_signals(void);
 
 // process_input.c
 void			process_input(char *input, t_env *env);
+char	*ft_strndup(const char *src, size_t n);
 
 // tokenize.c
 void			tokenize(const char *input, t_token **tokens);
@@ -207,9 +220,11 @@ char			*trim_first_last(char *str);
 char			*trim_whitespace(const char *str);
 void			remove_outer_parentheses(char **str);
 
-//  prints.c
-void			print_token(t_token *head);
-void			print_file_list(t_file_list *file_list);
+void					print_token(t_token *head);
+void					print_tree(t_ast *root, int depth);
+void					print_file_list(t_file_list *file_list);
+// void					print_env(t_main_arg *arg);
+
 
 //	prints_2.c
 void			print_tree(t_ast *root, int depth);
@@ -222,6 +237,7 @@ t_ast			*attach_to_tree(t_ast *root, t_ast *node, int side);
 // get_type.c
 t_type			get_type(const char *data);
 t_type			get_type_redir(const char *data);
+
 
 // type_functions.c
 bool			islogical_operator(const char *token);
@@ -249,12 +265,13 @@ bool			parse_io_redirection(t_token **token, t_ast **node);
 // parse_subshell.c
 bool			parse_subshell(t_token **token, t_ast **node);
 
-// type_functions.c
-bool			is_logical_operator(const char *token);
-bool			is_pipe_operator(const char *token);
-bool			is_subshell_operator(const char *token);
-bool			is_redirection_operator(const char *token);
-bool			is_file_name(const char *token);
+// // type_functions.c
+// bool					is_logical_operator(const char *token);
+// bool					is_pipe_operator(const char *token);
+// bool					is_subshell_operator(const char *token);
+// bool					is_redirection_operator(const char *token);
+// bool					is_file_name(const char *token);
+
 
 // file_dir_operations.c
 int				change_dir(const char *path);
@@ -262,8 +279,24 @@ bool			get_cur_dir(void);
 bool			file_exist(const char *filename);
 void			list_dir(const char *dirname);
 
-// handler_signal.c
-void			set_signal_handler(void);
+//----------  handler_signal.c  --------------------
+
+void					set_signal_handler(void);
+
+//-------------  built_in.c  -----------------------
+
+t_env	*fill_env(int ac, char **av, char **env);
+t_env	*builtin_new_node(char *name, char *content);
+void					fill_ft_env(char **str_env);
+void					init_builtin(int (*func[])(char **, t_cmd_list *));
+int						handler_builtin(const char *cmd);
+int ft_export(char *cmd, char **args, t_env *list);
+int	ft_pwd(char *cmd, char **args, t_env *list);
+int	ft_unset(char *cmd, char **args, t_env *list);
+int	ft_cd(char *cmd, char **args, t_env *list);
+int	ft_echo(char *cmd, char **args, t_env *list);
+int	ft_env(char *cmd, char **args, t_env *list);
+int	ft_exit(char *cmd, char **args, t_env *list);
 
 // arg_parse.c
 bool			is_flag(const char *arg);

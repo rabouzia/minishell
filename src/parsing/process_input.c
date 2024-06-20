@@ -14,14 +14,14 @@
 
 void	process_input(char *input, t_env *env)
 {
-	t_token_list	*token_list;
-	t_token			*tokens;
-	t_ast			*root;
+	// t_token_list	*token_list;
+	// t_token			*tokens;
+	// t_ast			*root;
 
-	tokens = NULL;
-	root = NULL;
+	// tokens = NULL; 	
+	// root = NULL;
 	if (input)
-	{
+  {
 		remove_outer_parentheses(&input);
 		tokenize(input, &tokens);
 		token_list = get_token_list(tokens);
