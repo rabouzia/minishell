@@ -1,33 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 11:59:35 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 14:27:26 by rabouzia         ###   ########.fr       */
+/*   Created: 2024/06/02 02:39:36 by rabouzia          #+#    #+#             */
+/*   Updated: 2024/06/02 02:39:37 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	ft_pwd(char *cmd, char **args, t_env *list)
-{
-	char	*print;
-
-	(void) cmd;
-	(void) list;
-
-	print = NULL;
-	print = getcwd(NULL, 0);
-	if (!print)
-	{
-		perror("kashell: pwd: ");
-		return (1);
-	}
-	if (write(1, print, strlen(print))== -1)
-		return (1);
-	if (write(1, "\n", 1)== -1)
-		return (0);
-}
