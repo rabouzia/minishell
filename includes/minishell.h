@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
 /*   Updated: 2024/06/20 22:26:17 by junsan           ###   ########.fr       */
@@ -105,7 +105,7 @@ typedef struct s_env
 typedef struct s_info
 {
 	bool				pipe_exists; // pipe exist or not
-	bool				pipe_used;	// used pipe before
+	bool				pipe_used;	// used pipe befor
 	bool				in_subshell;
 	int					stdin_fd;
 	int					stdout_fd;

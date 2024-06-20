@@ -30,6 +30,7 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 	}
 	init_builtin(arr_built_in);
 	built_in = handler_builtin(cmd);
+	printf("%s, %s, %s\n", args[0], args[1], args[2]);
 	if (built_in != NONE)
 		exit(arr_built_in[built_in]((const char *)cmd, (const char **)args, info->env));
 	else if (execve(cmd, args, env) == -1)

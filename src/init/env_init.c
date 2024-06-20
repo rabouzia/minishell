@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 11:37:49 by junsan            #+#    #+#             */
 /*   Updated: 2024/06/20 21:45:46 by junsan           ###   ########.fr       */
@@ -11,6 +11,22 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_strndup(const char *str, size_t n)
+{
+	size_t	len;
+	char	*new_str;
+
+	len = ft_strlen(str);
+	if (len > n)
+		len = n;
+	new_str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!new_str)
+		return (NULL);
+	ft_strlcpy(new_str, str, len + 1);
+	new_str[len] = '\0';
+	return (new_str);
+}
 
 static void	env_split(const char *str, char **name, char **content)
 {
