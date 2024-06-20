@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 23:38:01 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/20 14:27:22 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:12:14 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 // }
 
 
-int ft_export(char *cmd, char **args, t_env *list)
+int ft_export(const char *cmd, const char **args, t_env *list)
 {
 	(void) cmd;
 	(void) list;
+	(void) args;
 
 	
 	return 0;
@@ -55,37 +56,37 @@ int ft_export(char *cmd, char **args, t_env *list)
 // 	return (str_arr);
 // }
 
-t_env	*sort_list(t_env *env)
-{
-	t_env	*head;
-	int		tmp;
+// t_env	*sort_list(t_env *env)
+// {
+// 	t_env	*head;
+// 	int		tmp;
 
-	head = env;
-	while (env->next != NULL)
-	{
-		if (ft_strcmp(env->name, env->next->name) == 0)
-		{
-			tmp = env->name;
-			env->name = env->next->name;
-			env->next->name = tmp;
-			env = head;
-		}
-		else
-			env = env->next;
-	}
-    env = head;
-	return (env);
-}
+// 	head = env;
+// 	while (env->next != NULL)
+// 	{
+// 		if (ft_strcmp(env->name, env->next->name) == 0)
+// 		{
+// 			tmp = env->name;
+// 			env->name = env->next->name;
+// 			env->next->name = tmp;
+// 			env = head;
+// 		}
+// 		else
+// 			env = env->next;
+// 	}
+//     env = head;
+// 	return (env);
+// }
 
-void ft_export_show(t_env *env)
-{
-	env = sort_list(env);
-	while (env)
-	{
-		printf("%s=%s\n", env->name, env->content);
-		env = env->next;
-	}	
-}
+// void ft_export_show(t_env *env)
+// {
+// 	env = sort_list(env);
+// 	while (env)
+// 	{
+// 		printf("%s=%s\n", env->name, env->content);
+// 		env = env->next;
+// 	}	
+// }
 
 /*
 void ft_export_add(char *var, char **arg)
