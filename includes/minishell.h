@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 13:58:50 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 18:28:23 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define MAX_PATH_LENGTH 4096
 # define HISTSIZE 500
 # define DELIMS "|&<>"
+# define ARR_SEP '|'
 # define ASCII_ART_PATH "assets/ascii_art_doh"
 # define HEREDOC_TMP "heredoc_tmp"
 
@@ -206,6 +207,7 @@ int				count_repeated_chars(const char *str, int c);
 char			*trim_first_last(char *str);
 char			*trim_whitespace(const char *str);
 void			remove_outer_parentheses(char **str);
+void			remove_quotes_from_args(char **args);
 
 //  prints.c
 void			print_token(t_token *head);

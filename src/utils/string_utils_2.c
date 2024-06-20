@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:29:43 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/17 16:20:00 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 18:27:12 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,39 @@ char	*trim_first_last(char *str)
 		return (NULL);
 	ft_strlcpy(new_str, str + 1, len - 1);
 	return (new_str);
+}
+
+static void	remove_quotes(char *str)
+{
+	size_t	len;
+	char	*src;
+	char	*dst;
+	char	*new_str;
+
+	len = ft_strlen(str);
+	src = str;
+	dst = str;
+	new_str = NULL;
+	while (*src)
+	{
+		if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"') \
+					|| (str[0] == '\'' && str[len - 1] == '\'')))
+			new_str = trim_first_last(str); 
+	}
+	if (new_str != NULL)
+	{
+		free(str);
+		str = new_str;
+	}
+}
+
+void	remove_quotes_from_args(char **args)
+{
+	int	i;
+
+	i = -1;
+	while (args[++i])
+		remove_quotes(args[i]);
 }
 
 void	remove_outer_parentheses(char **str)
