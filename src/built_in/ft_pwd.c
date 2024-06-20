@@ -6,13 +6,13 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:59:35 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 13:56:05 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:27:26 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(char *cmd, char **arg, t_env *list)
+int	ft_pwd(char *cmd, char **args, t_env *list)
 {
 	char	*print;
 

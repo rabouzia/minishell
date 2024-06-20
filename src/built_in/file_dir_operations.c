@@ -6,20 +6,22 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:29:42 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 14:00:59 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:34:55 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	change_dir(const char *path, t_env *lst)
+int	change_dir(const char *path, t_cmd_list *lst)
 {
 	if (!path || *path == '\0')
-		return (ft_putstr_fd("error cd", 2), 0);
+		return error msg;
 	else if (chdir(path) == -1)
-		return (ft_putstr_fd("error cd", 2), 0);
+	{
+		return erro ,msg
+	}
 	else
-		lst->pwd = getcwd(NULL, 0);
+		change pwd in env;
 	return (0);
 }
 

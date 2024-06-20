@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 14:48:08 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/20 16:34:01 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 		if (dup2(info->pipe[1], STDOUT_FILENO) == -1)
 			return (fd_log_error("Dup pipe error", NULL, NULL));
 	}
+	
 	if (execve(cmd, args, env) == -1)
 		exit(125 + execve_log_error(cmd, errno));
 	// to do : add builtin

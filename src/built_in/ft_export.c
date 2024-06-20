@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 23:38:01 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/20 13:56:00 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:27:22 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 // }
 
 
-int ft_export(char *cmd, char **arg, t_env *list)
+int ft_export(char *cmd, char **args, t_env *list)
 {
 	(void) cmd;
 	(void) list;
+
+	
 	return 0;
 }
 
@@ -53,48 +55,48 @@ int ft_export(char *cmd, char **arg, t_env *list)
 // 	return (str_arr);
 // }
 
-// t_env	*sort_list(t_env *env)
-// {
-// 	t_env	*head;
-// 	int		tmp;
+t_env	*sort_list(t_env *env)
+{
+	t_env	*head;
+	int		tmp;
 
-// 	head = env;
-// 	while (env->next != NULL)
-// 	{
-// 		if (ft_strcmp(env->name, env->next->name) == 0)
-// 		{
-// 			tmp = env->name;
-// 			env->name = env->next->name;
-// 			env->next->name = tmp;
-// 			env = head;
-// 		}
-// 		else
-// 			env = env->next;
-// 	}
-//     env = head;
-// 	return (env);
-// }
+	head = env;
+	while (env->next != NULL)
+	{
+		if (ft_strcmp(env->name, env->next->name) == 0)
+		{
+			tmp = env->name;
+			env->name = env->next->name;
+			env->next->name = tmp;
+			env = head;
+		}
+		else
+			env = env->next;
+	}
+    env = head;
+	return (env);
+}
 
-// void ft_export_show(t_env *env)
-// {
-// 	env = sort_list(env);
-// 	while (env)
-// 	{
-// 		printf("%s=%s\n", env->name, env->content);
-// 		env = env->next;
-// 	}	
-// }
+void ft_export_show(t_env *env)
+{
+	env = sort_list(env);
+	while (env)
+	{
+		printf("%s=%s\n", env->name, env->content);
+		env = env->next;
+	}	
+}
 
-// void ft_export_add(char *var, t_main_arg *arg)
-// {
-// 	t_env *env;
-// 	env = arg->env;
-// 	while(env)
-// 		env= env->next;
-// 	if (node->right != NULL)
+void ft_export_add(char *var, t_main_arg *arg)
+{
+	t_env *env;
+	env = arg->env;
+	while(env)
+		env= env->next;
+	if (node->right != NULL)
 	
-// 	if (ft_strchr(var,'=')) // search a = then stop
-// 		env = add_builtin_node(var, var);
-// 	else
-// 		return;
-// }
+	if (ft_strchr(var,'=')) // search a = then stop
+		env = add_builtin_node(var, var);
+	else
+		return;
+}

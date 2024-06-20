@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 21:38:26 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/20 13:54:23 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:28:20 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 // to be completed
 
 
-int	ft_echo(char *cmd,char **arg, t_env *list)
+int	ft_echo(char *cmd, char **args, t_env *list)
 {
 	int	i;
 	(void) cmd;
 
 	i = 2;
-	if (arg[0][0] == '-' && arg[0][1] == 'n')
+	if (list->cmd[0] == '-' && list->cmd[1] == 'n')
 	{
 		while (list->cmd[i])
 		{

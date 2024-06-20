@@ -6,24 +6,65 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:48:50 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 13:55:49 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:00:07 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// UnCompleted
-int	ft_env(char *cmd, char **arg, t_env *list)
+void	printf_env(t_env *list)
 {
-	(void) cmd;
-	t_env *env;
-	env = lst->env;
-	while (env)
+	t_env	*cur;
+
+	cur = list;
+	while (cur)
 	{
-		printf("%s=%s\n", env->name, env->content);
-		env = env->next;
+		printf("%s=%s\n", cur->name, cur->content);
+		cur = cur->next;
 	}
-	return (SUCCESS);
+}
+static int	check_in_env(char *arg, t_env *list)
+{
+	t_env	*cur;
+
+	cur = list;
+	while (cur)
+	{
+		if (ft_strncmp(arg, cur->name, ft_strlen(cur->name)) == 0)
+		{
+			ft_putstr_fd(cur->content, 1);
+			printf_env(list);
+			return (0);
+		}
+		cur = cur->next;
+	}
+	return (0);
+}
+
+// UnCompleted
+int	ft_env(char *cmd, char **args, t_env *list)
+{
+	t_env	*cur;
+
+	(void)cmd;
+	(void)args;
+	cur = list;
+	if (!args)
+	{
+		printf_env(list);
+		return (0);
+	}
+	if (args[0])
+	{
+		if (sizeof(args) > 2)
+		{
+			ft_putstr_fd("ignoring non-option arguments", STDOUT_FILENO);
+			printf_env(list);
+		}
+		else
+			return (check_in_env(args[0], list));
+	}
+	return (0);
 }
 
 t_env	*builtin_new_node(char *name, char *content)
@@ -128,7 +169,7 @@ t_env	*fill_env(int ac, char **av, char **env)
 	(void)av;
 	arg = ft_calloc(1, sizeof(t_env));
 	if (!arg)
-		return NULL;
+		return (NULL);
 	i = -1;
 	name = NULL;
 	content = NULL;
@@ -141,7 +182,7 @@ t_env	*fill_env(int ac, char **av, char **env)
 		free(content);
 	}
 	arg = tmp;
-	return arg;
+	return (arg);
 }
 /*
 #include "minishell.h"

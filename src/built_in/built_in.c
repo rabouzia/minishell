@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:45:58 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 22:11:46 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:58:18 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 // 	cmd->tab_func[UNSET] = ft_unset;
 // }
 
-void 	init_builtin(const char* cmd, const char **args, t_env * var)
+void 	init_builtin(t_cmd_list *var)
 {
 	var->func[CD] = ft_cd;
 	var->func[M_ECHO] = ft_echo;
