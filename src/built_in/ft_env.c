@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:48:50 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 18:20:44 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 21:57:34 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,7 @@ static int	check_in_env(const char *arg, t_env *list)
 // UnCompleted
 int	ft_env(const char *cmd, const char **args, t_env *list)
 {
-	t_env	*cur;
-
 	(void)cmd;
-	(void)args;
-	cur = list;
 	if (!args)
 	{
 		printf_env(list);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 19:35:20 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 22:37:25 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 	int		built_in;
 	int		(*arr_built_in[8])(const char *, const char **, t_env *);
 
+	printf("cmd : %s, args >> %s, %s, %s\n", cmd, args[0], args[1], args[2]);
 	env = (char **)list_to_array(info->env);
 	if (env == NULL)
 		exit(EXIT_FAILURE);
@@ -59,6 +60,8 @@ static int	monitor_child_task(char *cmd, pid_t pid, t_info *info)
 			printf("^C\n");
 		info->exit_status = 128 + WTERMSIG(status);
 	}
+	else
+		info->exit_status = WEXITSTATUS(status);
 	set_signal_handler();
 	if (info->pipe_exists)
 		close(info->pipe[0]);
@@ -75,7 +78,7 @@ static int	launch_process(char *cmd, char **args, t_info *info)
 	if (pid == 0)
 		exec_child_task(cmd, args, info);
 	monitor_child_task(cmd, pid, info);
-	return (1);
+	return (info->exit_status);
 }
 
 int	dispatch_cmd(t_ast	*node, t_info *info)
@@ -87,6 +90,7 @@ int	dispatch_cmd(t_ast	*node, t_info *info)
 
 	cmd_node = node->left;
 	args_node = node->right;
+	args = NULL;
 	//printf("args_node data : %s\n", args_node->data);
 	if (args_node)
 	{
@@ -94,8 +98,9 @@ int	dispatch_cmd(t_ast	*node, t_info *info)
 		remove_quotes_from_args(args);
 	}
 	else
-		args = NULL;
+		args = allocate_null_args();
 	status = launch_process(cmd_node->data, args, info);
 	info->pipe_exists = false;
+	free_args(args);
 	return (status);
 }

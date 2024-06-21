@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 15:39:22 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 19:46:50 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:04:44 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	tokenize(const char *input, t_token **tokens)
 			else if (depth > 0 && *input == ')')
 				handle_close_subshell(&input, &depth, &start, tokens);
 		}
-		if (!in_quote && depth == 0)
+		if (!in_quote)
 			handle_operators_and_spaces(&input, &start, tokens);
 		input++;
 	}

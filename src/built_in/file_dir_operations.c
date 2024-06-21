@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_dir_operations.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:29:42 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 17:59:04 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/20 21:44:09 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	change_dir(const char *path, t_env *lst)
 {
 	(void) lst;
 	if (!path || *path == '\0')
-		return 0;
+		return (0);
 	else if (chdir(path) == -1)
-		return 0;
+		return (0);
 	else
-		return 1;
+		return (1);
 	return (0);
 }
 
@@ -51,7 +51,7 @@ void	list_dir(const char *dirname)
 	dir = opendir(dirname);
 	if (dir == NULL)
 	{
-		perror("opendir");;
+		perror("opendir");
 		return ;
 	}
 	entry = readdir(dir);
