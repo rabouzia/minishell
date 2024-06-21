@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 12:05:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/03 16:22:37 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:28:49 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,42 @@ void	free_tree(t_ast *root)
 		free(root->data);
 	free(root);
 	root = NULL;
+}
+
+
+int	calculate_depth(const char *str)
+{
+	int	depth;
+	int	max_depth;
+
+	depth = 0;
+	max_depth = 0;
+	while (*str)
+	{
+		if (*str == '(')
+		{
+			depth++;
+			if (depth > max_depth)
+				max_depth = depth;
+		}
+		else if (*str == ')')
+			depth--;
+		str++;
+	}
+	return (max_depth);
+}
+
+void	remove_outer_parentheses(char **str, t_ast **root)
+{
+	int		len;
+	int		depth;
+
+	len = ft_strlen(*str);
+	depth = calculate_depth(*str);
+	if (depth > 1 && len >= 2 && (*str)[0] == '(' && (*str)[len - 1] == ')')
+	{
+		ft_memmove(*str, *str + 1, len - 2);
+		(*str)[len - 2] = '\0';
+		*root = new_node("(", SUBSHELL);
+	}
 }

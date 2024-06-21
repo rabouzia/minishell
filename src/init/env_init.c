@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 11:37:49 by junsan            #+#    #+#             */
 /*   Updated: 2024/06/21 19:30:13 by rabouzia         ###   ########.fr       */
@@ -15,12 +15,10 @@
 static void	env_split(const char *str, char **name, char **content)
 {
 	size_t	i;
-	size_t	j;
 
 	if (!str)
 		return ;
 	i = 0;
-	j = 1;
 	while (str[i] && str[i] != '=')
 		i++;
 	if (str[i] != '=')

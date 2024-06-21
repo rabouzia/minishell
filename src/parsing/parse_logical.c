@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 19:23:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 19:24:28 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 12:46:50 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ bool	parse_logical(t_token **token, t_ast **node)
 
 	left = NULL;
 	printf("logical >> \n");
-	parse_pipe(token, node);
+	if (!parse_pipe(token, node))
+		return (false);
 	while (*token && (*token)->type == LOGICAL)
 	{
 		logical_node = new_node((*token)->data, (*token)->type);
 		if (!logical_node)
 			return (false);
 		*token = (*token)->next;
-		parse_pipe(token, &left);
+		if (!parse_pipe(token, &left))
+			return (false);
 		logical_node->left = left;
 		logical_node->right = *node;
 		*node = logical_node;

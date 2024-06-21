@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   file_dir_operations.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:29:42 by junsan            #+#    #+#             */
 /*   Updated: 2024/06/21 20:44:25 by rabouzia         ###   ########.fr       */
@@ -52,7 +52,6 @@ void	list_dir(const char *dirname)
 	if (dir == NULL)
 	{
 		perror("opendir");
-		;
 		return ;
 	}
 	entry = readdir(dir);
