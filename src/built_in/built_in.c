@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:45:58 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 19:10:10 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:52:17 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void 	init_builtin(int (*func[])(const char *, const char **, t_env *))
 	func[UNSET] = ft_unset;
 }
 
-int	handler_builtin(const char *cmd)
+t_built_in	handler_builtin(const char *cmd)
 {
 	if (ft_strncmp(cmd, "cd", 3) == 0)
 		return (CD);

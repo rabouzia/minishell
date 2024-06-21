@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 19:33:06 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:52:53 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,10 @@ void					disable_interrupt_signals(void);
 // built_in.c
 void					init_builtin(int (*func[])(const char *, const char **,
 								t_env *));
-int						handler_builtin(const char *cmd);
+t_built_in				handler_builtin(const char *cmd);
+
+// file_dir_open.c
+int						change_dir(const char *path, t_env *lst);
 
 // ft_cd.c
 void					ist_swap(t_env *a);
@@ -248,11 +251,11 @@ void					remove_control_characters(char *str);
 int						count_repeated_chars(const char *str, int c);
 
 // string_utils_2.c
-char			*trim_first_last(char *str);
-char			*trim_whitespace(const char *str);
-char			*ft_strndup(const char *str, size_t n);
-void			remove_outer_parentheses(char **str);
-void			remove_quotes_from_args(char **args);
+char					*trim_first_last(char *str);
+char					*trim_whitespace(const char *str);
+char					*ft_strndup(const char *str, size_t n);
+void					remove_outer_parentheses(char **str);
+void					remove_quotes_from_args(char **args);
 
 //  prints.c
 void					print_token(t_token *head);

@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 02:39:36 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/20 19:10:49 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 14:12:09 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,3 @@ int	ft_cd(const char *cmd, const char **args, t_env *list)
 		change_dir(args[1], list);
 	return (0);
 }
-
-// void	modify_pwd_in_env(t_env *env, char *str)
-// {
-// 	char	*new_pwd;
-// 	char	*last_slash;
-
-// 	if (str && *str != '\0')
-// 	{
-// 		new_pwd = ft_strjoin(env->pwd, str);
-// 		free(env->pwd);
-// 		env->pwd = new_pwd;
-// 	}
-// 	else
-// 	{
-// 		last_slash = strrchr(env->pwd, '/');
-// 		if (last_slash)
-// 			*last_slash = '\0';
-// 	}
-// }

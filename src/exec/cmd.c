@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 19:35:20 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:57:45 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static int	exec_child_task(char *cmd, char **args, t_info *info)
 {
-	char	**env;
-	int		built_in;
-	int		(*arr_built_in[8])(const char *, const char **, t_env *);
+	char		**env;
+	t_built_in	built_in;
+	int			(*arr_built_in[8])(const char *, const char **, t_env *);
 
 	env = (char **)list_to_array(info->env);
 	if (env == NULL)
@@ -29,7 +29,7 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 	}
 	init_builtin(arr_built_in);
 	built_in = handler_builtin(cmd);
-	printf("%s, %s, %s\n", args[0], args[1], args[2]);
+	// printf("%s, %s, %s\n", args[0], args[1], args[2]);
 	if (built_in != NONE)
 		exit(arr_built_in[built_in]((const char *)cmd, (const char **)args, info->env));
 	else if (execve(cmd, args, env) == -1)
