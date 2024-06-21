@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 02:39:36 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/21 14:12:09 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:44:31 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 
 void	lst_swap(t_env *a)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = a->pwd;
 	a->pwd = a->old_pwd;
 	a->old_pwd = tmp;
 }
-
 
 int	ft_cd(const char *cmd, const char **args, t_env *list)
 {
@@ -32,7 +31,7 @@ int	ft_cd(const char *cmd, const char **args, t_env *list)
 	if (args[1])
 	{
 		ft_putstr_fd("cd: too many arguments", 2);
-		return 1;
+		return (1);
 	}
 	if (ft_strncmp(args[0], "-", 1))
 	{
@@ -43,7 +42,7 @@ int	ft_cd(const char *cmd, const char **args, t_env *list)
 	{
 		ft_putstr_fd("cd: no such file or directory: ", 2);
 		ft_putstr_fd((char *)args[1], 2);
-		return 1;
+		return (1);
 	}
 	else
 		change_dir(args[1], list);

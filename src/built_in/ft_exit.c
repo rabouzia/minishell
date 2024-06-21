@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:05:58 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/20 18:18:40 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:44:35 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_exit(const char *cmd, const char **args, t_env *list)
 {
-	(void) cmd;
+	(void)cmd;
 	(void)list;
 	if (*args && !ft_isdigit(ft_atoi(args[0])))
 	{

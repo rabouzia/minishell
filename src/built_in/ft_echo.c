@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 21:38:26 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/20 18:15:22 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:44:28 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 // to be completed
 
-
 int	ft_echo(const char *cmd, const char **args, t_env *list)
 {
 	int	i;
-	(void) cmd;
-	(void) list;
+
+	(void)cmd;
+	(void)list;
 	i = 2;
 	if (args[0][0] == '-' && args[0][1] == 'n')
 	{

@@ -6,13 +6,13 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:45:58 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 20:04:37 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:44:27 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void 	init_builtin(int (*func[])(const char *, const char **, t_env *))
+void	init_builtin(int (*func[])(const char *, const char **, t_env *))
 {
 	func[CD] = ft_cd;
 	func[M_ECHO] = ft_echo;

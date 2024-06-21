@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:48:24 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 20:23:12 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:44:41 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	del_node(t_env *lst, const char *to_unset)
 	t_env	*cur;
 	t_env	*prev;
 	t_env	*next;
-// gerer le cas ou on enleve le premier notamment en mettant **lst
+
+	// gerer le cas ou on enleve le premier notamment en mettant **lst
 	cur = lst;
 	prev = cur;
 	while (cur)
@@ -52,6 +53,7 @@ int	ft_unset(const char *cmd, const char **args, t_env *list)
 {
 	t_env	*cur;
 	int		i;
+
 	cur = list;
 	(void)cmd;
 	i = 0;
@@ -59,7 +61,7 @@ int	ft_unset(const char *cmd, const char **args, t_env *list)
 		return (0);
 	while (args[i])
 	{
-		del_node(cur,args[i]);
+		del_node(cur, args[i]);
 		i++;
 	}
 	return (0);

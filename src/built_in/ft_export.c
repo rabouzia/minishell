@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 23:38:01 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/21 20:20:47 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:44:38 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,16 @@
 // {
 // }
 
-
-int ft_export(const char *cmd, const char **args, t_env *list)
+int	ft_export(const char *cmd, const char **args, t_env *list)
 {
-	(void) cmd;
-	(void) list;
-	(void) args;
+	(void)cmd;
+	(void)list;
+	(void)args;
 	// export asdas=sadasd
 	// export asdas=sadasd dfdfgfdgfd=dffsdsdf sdffds=sdffdsfd
 	// export (env trier)
 	// export asdsa=asdsad=asdasd
-
-
-	return 0;
+	return (0);
 }
 
 // char	**env_split(char const *str, char c)
@@ -89,20 +86,20 @@ int ft_export(const char *cmd, const char **args, t_env *list)
 // 	{
 // 		printf("%s=%s\n", env->name, env->content);
 // 		env = env->next;
-// 	}	
+// 	}
 // }
 
 /*
-void ft_export_add(char *var, char **arg)
+void	ft_export_add(char *var, char **arg)
 {
 	t_env *env;
 	env = arg->env;
 	while(env)
 		env= env->next;
 	if (node->right != NULL)
-	
+
 	if (ft_strchr(var,'=')) // search a = then stop
 		env = add_builtin_node(var, var);
 	else
-		return;
+		return ;
 }*/
