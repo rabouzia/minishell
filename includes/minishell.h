@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 22:26:17 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 14:01:50 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # include <unistd.h>    // write, access, close, fork, execve, pipe, dup, dup2
 
 # define MAX_PATH_LENGTH 4096
+# define MEMORY_CAPACITY 256
 # define HISTSIZE 500
 # define DELIMS "|&<>"
 # define ARR_SEP '|'
@@ -159,6 +160,12 @@ t_token_list			*get_token_list(t_token *token);
 void					add_token(t_token **head, const char *start,
 							size_t len);
 
+// tokenize_utlls_2.c
+t_token					*tokens_last(t_token *tokens);
+void					free_token(t_token *head);
+void					remove_outer_parentheses(char **str, t_ast **root);
+size_t					tokens_size(t_token *head);
+
 // init_minishell.c
 void					init_minishell(char **envp, t_env **env);
 
@@ -237,11 +244,6 @@ void					handle_close_subshell(const char **input, int *depth,
 void					handle_operators_and_spaces(const char **input,
 							const char **start, t_token **list);
 
-// tokenize_utlls_2.c
-t_token					*tokens_last(t_token *tokens);
-void					free_token(t_token *head);
-size_t					tokens_size(t_token *head);
-
 // subshell_utils.c
 char					*remove_nested_subshell(t_token **token);
 
@@ -255,7 +257,6 @@ int						count_repeated_chars(const char *str, int c);
 char					*trim_first_last(char *str);
 char					*trim_whitespace(const char *str);
 char					*ft_strndup(const char *str, size_t n);
-void					remove_outer_parentheses(char **str);
 void					remove_quotes_from_args(char **args);
 
 //  prints.c

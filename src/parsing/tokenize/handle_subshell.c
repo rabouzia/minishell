@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 19:45:20 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 19:45:33 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 13:21:15 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	handle_close_subshell(\
 	{
 		while (ft_isspace(**start))
 			(*start)++;
-		add_token(list, *start, *input - *start);
+		if (*input - *start != 0)
+			add_token(list, *start, *input - *start);
 		add_token(list, ")", 1);
 		*start = *input + 1;
 	}

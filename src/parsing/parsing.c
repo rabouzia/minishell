@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 10:49:14 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/13 19:30:06 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 12:19:33 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,26 @@
 
 static bool	parsor(t_token **token, t_ast **root, int start)
 {
+	bool	is_parse;
+	t_ast	*left;
+
 	if (!token || !*token)
 		return (NULL);
+	left = NULL;
+	is_parse = false;
 	if (start == LOGICAL)
-		return (parse_logical(token, root));
+		is_parse = parse_logical(token, &left);
 	else if (start == PIPE)
-		return (parse_pipe(token, root));
-	return (parse_phrase(token, root));
+		is_parse = parse_pipe(token, &left);
+	else
+		is_parse = parse_phrase(token, &left);
+	if (!is_parse)
+		return (false);
+	if (*root)
+		(*root)->left = left;
+	else
+		*root = left;
+	return (true);
 }
 
 bool	parsing_tree(t_token_list **tokens, t_ast **root)

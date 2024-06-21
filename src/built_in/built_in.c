@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:45:58 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 19:10:10 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:45:36 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void 	init_builtin(int (*func[])(const char *, const char **, t_env *))
+void	init_builtin(int (*func[])(const char *, const char **, t_env *))
 {
 	func[CD] = ft_cd;
 	func[M_ECHO] = ft_echo;
@@ -28,7 +28,7 @@ int	handler_builtin(const char *cmd)
 	if (ft_strncmp(cmd, "cd", 3) == 0)
 		return (CD);
 	else if (ft_strncmp(cmd, "echo", 5) == 0)
-		return (ECHO);
+		return (M_ECHO);
 	else if (ft_strncmp(cmd, "env", 4) == 0)
 		return (ENV);
 	else if (ft_strncmp(cmd, "exit", 5) == 0)

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:29:43 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 22:43:04 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 11:19:55 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,4 @@ void	remove_quotes_from_args(char **args)
 	i = -1;
 	while (args[++i])
 		remove_quotes(args[i]);
-}
-
-void	remove_outer_parentheses(char **str)
-{
-	int		len;
-
-	len = ft_strlen(*str);
-	if (len >= 2 && (*str)[0] == '(' && (*str)[len - 1] == ')')
-	{
-		ft_memmove(*str, *str + 1, len - 2);
-		(*str)[len - 2] = '\0';
-	}
 }
