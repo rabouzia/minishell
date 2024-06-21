@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:24:56 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 12:51:17 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:05:13 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,39 +52,28 @@ void	free_token(t_token *head)
 	head = NULL;
 }
 
-int	calculate_depth(const char *str)
+bool	check_quotes_in_tokens(t_token *head)
 {
-	int	depth;
-	int	max_depth;
+	char	quote;
+	char	*data;
+	int		i;
 
-	depth = 0;
-	max_depth = 0;
-	while (*str)
+	quote = 0;
+	while (head)
 	{
-		if (*str == '(')
+		i = -1;
+		data = head->data;
+		while (data[++i])
 		{
-			depth++;
-			if (depth > max_depth)
-				max_depth = depth;
+			if (data[i] == '"' || data[i] == '\'')
+			{
+				if (quote == 0)
+					quote = data[i];
+				else if (quote == data[i])
+					quote = 0;
+			}
 		}
-		else if (*str == ')')
-			depth--;
-		str++;
+		head = head->next;
 	}
-	return (max_depth);
-}
-
-void	remove_outer_parentheses(char **str, t_ast **root)
-{
-	int		len;
-	int		depth;
-
-	len = ft_strlen(*str);
-	depth = calculate_depth(*str);
-	if (depth > 1 && len >= 2 && (*str)[0] == '(' && (*str)[len - 1] == ')')
-	{
-		ft_memmove(*str, *str + 1, len - 2);
-		(*str)[len - 2] = '\0';
-		*root = new_node("(", SUBSHELL);
-	}
+	return (quote == 0);
 }

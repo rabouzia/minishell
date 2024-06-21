@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 14:01:50 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:06:46 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void					add_token(t_token **head, const char *start,
 // tokenize_utlls_2.c
 t_token					*tokens_last(t_token *tokens);
 void					free_token(t_token *head);
-void					remove_outer_parentheses(char **str, t_ast **root);
+bool					check_quotes_in_tokens(t_token *head);
 size_t					tokens_size(t_token *head);
 
 // init_minishell.c
@@ -258,6 +258,7 @@ char					*trim_first_last(char *str);
 char					*trim_whitespace(const char *str);
 char					*ft_strndup(const char *str, size_t n);
 void					remove_quotes_from_args(char **args);
+void					remove_quotes(char *str);
 
 //  prints.c
 void					print_token(t_token *head);
@@ -270,6 +271,7 @@ void					print_tree(t_ast *root, int depth);
 void					free_tree(t_ast *node);
 t_ast					*new_node(const char *data, t_type type);
 t_ast					*attach_to_tree(t_ast *root, t_ast *node, int side);
+void					remove_outer_parentheses(char **str, t_ast **root);
 
 // get_type.c
 t_type					get_type(const char *data);

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:29:43 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 11:19:55 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:06:18 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*trim_first_last(char *str)
 	return (new_str);
 }
 
-static void	remove_quotes(char *str)
+void	remove_quotes(char *str)
 {
 	size_t	len;
 

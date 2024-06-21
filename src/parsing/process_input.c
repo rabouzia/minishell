@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 12:43:10 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:52:08 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,29 @@ void	process_input(char *input, t_env *env)
 	{
 		remove_outer_parentheses(&input, &root);
 		tokenize(input, &tokens);
-		token_list = get_token_list(tokens);
-		print_token(tokens);
-		is_parse = parsing_tree(&token_list, &root);
-		if (is_parse)
+		if (!check_quotes_in_tokens(tokens))
 		{
-			print_tree(root, 10);
-			execute(root, env);
+			free_token(tokens);
+			ft_putstr_fd("kashell: Unclose quotes\n", STDOUT_FILENO);
+			tokens = NULL;
 		}
-		else
-			printf("parsing fail\n");
-		free_tree(root);
-		free(token_list);
-		free_token(tokens);
+		if (tokens)
+		{
+			printf("tokens data : %s\n", tokens->data);
+			token_list = get_token_list(tokens);
+			print_token(tokens);
+			is_parse = parsing_tree(&token_list, &root);
+			if (is_parse)
+			{
+				print_tree(root, 10);
+				execute(root, env);
+			}
+			else
+				printf("parsing fail\n");
+			free_tree(root);
+			free(token_list);
+			free_token(tokens);
+		}
 		free(input);
 	}
 }
