@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:45:58 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 12:45:36 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/22 18:43:55 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_builtin(int (*func[])(const char *, const char **, t_env *))
 	func[M_ECHO] = ft_echo;
 	func[ENV] = ft_env;
 	func[EXIT] = ft_exit;
-	//func[EXPORT] = ft_export;
+	func[EXPORT] = ft_echo;
 	func[PWD] = ft_pwd;
 	func[UNSET] = ft_unset;
 }

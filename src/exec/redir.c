@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:01:59 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/17 17:28:53 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/22 19:37:11 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,14 @@ int	handle_io_redirection(t_ast *node, t_info *info)
 		close(info->stdout_fd);
 	while (node && status == SUCCESS)
 	{
-		printf("io node data : %s\n", node->left->data);
 		status = handle_ft_redirection(node, info);
-		printf("status : %d\n", status);
 		if (status == FAILURE)
 			info->pipe_exists = false;
+		if (!node->left->left)
+			break ;
 		node = node->left->left;
+		printf("io node data : %s\n", node->left->data);
+		printf("status : %d\n", status);
 	}
 	if (info->stdin_fd != -1)
 		close(info->stdin_fd);

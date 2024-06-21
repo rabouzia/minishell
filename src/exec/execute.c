@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:34:10 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 21:58:05 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/22 21:35:58 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,18 @@ static void	categorize_tree(t_ast *node, t_info *info)
 
 static void	traverse_tree(t_ast *node, t_info *info)
 {
+	int	status;
+
 	if (node == NULL)
 		return ;
 	if (node->type == LOGICAL)
 	{
-		traverse_tree(node->left, info);
-		while ((ft_strncmp(node->data, "&&", 2) && info->status == SUCCESS) || \
-			(ft_strncmp(node->data, "||", 2) && info->status == FAILURE))
-			traverse_tree(node->right, info);
+		traverse_tree(node->right, info);
+		status = info->status;
+		printf("status : %d\n", status);
+		if ((ft_strncmp(node->data, "&&", 2) == 0 && status == SUCCESS) || \
+			(ft_strncmp(node->data, "||", 2) == 0 && status == FAILURE))
+			traverse_tree(node->left, info);
 	}
 	else
 	{
@@ -71,6 +75,9 @@ void	execute(t_ast *root, t_env *env)
 	traverse_tree(root, &info);
 	if (restore_stdio(&info) == FAILURE)
 		fd_log_error(NULL, NULL, strerror(errno));
+	if (info.status != SUCCESS)
+		printf("status not success\n");
+	printf("exit status : %d\n", info.exit_status);
 	cleanup_tmp_file();
 	clear_info(&info);
 }

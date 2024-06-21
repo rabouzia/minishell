@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:20:15 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 13:43:49 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 19:07:06 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	here_doc(int infile, char *limiter)
 	while (1)
 	{
 		line = readline("heredoc> ");
-		printf("checkds\n");
 		if (line == NULL)
 			break ;
 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)

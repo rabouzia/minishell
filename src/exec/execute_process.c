@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:44:23 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 22:10:10 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/22 17:58:51 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,21 @@ bool	process_subshell_node(t_ast *node)
 		return (FAILURE);
 }*/
 
-void	process_cmd_node(t_ast *node, t_info *info)
-{
-	info->status = dispatch_cmd(node, info);
-}
-
 // left is redir, right is args
 void	process_phrase_node(t_ast *node, t_info *info)
 {
-	t_ast	*redirection_node;
+	t_ast	*redir_node;
 	t_ast	*cmd_node;
 
 	(void)info;
-	redirection_node = node->left;
+	redir_node = node->left;
 	cmd_node = node->right;
-	if (redirection_node)
+	if (redir_node)
 	{
-		info->status = handle_io_redirection(node->left, info);
-		if (redirection_node->right)
-			info ->status = handle_io_redirection(node->right, info);
+		info->status = handle_io_redirection(redir_node->left, info);
+		if (redir_node->right)
+			info ->status = handle_io_redirection(redir_node->right, info);
 	}
 	if (cmd_node)
-		process_cmd_node(cmd_node, info);
+		info->exit_status = dispatch_cmd(cmd_node, info);
 }

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:48:46 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 10:07:36 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/22 18:25:04 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,17 @@ void	free_args(char **args)
 	}
 }
 
-char	**allocate_null_args(void)
+char	**allocate_null_and_cmd_chunk(const char *cmd)
 {
-	char	**args;
+	char	**chunk;
 
-	args = (char **)malloc(sizeof(char *));
-	if (args == NULL)
+	chunk = (char **)malloc(sizeof(char *) * 2);
+	if (chunk == NULL)
 	{
 		perror("malloc");
 		return (NULL);
 	}
-	args[0] = NULL;
-	return (args);
+	chunk[0] = ft_strdup(cmd);
+	chunk[1] = NULL;
+	return (chunk);
 }
