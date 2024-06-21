@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:48:24 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 19:37:07 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:23:12 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	del_node(t_env *lst, const char *to_unset)
 	t_env	*cur;
 	t_env	*prev;
 	t_env	*next;
-
+// gerer le cas ou on enleve le premier notamment en mettant **lst
 	cur = lst;
 	prev = cur;
 	while (cur)

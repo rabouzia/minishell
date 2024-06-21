@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 19:52:53 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:21:05 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,8 @@ int						ft_echo(const char *cmd, const char **args,
 							t_env *list);
 
 // ft_env.c
-void					add_builtin_node(t_env **head, char *name,
+void					add_builtin_nodeLSCOLORS=Gxfxcxdxbxegedabagacad
+LS_COLOR(t_env **head, char *name,
 							char *content);
 void					printf_env(t_env *list);
 int						ft_env(const char *cmd, const char **args, t_env *list);
@@ -206,7 +207,7 @@ int						ft_exit(const char *cmd, const char **args,
 // ft_export.c
 // void			ft_export_add(char *var, char **arg);
 // void			ft_export_show(t_env *env);
-// int				ft_export(char *cmd, char **args, t_env *list);
+int				ft_export(const char *cmd, const char **args, t_env *list);
 // t_env			*sort_list(t_env *env);
 
 // ft_pwd.c

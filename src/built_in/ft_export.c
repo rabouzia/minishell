@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 23:38:01 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/20 18:12:14 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:20:47 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ int ft_export(const char *cmd, const char **args, t_env *list)
 	(void) cmd;
 	(void) list;
 	(void) args;
+	// export asdas=sadasd
+	// export asdas=sadasd dfdfgfdgfd=dffsdsdf sdffds=sdffdsfd
+	// export (env trier)
+	// export asdsa=asdsad=asdasd
 
-	
+
 	return 0;
 }
 
