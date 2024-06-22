@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/22 22:28:54 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/22 22:47:31 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static int	exec_child_task(char *cmd, char **args, t_info *info)
 {
 	char	**env;
-	// int		built_in;
-	// int		(*arr_built_in[8])(const char *, const char **, t_env *);
+	int		built_in;
+	int		(*arr_built_in[8])(const char *, const char **, t_env *);
 
 	env = (char **)list_to_array(info->env);
 	if (env == NULL)
@@ -30,13 +30,12 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 		if (dup2(info->pipe[1], STDOUT_FILENO) == -1)
 			return (fd_log_error("Dup pipe error", NULL, NULL));
 	}
-	// init_builtin(arr_built_in);
-	// built_in = handler_builtin(cmd);
-	printf("%s, %s, %s\n", args[0], args[1], args[2]);
-	// if (built_in != NONE)
-		// exit(arr_built_in[built_in](\
-			// (const char *)cmd, (const char **)args, info->env);
-	if (args[0][0] == '.' && args[0][1] == '/'
+	init_builtin(arr_built_in);
+	built_in = handler_builtin(cmd);
+	if (built_in != NONE)
+		exit(arr_built_in[built_in](\
+			(const char *)cmd, (const char **)args, info->env));
+	else if (args[0][0] == '.' && args[0][1] == '/'
 		&& execve(args[0], args, env) == -1)
 		exit(125 + execve_log_error(args[0], errno));
 	if (info->path)
@@ -45,7 +44,7 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 		free(info->path);
 	}
 	if (execve(args[0], args, env) == -1)
-		exit(126 + execve_log_error(cmd, errno));
+		exit(126 + fd_log_error("command not found", NULL, cmd));
 	return (SUCCESS);
 }
 
@@ -63,13 +62,13 @@ static int	monitor_child_task(char *cmd, pid_t pid, t_info *info)
 		&& (ft_strlen(cmd) == ft_strlen("./minishell")))
 		disable_interrupt_signals();
 	waitpid(pid, &status, 0);
-	if (WTERMSIG(status) != 0)
+	if (WIFSIGNALED(status))
 	{
-		if (WTERMSIG(status) == 2)
+		if (WTERMSIG(status) == SIGINT)
 			printf("^C\n");
 		info->exit_status = 128 + WTERMSIG(status);
 	}
-	else
+	else if (WIFEXITED(status))
 		info->exit_status = WEXITSTATUS(status);
 	set_signal_handler();
 	if (info->pipe_exists)
