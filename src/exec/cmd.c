@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/22 22:47:31 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 09:27:56 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 		free(info->path);
 	}
 	if (execve(args[0], args, env) == -1)
-		exit(126 + fd_log_error("command not found", NULL, cmd));
+		exit(126 + execve_log_error(args[0], errno));
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:01:59 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/22 19:37:11 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 10:05:24 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,5 @@ int	handle_io_redirection(t_ast *node, t_info *info)
 		printf("io node data : %s\n", node->left->data);
 		printf("status : %d\n", status);
 	}
-	if (info->stdin_fd != -1)
-		close(info->stdin_fd);
-	if (info->stdout_fd != -1)
-		close(info->stdout_fd);
 	return (status);
 }
