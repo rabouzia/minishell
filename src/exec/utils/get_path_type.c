@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 19:37:41 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/22 20:39:20 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 22:09:27 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,24 @@ static t_path_type	check_absolute_or_relative(\
 	return (PATH_RELATIVE);
 }
 
-static t_path_type	check_command(const char *path)
+static char	*get_path_in_env(t_env *env)
+{
+	while (env)
+	{
+		if (ft_strncmp(env->name, "PATH", 4) == 0 && ft_strlen(env->name) == 4)
+			break ;
+		env = env->next;
+	}
+	return (env->content);
+}
+
+static t_path_type	check_command(const char *path, t_info *info)
 {
 	char	*cmd_path;
 	char	*end;
 	char	cmd[MAX_PATH_LENGTH];
 
-	cmd_path = getenv("PATH");
+	cmd_path = get_path_in_env(info->env);
 	while (*cmd_path)
 	{
 		end = ft_strchr(cmd_path, ':');
@@ -47,11 +58,11 @@ static t_path_type	check_command(const char *path)
 	return (PATH_INVALID);
 }
 
-t_path_type	get_path_type(const char *path)
+t_path_type	get_path_type(const char *path, t_info *info)
 {
 	struct stat	path_stat;
 
 	if (stat(path, &path_stat) == 0)
 		return (check_absolute_or_relative(path, path_stat));
-	return (check_command(path));
+	return (check_command(path, info));
 }

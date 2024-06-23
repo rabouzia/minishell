@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 20:15:23 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 22:30:11 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,10 @@ char					**allocate_null_and_cmd_chunk(const char *cmd);
 void					replace_env_vars_in_args(char **args, t_info *info);
 
 // get_path_type.c
-t_path_type				get_path_type(const char *path);
+t_path_type				get_path_type(const char *path, t_info *info);
+
+// find_cmd_in_path.c
+char					*find_cmd_in_path(const char *cmd, t_env *env);
 
 // get_absolute_path.c
 char					*get_absolute_path(const char *path);

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 17:16:55 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 22:58:01 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ static char	**prepare_cmd(\
 
 	args = NULL;
 	chunk = NULL;
-	if (get_path_type(cmd_node->data) == PATH_RELATIVE)
+	if (get_path_type(cmd_node->data, info) == PATH_RELATIVE)
 		info->path = get_absolute_path(cmd_node->data);
+	if (get_path_type(cmd_node->data, info) == PATH_COMMAND)
+		info->path = find_cmd_in_path(cmd_node->data, info->env);
 	if (args_node)
 	{
 		args = ft_split(args_node->data, ARR_SEP);
