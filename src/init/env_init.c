@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 11:37:49 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 12:51:29 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 18:04:47 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	env_split(const char *str, char **name, char **content)
 		*name = NULL;
 	}
 }
-
 
 static t_env	*new_env(const char *name, const char *content)
 {
@@ -74,38 +73,6 @@ void	add_env(t_env **head, const char *str)
 			cur = cur->next;
 		cur->next = new_node;
 	}
-}
-
-void	clear_env(t_env *head)
-{
-	t_env	*cur;
-
-	if (head == NULL)
-		return ;
-	while (head)
-	{
-		cur = head->next;
-		free(head->name);
-		free(head->content);
-		free(head);
-		head = cur;
-	}
-	head = NULL;
-}
-
-size_t	env_size(t_env *head)
-{
-	t_env	*cur;
-	size_t	size;
-
-	size = 0;
-	cur = head;
-	while (cur)
-	{
-		size++;
-		cur = cur->next;
-	}
-	return (size);
 }
 
 t_env	*env_init(char **envp)

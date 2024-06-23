@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 19:26:43 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 16:50:46 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 19:26:38 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ensure_capacity(\
 }
 
 static char	*append_data_until_subshell(\
-	size_t *total_len, size_t *capacity, char *data_in_subshell, t_token **token)
+size_t *total_len, size_t *capacity, char *data_in_subshell, t_token **token)
 {
 	size_t	data_len;
 	size_t	space_needed;

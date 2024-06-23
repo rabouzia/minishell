@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logs.c                                             :+:      :+:    :+:   */
+/*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/19 13:42:56 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 15:42:39 by junsan           ###   ########.fr       */
+/*   Created: 2024/06/23 19:45:39 by junsan            #+#    #+#             */
+/*   Updated: 2024/06/23 20:15:43 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,22 @@ int	execve_log_error(char *cmd, int error)
 		ft_putstr_fd("\n", STDERR_FILENO);
 	}
 	return (FAILURE);
+}
+
+void	parse_log_error(int err, int *exit_status)
+{
+	if (err == UNCLOSED_QUOTE)
+	{
+		*exit_status = 258;
+		ft_putstr_fd("kashell$> ", STDERR_FILENO);
+		ft_putstr_fd("Unclosed quote\n", STDERR_FILENO);
+	}
+	else if (err == TOKEN_ERROR)
+	{
+		*exit_status = 258;
+		ft_putstr_fd("kashell$> ", STDERR_FILENO);
+		ft_putstr_fd("error near unexpected token\n", STDERR_FILENO);
+	}
+	else if (err == PARSE_ERROR)
+		*exit_status = 1;
 }

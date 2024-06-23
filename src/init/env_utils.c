@@ -1,53 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_utils_2.c                                 :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 22:24:56 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 20:07:59 by junsan           ###   ########.fr       */
+/*   Created: 2024/06/23 18:04:20 by junsan            #+#    #+#             */
+/*   Updated: 2024/06/23 18:04:32 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*tokens_last(t_token *tokens)
+void	clear_env(t_env *head)
 {
-	if (!tokens)
-		return (NULL);
-	while (tokens->next)
-		tokens = tokens->next;
-	return (tokens);
-}
+	t_env	*cur;
 
-size_t	tokens_size(t_token *head)
-{
-	size_t	len;
-
-	if (!head)
-		return (0);
-	len = 0;
-	while (head)
-	{
-		head = head->next;
-		len++;
-	}
-	return (len);
-}
-
-void	free_token(t_token *head)
-{
-	t_token	*node;
-
-	if (!head)
+	if (head == NULL)
 		return ;
 	while (head)
 	{
-		node = head->next;
-		free(head->data);
+		cur = head->next;
+		free(head->name);
+		free(head->content);
 		free(head);
-		head = node;
+		head = cur;
 	}
 	head = NULL;
+}
+
+size_t	env_size(t_env *head)
+{
+	t_env	*cur;
+	size_t	size;
+
+	size = 0;
+	cur = head;
+	while (cur)
+	{
+		size++;
+		cur = cur->next;
+	}
+	return (size);
 }

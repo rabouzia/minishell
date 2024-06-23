@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:48:46 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 15:29:40 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 19:04:04 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,49 +88,4 @@ void	remove_quotes_from_args(char **args)
 	i = -1;
 	while (args[++i])
 		remove_quotes(args[i]);
-}
-
-void	replace_env_vars_in_args(char **args, t_info *info)
-{
-	t_env	*env;
-	char	*new_arg;
-	char	*str;
-	char	*status;
-	int		i;
-
-	i = -1;
-	new_arg = NULL;
-	status = NULL;
-	while (args[++i])
-	{
-		env = info->env;
-		if (args[i][0] == '$')
-		{
-			str = args[i];
-			str++;
-			if (str[0] == '?' && ft_strlen(str) == 1)
-				status = ft_itoa(info->exit_status);
-			while (env)
-			{
-				if (ft_strncmp(env->name, str, ft_strlen(str)) == 0
-					&& ft_strlen(str) == ft_strlen(env->name))
-					new_arg = env->content;
-				env = env->next;
-			}
-			if (new_arg == NULL)
-				new_arg = "";
-			free(args[i]);
-			args[i] = ft_strdup(new_arg);
-			if (status[0] == '0')
-			{
-				free(args[i]);
-				args[i] = ft_itoa(0);
-			}
-			else
-			{
-				free(args[i]);
-				args[i] = status;
-			}
-		}
-	}
 }

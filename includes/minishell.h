@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 17:14:24 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 20:15:23 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef enum type
 typedef enum error
 {
 	UNCLOSED_QUOTE,
+	TOKEN_ERROR,
 	PARSE_ERROR,
 }	t_error;
 
@@ -183,38 +184,185 @@ typedef struct s_file_list
 	size_t				count;
 }						t_file_list;
 
-// tokenize_utils.c
-t_token_list			*get_token_list(t_token *token);
-void					add_token(\
-		t_token **head, const char *start, size_t len);
-
-// tokenize_utlls_2.c
-t_token					*tokens_last(t_token *tokens);
-void					free_token(t_token *head);
-bool					check_quotes_in_tokens(t_token *head);
-size_t					tokens_size(t_token *head);
-
+// --------------------------- init --------------------------//
 // init_minishell.c
 void					init_minishell(char **envp, t_env **env);
 
 // env_init.c
 void					add_env(t_env **head, const char *str);
-void					clear_env(t_env *head);
-size_t					env_size(t_env *head);
 t_env					*env_init(char **envp);
+
+// env_utils.c
+size_t					env_size(t_env *head);
+void					clear_env(t_env *head);
 
 // increment_shlvl.c
 int						increment_shlvl(t_env *env);
 
+// ------------------------ parsing ---------------------------//
+// process_input.c
+void					process_input(\
+		char *input, t_env *env, int *exit_status);
+
+// parsing_utils.c
+void					free_tree(t_ast *node);
+t_ast					*new_node(const char *data, t_type type);
+t_ast					*attach_to_tree(t_ast *root, t_ast *node, int side);
+void					remove_outer_parentheses(char **str, t_ast **root);
+// parsing.c
+bool					parsing_tree(t_token_list **tokens, t_ast **root);
+
+// parse_logical.c
+bool					parse_logical(t_token **token, t_ast **node);
+
+// parse_pipe.c
+bool					parse_pipe(t_token **token, t_ast **node);
+
+// parse_phrase.c
+bool					parse_phrase(t_token **token, t_ast **node);
+
+// parse_redirection.c
+bool					parse_redirection(t_token **token, t_ast **node);
+bool					parse_io_redirection(t_token **token, t_ast **node);
+
+// parse_subshell.c
+bool					parse_subshell(t_token **token, t_ast **node);
+
+// type_functions.c
+bool					is_logical_operator(const char *token);
+bool					is_pipe_operator(const char *token);
+bool					is_subshell_operator(const char *token);
+bool					is_redirection_operator(const char *token);
+bool					is_file_name(const char *token);
+
+// subshell_utils.c
+char					*remove_nested_subshell(t_token **token);
+
+// type_redir_functions.c
+bool					is_input_redirection(const char *data);
+bool					is_output_redirection(const char *data);
+bool					is_append_redirection(const char *data);
+bool					is_heredoc_redirection(const char *data);
+bool					is_herestr_redirection(const char *data);
+
+// arg_parse.c
+bool					is_flag(const char *arg);
+char					*arg_parsing(t_token **token);
+
+// get_type.c
+t_type					get_type(const char *data);
+t_type					get_type_redir(const char *data);
+
+// ------------------------ tokenize --------------------------//
+// tokenize.c
+void					tokenize(const char *input, t_token **tokens);
+
+// tokenize_utils.c
+t_token_list			*get_token_list(t_token *token);
+void					add_token(\
+		t_token **head, const char *start, size_t len);
+
+// handle_quotes.c
+void					handle_quotes(const char **input, char *in_quote,
+							const char **start, t_token **list);
+
+// handle_subshell.c
+void					handle_open_subshell(const char **input, int *depth,
+							const char **start, t_token **list);
+void					handle_close_subshell(const char **input, int *depth,
+							const char **start, t_token **list);
+
+// handle_operators_and_spaces.c
+void					handle_operators_and_spaces(const char **input,
+							const char **start, t_token **list);
+// tokenize_utlls_2.c
+t_token					*tokens_last(t_token *tokens);
+void					free_token(t_token *head);
+size_t					tokens_size(t_token *head);
+
+// valid_token.c
+int						valid_token(t_token *head);
+
+// ------------------------ signal ---------------------------//
+// handler_signal.c
+void					set_signal_handler(void);
+void					disable_interrupt_signals(void);
+
+// ------------------------ execute --------------------------//
+// execute.c
+void					execute(t_ast *root, t_env *env, int *exit_status);
+
+// execute_process.c
+void					process_cmd_node(t_ast *node, t_info *info);
+void					process_io_redirection_node(t_ast *node, t_info *info);
+void					process_phrase_node(t_ast *node, t_info *info);
+
+// info_utils.c
+void					init_info(t_info *info);
+void					clear_info(t_info *info);
 // args_utils.c
 void					free_args(char **args);
 void					replace_env_vars_in_args(char **args, t_info *info);
 void					remove_quotes_from_args(char **args);
 char					**allocate_null_and_cmd_chunk(const char *cmd);
 
-// handler_signal.c
-void					set_signal_handler(void);
-void					disable_interrupt_signals(void);
+// var_expansion_with_args.c
+void					replace_env_vars_in_args(char **args, t_info *info);
+
+// get_path_type.c
+t_path_type				get_path_type(const char *path);
+
+// get_absolute_path.c
+char					*get_absolute_path(const char *path);
+
+// stdio_redirector.c
+int						backup_stdio(t_info *info);
+int						restore_stdio(t_info *info);
+
+// get_file_list.c
+void					free_file_list(t_file_list *file_list);
+const char				*get_path(const char *full_path);
+t_file_list				*get_file_list(const char *path);
+
+// get_file_list_utils.c
+DIR						*get_dir(const char *path, int file_count,
+							t_file_list **file_list);
+t_file_list				*get_entry_list(t_file_list *file_list, DIR *dir);
+
+// list_to_array.c
+char					**list_to_array(t_env *env);
+
+// cmd.c
+int						dispatch_cmd(t_ast *node, t_info *info);
+
+// launch_process.c
+int						launch_process(char *cmd, char **args, t_info *info);
+
+// redir.c
+int						handle_io_redirection(t_ast *node, t_info *info);
+
+// redir_utils.c
+int						here_doc(int infile, char *limiter);
+int						open_file_with_mode(char *file, int mode);
+void					cleanup_tmp_file(void);
+
+// ------------------------ utils -----------------------------//
+// string_utils.c
+bool					ft_isspace(char c);
+bool					is_all_whitespace(const char *str);
+void					remove_control_characters(char *str);
+int						count_repeated_chars(const char *str, int c);
+
+// string_utils_2.c
+char					*trim_first_last(char *str);
+char					*trim_whitespace(const char *str);
+char					*ft_strndup(const char *str, size_t n);
+void					remove_quotes(char *str);
+
+// error_utils.c
+int						fd_log_error(char *cmd, char *arg, char *error);
+int						execve_log_error(char *cmd, int error);
+void					parse_log_error(int err, int *exit_status);
 
 // --------------------------- built_in --------------------------//
 
@@ -222,6 +370,12 @@ void					disable_interrupt_signals(void);
 void					init_builtin(int (*func[])(const char *, const char **,
 								t_env *));
 int						handler_builtin(const char *cmd);
+
+// file_dir_operations.c
+int						change_dir(const char *path, t_env *lst);
+bool					get_cur_dir(void);
+bool					file_exist(const char *filename);
+void					list_dir(const char *dirname);
 
 // ft_cd.c
 void					ist_swap(t_env *a);
@@ -257,163 +411,15 @@ int						ft_pwd(const char *cmd, const char **args, t_env *list);
 int						ft_unset(const char *cmd, const char **args,
 							t_env *list);
 
-// process_input.c
-void					process_input(\
-		char *input, t_env *env, int *exit_status);
-
-// tokenize.c
-void					tokenize(const char *input, t_token **tokens);
-
-// handle_quotes.c
-void					handle_quotes(const char **input, char *in_quote,
-							const char **start, t_token **list);
-
-// handle_subshell.c
-void					handle_open_subshell(const char **input, int *depth,
-							const char **start, t_token **list);
-void					handle_close_subshell(const char **input, int *depth,
-							const char **start, t_token **list);
-
-// handle_operators_and_spaces.c
-void					handle_operators_and_spaces(const char **input,
-							const char **start, t_token **list);
-
 // subshell_utils.c
 char					*remove_nested_subshell(t_token **token);
 
-// string_utils.c
-bool					ft_isspace(char c);
-bool					is_all_whitespace(const char *str);
-void					remove_control_characters(char *str);
-int						count_repeated_chars(const char *str, int c);
-
-// string_utils_2.c
-char					*trim_first_last(char *str);
-char					*trim_whitespace(const char *str);
-char					*ft_strndup(const char *str, size_t n);
-void					remove_quotes(char *str);
-
+// --------------------------- print --------------------------//
 //  prints.c
 void					print_token(t_token *head);
 void					print_file_list(t_file_list *file_list);
 
 //	prints_2.c
 void					print_tree(t_ast *root, int depth);
-
-// parsing_utils.c
-void					free_tree(t_ast *node);
-t_ast					*new_node(const char *data, t_type type);
-t_ast					*attach_to_tree(t_ast *root, t_ast *node, int side);
-void					remove_outer_parentheses(char **str, t_ast **root);
-
-// get_type.c
-t_type					get_type(const char *data);
-t_type					get_type_redir(const char *data);
-
-// type_functions.c
-bool					islogical_operator(const char *token);
-bool					ispipe_operator(const char *token);
-bool					issubshell_operator(const char *token);
-bool					isredirection_operator(const char *token);
-bool					isioredirection_operator(const char *token);
-
-// parsing.c
-bool					parsing_tree(t_token_list **tokens, t_ast **root);
-
-// parse_logical.c
-bool					parse_logical(t_token **token, t_ast **node);
-
-// parse_pipe.c
-bool					parse_pipe(t_token **token, t_ast **node);
-
-// parse_phrase.c
-bool					parse_phrase(t_token **token, t_ast **node);
-
-// parse_redirection.c
-bool					parse_redirection(t_token **token, t_ast **node);
-bool					parse_io_redirection(t_token **token, t_ast **node);
-
-// parse_subshell.c
-bool					parse_subshell(t_token **token, t_ast **node);
-
-// type_functions.c
-bool					is_logical_operator(const char *token);
-bool					is_pipe_operator(const char *token);
-bool					is_subshell_operator(const char *token);
-bool					is_redirection_operator(const char *token);
-bool					is_file_name(const char *token);
-
-// file_dir_operations.c
-int						change_dir(const char *path, t_env *lst);
-bool					get_cur_dir(void);
-bool					file_exist(const char *filename);
-void					list_dir(const char *dirname);
-
-// handler_signal.c
-void					set_signal_handler(void);
-
-// arg_parse.c
-bool					is_flag(const char *arg);
-char					*arg_parsing(t_token **token);
-
-// type_redir_functions.c
-bool					is_input_redirection(const char *data);
-bool					is_output_redirection(const char *data);
-bool					is_append_redirection(const char *data);
-bool					is_heredoc_redirection(const char *data);
-bool					is_herestr_redirection(const char *data);
-
-// execute.c
-void					execute(t_ast *root, t_env *env, int *exit_status);
-
-// execute_process.c
-void					process_cmd_node(t_ast *node, t_info *info);
-void					process_io_redirection_node(t_ast *node, t_info *info);
-void					process_phrase_node(t_ast *node, t_info *info);
-
-// info_utils.c
-void					init_info(t_info *info);
-void					clear_info(t_info *info);
-
-// list_to_array.c
-char					**list_to_array(t_env *env);
-
-// cmd.c
-int						dispatch_cmd(t_ast *node, t_info *info);
-
-// launch_process.c
-int						launch_process(char *cmd, char **args, t_info *info);
-
-// redir.c
-int						handle_io_redirection(t_ast *node, t_info *info);
-
-// redir_utils.c
-int						here_doc(int infile, char *limiter);
-int						open_file_with_mode(char *file, int mode);
-void					cleanup_tmp_file(void);
-
-// logs.c
-int						fd_log_error(char *cmd, char *arg, char *error);
-int						execve_log_error(char *cmd, int error);
-
-// get_file_list.c
-void					free_file_list(t_file_list *file_list);
-const char				*get_path(const char *full_path);
-t_file_list				*get_file_list(const char *path);
-
-// get_file_list_utils.c
-DIR						*get_dir(const char *path, int file_count,
-							t_file_list **file_list);
-t_file_list				*get_entry_list(t_file_list *file_list, DIR *dir);
-
-// get_path_type.c
-t_path_type				get_path_type(const char *path);
-
-// get_absolute_path.c
-char					*get_absolute_path(const char *path);
-
-// stdio_redirector.c
-int						backup_stdio(t_info *info);
-int						restore_stdio(t_info *info);
 
 #endif // MINISHELL_H
