@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 14:48:46 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/22 18:25:04 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 13:29:17 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,42 @@ char	**allocate_null_and_cmd_chunk(const char *cmd)
 	chunk[0] = ft_strdup(cmd);
 	chunk[1] = NULL;
 	return (chunk);
+}
+
+void	remove_quotes_from_args(char **args)
+{
+	int	i;
+
+	i = -1;
+	while (args[++i])
+		remove_quotes(args[i]);
+}
+
+void	replace_env_vars_in_args(char **args, t_env *env)
+{
+	char	*new_arg;
+	char	*str;
+	int		i;
+
+	i = -1;
+	while (args[++i])
+	{
+		if (args[i][0] == '$')
+		{
+			str = args[i];
+			str++;
+			while (env)
+			{
+				if (ft_strncmp(env->name, str, ft_strlen(str)) == 0
+					&& ft_strlen(str) == ft_strlen(env->name))
+					new_arg = env->content;
+				env = env->next;
+			}
+			if (new_arg == NULL)
+				new_arg = "";
+			free(args[i]);
+			args[i] = ft_strdup(new_arg);
+			break ;
+		}
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 09:27:56 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 13:18:02 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	exec_child_task(char *cmd, char **args, t_info *info)
 	int		(*arr_built_in[8])(const char *, const char **, t_env *);
 
 	env = (char **)list_to_array(info->env);
+	replace_env_vars_in_args(args, info->env);
 	if (env == NULL)
 	{
 		perror("Empty env");

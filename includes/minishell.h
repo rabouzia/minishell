@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 12:19:41 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 13:21:58 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,8 @@ int						increment_shlvl(t_env *env);
 
 // args_utils.c
 void					free_args(char **args);
+void					replace_env_vars_in_args(char **args, t_env *env);
+void					remove_quotes_from_args(char **args);
 char					**allocate_null_and_cmd_chunk(const char *cmd);
 
 // handler_signal.c
@@ -269,7 +271,6 @@ int						count_repeated_chars(const char *str, int c);
 char					*trim_first_last(char *str);
 char					*trim_whitespace(const char *str);
 char					*ft_strndup(const char *str, size_t n);
-void					remove_quotes_from_args(char **args);
 void					remove_quotes(char *str);
 
 //  prints.c
