@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 13:21:58 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 17:14:24 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,31 @@
 # define ASCII_ART_PATH "assets/ascii_art_doh"
 # define HEREDOC_TMP "heredoc_tmp"
 
-# define LEFT 0
-# define RIGHT 1
+typedef enum tree_direction
+{
+	LEFT,
+	RIGHT,
+}	t_tree_direction;
 
-# define SUCCESS true
-# define FAILURE false
+typedef enum type_dir
+{
+	IS_DIRECTORY = 126,
+	CMD_NOT_FOUND = 127,
+}	t_type_dir;
 
-# define IS_DIRECTORY 126
-# define CMD_NOT_FOUND 127
+typedef enum type_descriptor
+{
+	READ,
+	WRITE,
+	APPEND,
+}	t_type_descriptor;
 
-# define READ 0
-# define WRITE 1
-# define APPEND 2
+typedef enum status
+{
+	SUCCESS,
+	FAILURE,
+	MALLOC_ERR,
+}	t_status;
 
 typedef enum type_logical
 {
@@ -82,6 +95,12 @@ typedef enum type
 	NOT_REDIR = 12,
 }						t_type;
 
+typedef enum error
+{
+	UNCLOSED_QUOTE,
+	PARSE_ERROR,
+}	t_error;
+
 typedef enum path_type
 {
 	PATH_ABSOLUTE,
@@ -99,7 +118,7 @@ typedef enum built_in
 	UNSET,
 	ENV,
 	EXIT,
-	NONE
+	NONE,
 }						t_built_in;
 
 typedef struct s_env
@@ -166,8 +185,8 @@ typedef struct s_file_list
 
 // tokenize_utils.c
 t_token_list			*get_token_list(t_token *token);
-void					add_token(t_token **head, const char *start,
-							size_t len);
+void					add_token(\
+		t_token **head, const char *start, size_t len);
 
 // tokenize_utlls_2.c
 t_token					*tokens_last(t_token *tokens);
@@ -189,7 +208,7 @@ int						increment_shlvl(t_env *env);
 
 // args_utils.c
 void					free_args(char **args);
-void					replace_env_vars_in_args(char **args, t_env *env);
+void					replace_env_vars_in_args(char **args, t_info *info);
 void					remove_quotes_from_args(char **args);
 char					**allocate_null_and_cmd_chunk(const char *cmd);
 
@@ -239,7 +258,8 @@ int						ft_unset(const char *cmd, const char **args,
 							t_env *list);
 
 // process_input.c
-void					process_input(char *input, t_env *env);
+void					process_input(\
+		char *input, t_env *env, int *exit_status);
 
 // tokenize.c
 void					tokenize(const char *input, t_token **tokens);
@@ -344,7 +364,7 @@ bool					is_heredoc_redirection(const char *data);
 bool					is_herestr_redirection(const char *data);
 
 // execute.c
-void					execute(t_ast *root, t_env *env);
+void					execute(t_ast *root, t_env *env, int *exit_status);
 
 // execute_process.c
 void					process_cmd_node(t_ast *node, t_info *info);
@@ -360,6 +380,9 @@ char					**list_to_array(t_env *env);
 
 // cmd.c
 int						dispatch_cmd(t_ast *node, t_info *info);
+
+// launch_process.c
+int						launch_process(char *cmd, char **args, t_info *info);
 
 // redir.c
 int						handle_io_redirection(t_ast *node, t_info *info);

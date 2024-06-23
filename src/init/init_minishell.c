@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:24:08 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 14:15:24 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 15:06:03 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,8 @@ void	init_minishell(char **envp, t_env **env)
 	else
 		printf("No terminal associated with this process.\n");
 	*env = env_init(envp);
+	if (*env == NULL)
+		exit(1 + printf("Fatal error: initialization failed."));
+	if (increment_shlvl(*env) == FAILURE)
+		exit(1 + printf("Fatal error: initialization failed."));
 }

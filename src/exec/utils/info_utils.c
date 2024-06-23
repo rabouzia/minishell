@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 19:56:30 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/22 22:25:50 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 15:29:25 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	init_info(t_info *info)
 {
 	info->status = SUCCESS;
+	info->exit_status = 0;
 	info->pipe_exists = false;
 	info->pipe_used = false;
 	info->stdin_fd = -1;

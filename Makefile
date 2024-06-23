@@ -6,7 +6,7 @@
 #    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/06/23 12:26:25 by junsan           ###   ########.fr        #
+#    Updated: 2024/06/23 17:10:16 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ PARSING	= process_input.c parsing.c arg_parse.c parse_subshell.c					\
 		/utils/prints.c /utils/prints_2.c
 UTILS	= string_utils.c string_utils_2.c
 SIGNAL	= handler_signal.c
-EXECUTE = execute.c redir.c get_file_list.c execute_process.c cmd.c					\
+EXECUTE = execute.c redir.c get_file_list.c execute_process.c cmd.c	launch_process.c\
 		/utils/redir_utils.c /utils/info_utils.c /utils/get_file_list_utils.c		\
 		/utils/stdio_redirector.c /utils/list_to_array.c /utils/logs.c 				\
 		/utils/args_utils.c	/utils/get_absolute_path.c /utils/get_path_type.c														

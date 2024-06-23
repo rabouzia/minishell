@@ -6,13 +6,13 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 18:42:26 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 15:27:51 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	process_input(char *input, t_env *env)
+void	process_input(char *input, t_env *env, int *exit_status)
 {
 	t_token_list	*token_list;
 	t_token			*tokens;
@@ -28,7 +28,7 @@ void	process_input(char *input, t_env *env)
 		if (!check_quotes_in_tokens(tokens))
 		{
 			free_token(tokens);
-			ft_putstr_fd("kashell: Unclose quotes\n", STDOUT_FILENO);
+			*exit_status = UNCLOSED_QUOTE;
 			tokens = NULL;
 		}
 		if (tokens)
@@ -39,10 +39,10 @@ void	process_input(char *input, t_env *env)
 			if (is_parse)
 			{
 				print_tree(root, 10);
-				execute(root, env);
+				execute(root, env, exit_status);
 			}
 			else
-				printf("parsing fail\n");
+				*exit_status = PARSE_ERROR;
 			free_tree(root);
 			free(token_list);
 			free_token(tokens);
