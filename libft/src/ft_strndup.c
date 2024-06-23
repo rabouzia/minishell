@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:21:22 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/06 18:42:15 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/23 23:03:55 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*ft_strndup(const char *src, size_t n)
 {
-	size_t i;
-	size_t len;
-	char *str;
+	size_t	i;
+	size_t	len;
+	char	*str;
 
 	if (!src || !n)
 		return (NULL);
