@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 10:24:06 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 12:19:41 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,9 @@ void					add_env(t_env **head, const char *str);
 void					clear_env(t_env *head);
 size_t					env_size(t_env *head);
 t_env					*env_init(char **envp);
+
+// increment_shlvl.c
+int						increment_shlvl(t_env *env);
 
 // args_utils.c
 void					free_args(char **args);
