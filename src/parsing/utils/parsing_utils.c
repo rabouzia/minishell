@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 12:05:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 15:28:49 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/22 18:59:40 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	free_tree(t_ast *root)
 	free(root);
 	root = NULL;
 }
-
 
 int	calculate_depth(const char *str)
 {

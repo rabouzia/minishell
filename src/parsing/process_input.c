@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 22:45:45 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 15:52:08 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/21 18:42:26 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ void	process_input(char *input, t_env *env)
 		}
 		if (tokens)
 		{
-			printf("tokens data : %s\n", tokens->data);
 			token_list = get_token_list(tokens);
-			print_token(tokens);
+			//print_token(tokens);
 			is_parse = parsing_tree(&token_list, &root);
 			if (is_parse)
 			{

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 16:06:46 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 13:21:58 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,14 @@ typedef enum type
 	NOT_REDIR = 12,
 }						t_type;
 
+typedef enum path_type
+{
+	PATH_ABSOLUTE,
+	PATH_RELATIVE,
+	PATH_COMMAND,
+	PATH_INVALID
+}	t_path_type;
+
 typedef enum built_in
 {
 	M_ECHO,
@@ -91,7 +99,7 @@ typedef enum built_in
 	UNSET,
 	ENV,
 	EXIT,
-	NONE,
+	NONE
 }						t_built_in;
 
 typedef struct s_env
@@ -108,6 +116,7 @@ typedef struct s_info
 	bool				pipe_exists; // pipe exist or not
 	bool				pipe_used;	// used pipe befor
 	bool				in_subshell;
+	char				*path;
 	int					stdin_fd;
 	int					stdout_fd;
 	int					origin_stdin_fd;
@@ -175,9 +184,14 @@ void					clear_env(t_env *head);
 size_t					env_size(t_env *head);
 t_env					*env_init(char **envp);
 
+// increment_shlvl.c
+int						increment_shlvl(t_env *env);
+
 // args_utils.c
 void					free_args(char **args);
-char					**allocate_null_args(void);
+void					replace_env_vars_in_args(char **args, t_env *env);
+void					remove_quotes_from_args(char **args);
+char					**allocate_null_and_cmd_chunk(const char *cmd);
 
 // handler_signal.c
 void					set_signal_handler(void);
@@ -257,7 +271,6 @@ int						count_repeated_chars(const char *str, int c);
 char					*trim_first_last(char *str);
 char					*trim_whitespace(const char *str);
 char					*ft_strndup(const char *str, size_t n);
-void					remove_quotes_from_args(char **args);
 void					remove_quotes(char *str);
 
 //  prints.c
@@ -338,7 +351,7 @@ void					process_cmd_node(t_ast *node, t_info *info);
 void					process_io_redirection_node(t_ast *node, t_info *info);
 void					process_phrase_node(t_ast *node, t_info *info);
 
-// execute_utils.c
+// info_utils.c
 void					init_info(t_info *info);
 void					clear_info(t_info *info);
 
@@ -369,6 +382,12 @@ t_file_list				*get_file_list(const char *path);
 DIR						*get_dir(const char *path, int file_count,
 							t_file_list **file_list);
 t_file_list				*get_entry_list(t_file_list *file_list, DIR *dir);
+
+// get_path_type.c
+t_path_type				get_path_type(const char *path);
+
+// get_absolute_path.c
+char					*get_absolute_path(const char *path);
 
 // stdio_redirector.c
 int						backup_stdio(t_info *info);

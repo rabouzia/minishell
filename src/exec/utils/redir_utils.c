@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:20:15 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 13:43:49 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 10:35:47 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	here_doc(int infile, char *limiter)
 	while (1)
 	{
 		line = readline("heredoc> ");
-		printf("checkds\n");
 		if (line == NULL)
 			break ;
 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
@@ -58,7 +57,7 @@ int	open_file_with_mode(char *file, int mode)
 	int	fd;
 
 	if (mode == READ)
-		fd = open(file, O_WRONLY, 0644);
+		fd = open(file, O_RDONLY, 0644);
 	else if (mode == WRITE)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (mode == APPEND)

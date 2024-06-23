@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 11:37:49 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/20 22:54:18 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 12:51:29 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	env_split(const char *str, char **name, char **content)
 		*name = NULL;
 	}
 }
+
 
 static t_env	*new_env(const char *name, const char *content)
 {

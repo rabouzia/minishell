@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:14:21 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/19 13:02:40 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/23 13:14:45 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int	main(int ac, char **av, char **envp)
 	env = NULL;
 	init_minishell(envp, &env);
 	set_signal_handler();
+	if (env == NULL)
+		exit(1 + printf("Fatal error: initialization failed."));
+	if (increment_shlvl(env) == FAILURE)
+		exit(1 + printf("Fatal error: initialization failed."));
 	while (1)
 	{
 		input = readline("kashell$> ");
