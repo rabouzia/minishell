@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 21:01:14 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:00:27 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # include <unistd.h>    // write, access, close, fork, execve, pipe, dup, dup2
 
 # define MAX_PATH_LENGTH 4096
+# define MEMORY_CAPACITY 256
 # define HISTSIZE 500
 # define DELIMS "|&<>"
 # define ARR_SEP '|'
@@ -102,8 +103,8 @@ typedef struct s_env
 
 typedef struct s_info
 {
-	bool pipe_exists; // pipe exist or not
-	bool pipe_used;   // used pipe before
+	bool				pipe_exists; // pipe exist or not
+	bool				pipe_used;	// used pipe befor
 	bool				in_subshell;
 	int					stdin_fd;
 	int					stdout_fd;
@@ -112,7 +113,7 @@ typedef struct s_info
 	int					pipe[2];
 	int					tmp_fd;
 	int					exit_status;
-	int status; // can proceed by logical
+	int					status; // can proceed by logical
 	t_env				*env;
 }						t_info;
 
@@ -157,6 +158,12 @@ t_token_list			*get_token_list(t_token *token);
 void					add_token(t_token **head, const char *start,
 							size_t len);
 
+// tokenize_utlls_2.c
+t_token					*tokens_last(t_token *tokens);
+void					free_token(t_token *head);
+bool					check_quotes_in_tokens(t_token *head);
+size_t					tokens_size(t_token *head);
+
 // init_minishell.c
 void					init_minishell(char **envp, t_env **env);
 
@@ -165,6 +172,10 @@ void					add_env(t_env **head, const char *str);
 void					clear_env(t_env *head);
 size_t					env_size(t_env *head);
 t_env					*env_init(char **envp);
+
+// args_utils.c
+void					free_args(char **args);
+char					**allocate_null_args(void);
 
 // handler_signal.c
 void					set_signal_handler(void);
@@ -199,8 +210,7 @@ t_env					*fill_env(int ac, char **av, char **env);
 
 // ft_exit.c
 int						ft_exit(const char *cmd, const char **args,
-							t_env *list);
-
+							t_env *list);following
 // ft_export.c
 // void			ft_export_add(char *var, char **arg);
 // void			ft_export_show(t_env *env);
@@ -235,11 +245,6 @@ void					handle_close_subshell(const char **input, int *depth,
 void					handle_operators_and_spaces(const char **input,
 							const char **start, t_token **list);
 
-// tokenize_utlls_2.c
-t_token					*tokens_last(t_token *tokens);
-void					free_token(t_token *head);
-size_t					tokens_size(t_token *head);
-
 // subshell_utils.c
 char					*remove_nested_subshell(t_token **token);
 
@@ -253,8 +258,8 @@ int						count_repeated_chars(const char *str, int c);
 char					*trim_first_last(char *str);
 char					*trim_whitespace(const char *str);
 char					*ft_strndup(const char *str, size_t n);
-void					remove_outer_parentheses(char **str);
 void					remove_quotes_from_args(char **args);
+void					remove_quotes(char *str);
 
 //  prints.c
 void					print_token(t_token *head);
@@ -267,6 +272,7 @@ void					print_tree(t_ast *root, int depth);
 void					free_tree(t_ast *node);
 t_ast					*new_node(const char *data, t_type type);
 t_ast					*attach_to_tree(t_ast *root, t_ast *node, int side);
+void					remove_outer_parentheses(char **str, t_ast **root);
 
 // get_type.c
 t_type					get_type(const char *data);

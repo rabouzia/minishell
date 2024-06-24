@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   file_dir_operations.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:29:42 by junsan            #+#    #+#             */
 /*   Updated: 2024/06/22 15:31:20 by rabouzia         ###   ########.fr       */

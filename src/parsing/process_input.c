@@ -17,21 +17,37 @@ void	process_input(char *input, t_env *env)
 	t_token_list	*token_list;
 	t_token			*tokens;
 	t_ast			*root;
+	bool			is_parse;
 
 	tokens = NULL;
 	root = NULL;
 	if (input)
 	{
-		remove_outer_parentheses(&input);
+		remove_outer_parentheses(&input, &root);
 		tokenize(input, &tokens);
-		token_list = get_token_list(tokens);
-		print_token(tokens);
-		parsing_tree(&token_list, &root);
-		print_tree(root, 10);
-		execute(root, env);
-		free_tree(root);
-		free(token_list);
-		free_token(tokens);
+		if (!check_quotes_in_tokens(tokens))
+		{
+			free_token(tokens);
+			ft_putstr_fd("kashell: Unclose quotes\n", STDOUT_FILENO);
+			tokens = NULL;
+		}
+		if (tokens)
+		{
+			printf("tokens data : %s\n", tokens->data);
+			token_list = get_token_list(tokens);
+			print_token(tokens);
+			is_parse = parsing_tree(&token_list, &root);
+			if (is_parse)
+			{
+				print_tree(root, 10);
+				execute(root, env);
+			}
+			else
+				printf("parsing fail\n");
+			free_tree(root);
+			free(token_list);
+			free_token(tokens);
+		}
 		free(input);
 	}
 }

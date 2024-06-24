@@ -31,7 +31,7 @@ void	tokenize(const char *input, t_token **tokens)
 			else if (depth > 0 && *input == ')')
 				handle_close_subshell(&input, &depth, &start, tokens);
 		}
-		if (!in_quote && depth == 0)
+		if (!in_quote)
 			handle_operators_and_spaces(&input, &start, tokens);
 		input++;
 	}
