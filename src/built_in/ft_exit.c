@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:05:58 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/21 20:44:35 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 21:30:11 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	ft_exit(const char *cmd, const char **args, t_env *list)
 {
+
 	(void)cmd;
 	(void)list;
 	if (*args && !ft_isdigit(ft_atoi(args[0])))
@@ -26,7 +27,8 @@ int	ft_exit(const char *cmd, const char **args, t_env *list)
 	if (*args && sizeof(args) > 1)
 	{
 		ft_putstr_fd("bash: exit: too many arguments\n", 1);
-		return (0);
+		exit(1);
+		
 	}
 	else
 	{

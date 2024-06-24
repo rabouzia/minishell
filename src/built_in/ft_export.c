@@ -6,25 +6,29 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 23:38:01 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/21 20:44:38 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:52:44 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void sort_env(t_cmd_list *env)
-// {
-// }
+int check_first_arg(char arg)
+{
+	if (ft_isdigit(arg))
+		return 0;
+}
 
 int	ft_export(const char *cmd, const char **args, t_env *list)
 {
 	(void)cmd;
 	(void)list;
 	(void)args;
-	// export asdas=sadasd
-	// export asdas=sadasd dfdfgfdgfd=dffsdsdf sdffds=sdffdsfd
+	// export asdas=sadasdexport: `1TEST=abc': not a valid identifier
 	// export (env trier)
 	// export asdsa=asdsad=asdasd
+	// export (premier arg ne peut etre que un a A _ {export: `1TEST=abc': not a valid identifier})
+	
+	
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:59:35 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 20:44:40 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:54:18 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	ft_pwd(const char *cmd, const char **args, t_env *list)
 	(void)args;
 	(void)cmd;
 	(void)list;
-	print = NULL;
 	print = getcwd(NULL, 0);
 	if (!print)
 	{

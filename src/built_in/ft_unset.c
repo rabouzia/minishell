@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:48:24 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 20:44:41 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 21:41:57 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	del_node(t_env *lst, const char *to_unset)
 	t_env	*next;
 
 	// gerer le cas ou on enleve le premier notamment en mettant **lst
+	// si le noeud nexiste pas ou il ny a pas dargument aucun msg derreur
 	cur = lst;
 	prev = cur;
 	while (cur)
