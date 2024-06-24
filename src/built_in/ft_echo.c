@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 21:38:26 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/24 13:50:44 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:15:17 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // to be completed
 
-int	good_flag(char *str)
+int	good_flag(const char *str)
 {
 	int	i;
 
@@ -48,9 +48,9 @@ int	ft_echo(const char *cmd, const char **args, t_env *list)
 	}
 	while (args[i])
 	{
-		ft_putstr_fd(args[i], 1);
+		ft_putstr_fd((char *)args[i], 1);
 		if (args[i + 1])
-			ft_putnbr_fd(" ", 1);
+			ft_putstr_fd(" ", 1);
 		i++;
 	}
 	if(!new_line)

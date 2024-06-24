@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/24 14:01:24 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:11:17 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void					disable_interrupt_signals(void);
 void					init_builtin(int (*func[])(const char *, const char **,
 								t_env *));
 t_built_in				handler_builtin(const char *cmd);
-
+void	env_split(const char *str, char **name, char **content);
 // file_dir_open.c
 int						change_dir(const char *path, t_env *lst);
 

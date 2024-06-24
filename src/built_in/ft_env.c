@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:48:50 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 20:44:33 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:11:03 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	add_builtin_node(t_env **head, char *name, char *content)
 	}
 }
 
-static void	env_split(const char *str, char **name, char **content)
+void	env_split(const char *str, char **name, char **content)
 {
 	size_t	i;
 	size_t	j;
