@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 20:45:01 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/21 21:01:14 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,6 @@ typedef struct s_env
 {
 	char				*name;
 	char				*content;
-	struct s_env		*pwd;
-	struct s_env		*old_pwd;
 	struct s_env		*next;
 }						t_env;
 
