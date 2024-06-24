@@ -6,29 +6,46 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 23:38:01 by rabouzia          #+#    #+#             */
-/*   Updated: 2024/06/24 13:52:44 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:00:14 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_first_arg(char arg)
+int	check_first_arg(char arg)
 {
-	if (ft_isdigit(arg))
-		return 0;
+	if (!ft_isalnum(arg) || arg != "_")
+		return (1);
+	else
+		return (0);
 }
 
 int	ft_export(const char *cmd, const char **args, t_env *list)
 {
+	int		i;
+	t_env	*tmp;
+	char	*name;
+	char	*content;
+
 	(void)cmd;
-	(void)list;
-	(void)args;
-	// export asdas=sadasdexport: `1TEST=abc': not a valid identifier
-	// export (env trier)
-	// export asdsa=asdsad=asdasd
-	// export (premier arg ne peut etre que un a A _ {export: `1TEST=abc': not a valid identifier})
-	
-	
+	tmp = list;
+	if (!args || !*args)
+		return (0); // print sorted_env
+	i = 0;
+	while (args[i++])
+	{
+		if (check_first_arg(args[i][0]))
+		{
+			ft_putstr_fd("export: ", 1);
+			ft_putstr_fd(args[i], 1);
+			ft_putstr_fd(": not a valid identifier\n", 1);
+		}
+		else
+		{
+			env_split(args[i], &name, &content);
+			add_builtin_node(tmp, &name, &content);
+		}
+	}
 	return (0);
 }
 

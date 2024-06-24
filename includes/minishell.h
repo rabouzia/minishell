@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/24 14:00:27 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:01:24 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ t_env					*fill_env(int ac, char **av, char **env);
 
 // ft_exit.c
 int						ft_exit(const char *cmd, const char **args,
-							t_env *list);following
+							t_env *list);
 // ft_export.c
 // void			ft_export_add(char *var, char **arg);
 // void			ft_export_show(t_env *env);
