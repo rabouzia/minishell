@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 17:08:10 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 17:23:36 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/24 15:27:53 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	prepare_and_execute(\
 	int		built_in;
 	int		(*arr_built_in[8])(const char *, const char **, t_env *);
 
-	replace_env_vars_in_args(args, info);
 	if (ft_strncmp(cmd, "true", 4) == 0 && ft_strlen(cmd) == 4)
 		exit(SUCCESS);
 	else if (ft_strncmp(cmd, "false", 5) == 0 && ft_strlen(cmd) == 5)
@@ -40,16 +39,9 @@ static void	prepare_and_execute(\
 		exit(126 + execve_log_error(args[0], errno));
 }
 
-static int	exec_child_task(char *cmd, char **args, t_info *info)
+static int	exec_child_task(char *cmd, char **env, char **args, t_info *info)
 {
-	char	**env;
-
-	env = (char **)list_to_array(info->env);
-	if (env == NULL)
-	{
-		perror("Empty env");
-		exit(EXIT_FAILURE);
-	}
+	replace_env_vars_in_args(args, info);
 	if (info->pipe_exists)
 	{
 		close(info->pipe[0]);
@@ -91,12 +83,21 @@ static int	monitor_child_task(char *cmd, pid_t pid, t_info *info)
 int	launch_process(char *cmd, char **args, t_info *info)
 {
 	pid_t	pid;
+	char	**env;
 
 	pid = fork();
+	env = (char **)list_to_array(info->env);
+	if (env == NULL)
+	{
+		perror("Empty env");
+		exit(EXIT_FAILURE);
+	}
 	if (pid == -1)
 		return (fd_log_error("fork error", NULL, NULL));
 	if (pid == 0)
-		exec_child_task(cmd, args, info);
+		exec_child_task(cmd, env, args, info);
 	monitor_child_task(cmd, pid, info);
+	if (env)
+		clear_arr((int)sizeof(env), env);
 	return (info->exit_status);
 }
