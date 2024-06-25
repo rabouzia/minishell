@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 19:24:59 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/21 16:09:51 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/24 09:00:39 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static bool	parse_cmd(t_token **token, t_ast **node)
 	t_ast	*cmd_node;
 	char	*arg_tokens;
 
-	printf("cmd >> \n");
-	printf("token cmd : %s\n", (*token)->data);
+	//printf("cmd >> \n");
+	//printf("token cmd : %s\n", (*token)->data);
 	if (*token && (*token)->type == CMD)
 	{
 		arg_tokens = NULL;
@@ -94,7 +94,7 @@ bool	parse_phrase(t_token **token, t_ast **node)
 {
 	t_ast	*phrase_node;
 
-	printf("pharse >> \n");
+	//printf("pharse >> \n");
 	phrase_node = new_node(NULL, PHRASE);
 	if (!phrase_node)
 		return (false);

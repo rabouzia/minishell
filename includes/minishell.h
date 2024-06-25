@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:22:19 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 22:30:11 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/24 15:26:00 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,10 @@ typedef struct s_file_list
 	size_t				count;
 }						t_file_list;
 
+// process_input.c
+void					process_input(\
+		char *input, t_env *env, int *exit_status);
+
 // --------------------------- init --------------------------//
 // init_minishell.c
 void					init_minishell(char **envp, t_env **env);
@@ -200,10 +204,6 @@ void					clear_env(t_env *head);
 int						increment_shlvl(t_env *env);
 
 // ------------------------ parsing ---------------------------//
-// process_input.c
-void					process_input(\
-		char *input, t_env *env, int *exit_status);
-
 // parsing_utils.c
 void					free_tree(t_ast *node);
 t_ast					*new_node(const char *data, t_type type);
@@ -334,6 +334,7 @@ t_file_list				*get_entry_list(t_file_list *file_list, DIR *dir);
 
 // list_to_array.c
 char					**list_to_array(t_env *env);
+void					clear_arr(int len, char **arr);
 
 // cmd.c
 int						dispatch_cmd(t_ast *node, t_info *info);

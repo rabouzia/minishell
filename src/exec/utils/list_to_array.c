@@ -6,13 +6,13 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 12:42:24 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 12:57:40 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/24 15:24:59 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	clear_arr(int len, char **arr)
+void	clear_arr(int len, char **arr)
 {
 	int	i;
 

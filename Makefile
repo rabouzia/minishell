@@ -6,7 +6,7 @@
 #    By: junsan <junsan@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/11 19:03:01 by junsan            #+#    #+#              #
-#    Updated: 2024/06/23 22:30:33 by junsan           ###   ########.fr        #
+#    Updated: 2024/06/25 14:38:32 by junsan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,9 @@ EXECUTE_DIR = $(SRC_DIR)/exec
 PRINT_DIR = $(SRC_DIR)/print
 OBJ_DIR = obj
 
-SRC 	= minishell.c
+SRC 	= minishell.c process_input.c
 INIT	= init_minishell.c env_init.c increment_shlvl.c env_utils.c
-PARSING	= process_input.c parsing.c arg_parse.c parse_subshell.c					\
+PARSING	= parsing.c arg_parse.c parse_subshell.c									\
 		parse_logical.c parse_pipe.c parse_phrase.c parse_redirection.c				\
 		/tokenize/tokenize.c /tokenize/handler_operators_and_spaces.c				\
 		/tokenize/handle_quotes.c /tokenize/handle_subshell.c						\
@@ -51,9 +51,9 @@ PRINT	= prints.c prints_2.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 SRCS += $(addprefix $(PRINT_DIR)/, $(PRINT))
+SRCS += $(addprefix $(UTILS_DIR)/, $(UTILS))
 SRCS += $(addprefix $(PARSING_DIR)/, $(PARSING))
 SRCS += $(addprefix $(INIT_DIR)/, $(INIT))
-SRCS += $(addprefix $(UTILS_DIR)/, $(UTILS))
 SRCS += $(addprefix $(SIGNAL_DIR)/, $(SIGNAL))
 SRCS += $(addprefix $(EXECUTE_DIR)/, $(EXECUTE))
 SRCS += $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN))
