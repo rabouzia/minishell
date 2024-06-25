@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 18:34:10 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/24 14:08:16 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:13:43 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ static void	categorize_tree(t_ast *node, t_info *info)
 		info->status = SUCCESS;
 		if (node->right)
 		{
+			if (pipe(info->pipe) == -1)
+				fd_log_error("pipe error", NULL, NULL);
 			info->pipe_exists = true;
 			info->pipe_used = true;
+			info->status = SUCCESS;
 		}
 	}
 	else if (node->type == PHRASE && info->status == SUCCESS)
@@ -34,8 +37,7 @@ static void	categorize_tree(t_ast *node, t_info *info)
 	{
 		init_info(&subshell_info);
 		subshell_info.in_subshell = true;
-		traverse_tree(node->left, &subshell_info);
-		info->status = subshell_info.status;
+		traverse_tree(node->right, &subshell_info);
 	}
 }
 
@@ -49,7 +51,7 @@ static void	traverse_tree(t_ast *node, t_info *info)
 	{
 		traverse_tree(node->right, info);
 		status = info->exit_status;
-		printf("status : %d, exit status : %d\n", info->status, info->exit_status);
+		// printf("status : %d, exit status : %d\n", info->status, info->exit_status);
 		if ((ft_strncmp(node->data, "&&", 2) == 0 && status == 0) || \
 			(ft_strncmp(node->data, "||", 2) == 0 && status > 0))
 			traverse_tree(node->left, info);
