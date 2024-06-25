@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 19:24:59 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/24 09:00:39 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:23:59 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ bool	parse_phrase(t_token **token, t_ast **node)
 {
 	t_ast	*phrase_node;
 
-	//printf("pharse >> \n");
+	// printf("pharse >> \n");
 	phrase_node = new_node(NULL, PHRASE);
 	if (!phrase_node)
 		return (false);

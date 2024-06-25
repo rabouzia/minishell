@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:01:59 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 15:02:52 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:14:05 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,6 @@ int	handle_io_redirection(t_ast *node, t_info *info)
 		if (!node->left->left)
 			break ;
 		node = node->left->left;
-		printf("io node data : %s\n", node->left->data);
-		printf("status : %d\n", status);
 	}
 	return (status);
 }

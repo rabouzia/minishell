@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:08:08 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/17 14:14:06 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/25 16:47:50 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	backup_stdio(t_info *info)
 	if (info->origin_stdin_fd == -1)
 		return (fd_log_error("Dup origin_stdin_fd error", NULL, NULL));
 	info->origin_stdout_fd = dup(STDOUT_FILENO);
-	if (info->origin_stdout_fd == -1)
+	if (info->origin_stdin_fd == -1)
 		return (fd_log_error("Dup origin_stdout_fd error", NULL, NULL));
 	return (SUCCESS);
 }

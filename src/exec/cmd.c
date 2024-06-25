@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/24 15:09:12 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/25 17:00:49 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	dispatch_cmd(t_ast	*node, t_info *info)
 	args = NULL;
 	chunk = prepare_cmd(args, cmd_node, args_node, info);
 	status = execute_cmd(chunk, info);
+	info->pipe_exists = false;
 	if (args)
 		free_args(args);
 	return (status);
