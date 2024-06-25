@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:58:55 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 22:58:01 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/24 15:09:12 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	**prepare_cmd(\
 	return (chunk);
 }
 
-static int	execute_cmd(char **args, char **chunk, t_info *info)
+static int	execute_cmd(char **chunk, t_info *info)
 {
 	int		status;
 	int		built_in;
@@ -74,8 +74,6 @@ static int	execute_cmd(char **args, char **chunk, t_info *info)
 	free(chunk);
 	if (info->path)
 		free(info->path);
-	if (args)
-		free_args(args);
 	return (status);
 }
 
@@ -92,6 +90,8 @@ int	dispatch_cmd(t_ast	*node, t_info *info)
 	info->path = NULL;
 	args = NULL;
 	chunk = prepare_cmd(args, cmd_node, args_node, info);
-	status = execute_cmd(args, chunk, info);
+	status = execute_cmd(chunk, info);
+	if (args)
+		free_args(args);
 	return (status);
 }
