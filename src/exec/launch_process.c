@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 17:08:10 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 17:23:36 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/24 08:55:49 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	monitor_child_task(char *cmd, pid_t pid, t_info *info)
 	if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGINT)
-			printf("^C\n");
+			ft_putstr_fd("^C\n", STDERR_FILENO);
 		info->exit_status = 128 + WTERMSIG(status);
 	}
 	else if (WIFEXITED(status))

@@ -6,7 +6,7 @@
 /*   By: junsan <junsan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:06:08 by junsan            #+#    #+#             */
-/*   Updated: 2024/06/23 19:21:23 by junsan           ###   ########.fr       */
+/*   Updated: 2024/06/25 14:03:42 by junsan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	handler_sigint(pid_t pid)
 	{
 		rl_on_new_line();
 		rl_redisplay();
-		ft_putstr_fd("  \n", 2);
+		ft_putstr_fd("  \n", STDERR_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -31,10 +31,10 @@ static void	handler_sigquit(pid_t pid)
 	{
 		rl_on_new_line();
 		rl_redisplay();
-		ft_putstr_fd("  \b\b", 2);
+		ft_putstr_fd("  \b\b", STDERR_FILENO);
 	}
 	else
-		ft_putstr_fd("^\\Quit: 3\n", 2);
+		ft_putstr_fd("^\\Quit: 3\n", STDERR_FILENO);
 }
 
 static void	signal_handler(int signo)
